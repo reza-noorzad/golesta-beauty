@@ -4,12 +4,11 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Golesta Beauty – Salon in Villach</title>
-  <meta name="description" content="Golesta Beauty in Villach – Damen & Herren: Schnitt, Farbe, Strähnen, Balayage, Styling. Termin per WhatsApp oder Telefon." />
+  <meta name="description" content="Golesta Beauty in Villach – Damen & Herren: Schnitt, Farbe, Strähnen, Balayage. Termin per WhatsApp oder Telefon." />
 
   <style>
     :root{
-      --bg:#f4f4f4;        /* light gray like wall */
-      --panel:#ffffff;
+      --bg:#f4f4f4;
       --text:#1f1f1f;
       --muted:#5c5c5c;
       --gold:#c9a14a;
@@ -32,9 +31,10 @@
     a{color:inherit}
     .wrap{max-width:1050px;margin:0 auto;padding:0 18px}
 
+    /* Top mini bar */
     header{
       position:sticky; top:0; z-index:10;
-      background: rgba(244,244,244,.85);
+      background: rgba(244,244,244,.88);
       backdrop-filter: blur(10px);
       border-bottom:1px solid var(--border);
     }
@@ -47,6 +47,8 @@
       color:var(--muted);
       font-size:13px;
     }
+
+    /* Buttons */
     .cta{display:flex; gap:10px; flex-wrap:wrap}
     .btn{
       display:inline-flex; align-items:center; justify-content:center;
@@ -64,8 +66,10 @@
       background: linear-gradient(90deg, var(--gold), #e6cf8d);
     }
 
+    /* Hero */
+    main{padding:24px 0 40px}
     .hero{
-      margin:26px 0 14px;
+      margin:22px 0 14px;
       background: rgba(255,255,255,.78);
       border:1px solid var(--border);
       border-radius:var(--radius);
@@ -74,7 +78,7 @@
       text-align:center;
     }
     .logo{
-      width:min(320px, 78vw);
+      width:min(340px, 82vw);
       height:auto;
       display:block;
       margin:0 auto 12px;
@@ -82,7 +86,7 @@
     }
     .sub{
       margin:0 auto;
-      max-width:70ch;
+      max-width:72ch;
       color:var(--muted);
       font-size:15px;
     }
@@ -94,6 +98,7 @@
       flex-wrap:wrap;
     }
 
+    /* Cards grid */
     .grid{
       display:grid;
       grid-template-columns: repeat(12, 1fr);
@@ -109,6 +114,7 @@
       padding:18px;
     }
     .full{grid-column: span 12;}
+
     h2{
       margin:0 0 10px;
       font-size:18px;
@@ -123,14 +129,23 @@
       border-radius:999px;
       background: linear-gradient(90deg, var(--gold2), var(--gold));
     }
+    h3{margin:14px 0 8px; font-size:16px}
+
     ul{margin:0; padding-left:18px}
     li{margin:7px 0}
+
+    /* Prices */
+    #price-short ul, #price-full ul { margin-top:6px; }
+    #price-short .btn, #price-full .btn { margin-top:10px; }
+
+    /* Map */
     iframe{
       width:100%;
       height:300px;
       border:0;
       border-radius:14px;
     }
+
     .kvs{display:grid; gap:10px; margin-top:10px}
     .kv{
       padding:12px 14px;
@@ -165,7 +180,8 @@
     </div>
 
     <div class="cta">
-      <a class="btn primary" href="https://wa.me/436769111317?text=Hallo%20Golesta%20Beauty!%20Ich%20m%C3%B6chte%20einen%20Termin%20vereinbaren."
+      <a class="btn primary"
+         href="https://wa.me/436769111317?text=Hallo%20Golesta%20Beauty!%20Ich%20m%C3%B6chte%20einen%20Termin%20vereinbaren."
          target="_blank" rel="noopener">WhatsApp Termin</a>
       <a class="btn" href="tel:+436769111317">Anrufen</a>
     </div>
@@ -176,59 +192,26 @@
   <section class="hero">
     <img class="logo" src="Logo.PNG" alt="Golesta Beauty Logo">
     <p class="sub">
-      Premium Friseursalon & Beauty Concept in Villach – Qualität, Stil und persönliche Beratung.
-      Damen & Herren: Schnitt, Farbe, Strähnen, Balayage und mehr.
+      Premium Friseursalon &amp; Beauty Concept in Villach – Qualität, Stil und persönliche Beratung.
+      Damen &amp; Herren: Schnitt, Farbe, Strähnen, Balayage und mehr.
     </p>
     <div class="hero-actions">
-      <a class="btn primary" href="https://wa.me/436769111317?text=Hallo%20Golesta%20Beauty!%20Ich%20m%C3%B6chte%20einen%20Termin%20vereinbaren."
+      <a class="btn primary"
+         href="https://wa.me/436769111317?text=Hallo%20Golesta%20Beauty!%20Ich%20m%C3%B6chte%20einen%20Termin%20vereinbaren."
          target="_blank" rel="noopener">Termin per WhatsApp</a>
-      <a class="btn" href="https://instagram.com/golesta.beauty" target="_blank" rel="noopener">Instagram ansehen</a>
+      <a class="btn"
+         href="https://instagram.com/golesta.beauty"
+         target="_blank" rel="noopener">Instagram ansehen</a>
     </div>
   </section>
 
   <div class="grid">
     <section class="card">
-      <h2>Leistungen</h2>
-      <ul>
-        <section class="card full">
-  <h2>Preisliste</h2>
-
-  <h3>Damen</h3>
-  <ul>
-    <li>Waschen &amp; Föhnen – <b>30 €</b></li>
-    <li>Waschen, Schneiden &amp; Föhnen – <b>40 €</b></li>
-    <li>Trockenhaarschnitt – <b>25 €</b></li>
-    <li>Haare färben – <b>ab 50 €</b></li>
-    <li>Strähnen – <b>ab 70 €</b></li>
-    <li>Balayage – <b>ab 90 €</b></li>
-    <li>Tönung – <b>ab 45 €</b></li>
-    <li>Haarkur / Pflegebehandlung – <b>ab 15 €</b></li>
-    <li>Augenbrauen färben – <b>10 €</b></li>
-    <li>Wimpern färben – <b>10 €</b></li>
-    <li>Gesichtshaarentfernung – <b>15 €</b></li>
-  </ul>
-
-  <h3>Herren</h3>
-  <ul>
-    <li>Maschinenschnitt – <b>15 €</b></li>
-    <li>Haarschnitt – <b>20 €</b></li>
-    <li>Bart schneiden – <b>10 €</b></li>
-    <li>Bart &amp; Haare – <b>25 €</b></li>
-    <li>Waschen &amp; Schneiden – <b>25 €</b></li>
-    <li>Styling – <b>5 €</b></li>
-  </ul>
-
-  <h3>Treatments</h3>
-  <ul>
-    <li>Keratin / Protein Behandlung – <b>ab 70 €</b></li>
-    <li>Haarbotox / Aufbaupflege – <b>ab 60 €</b></li>
-    <li>Hochsteckfrisur – <b>ab 50 €</b></li>
-    <li>Make-up – <b>ab 40 €</b></li>
-  </ul>
-
-  <p class="meta">Alle Preise können je nach Haarlänge und Aufwand variieren.</p>
-</section>
-      </ul>
+      <h2>Willkommen</h2>
+      <p>
+        Willkommen bei <b>Golesta Beauty</b> – Ihrem Beauty-Salon in Villach.
+        Wir verbinden moderne Trends mit persönlicher Beratung, damit Sie sich rundum wohlfühlen.
+      </p>
     </section>
 
     <section class="card">
@@ -237,6 +220,50 @@
         <div class="kv"><b>Montag</b> Geschlossen</div>
         <div class="kv"><b>Dienstag – Samstag</b> 09:00 – 18:00</div>
         <div class="kv"><b>Sonntag</b> Geschlossen</div>
+      </div>
+    </section>
+
+    <!-- Leistungen & Preise (collapsible) -->
+    <section class="card full">
+      <h2>Leistungen &amp; Preise</h2>
+
+      <div id="price-short">
+        <ul>
+          <li>Waschen &amp; Föhnen – <b>30 €</b></li>
+          <li>Waschen, Schneiden &amp; Föhnen – <b>40 €</b></li>
+          <li>Trockenhaarschnitt – <b>25 €</b></li>
+          <li>Haare färben – <b>ab 50 €</b></li>
+        </ul>
+        <a href="#" class="btn" onclick="showPrices(); return false;">Mehr anzeigen</a>
+      </div>
+
+      <div id="price-full" style="display:none;">
+        <h3>Damen</h3>
+        <ul>
+          <li>Waschen &amp; Föhnen – <b>30 €</b></li>
+          <li>Waschen, Schneiden &amp; Föhnen – <b>40 €</b></li>
+          <li>Trockenhaarschnitt – <b>25 €</b></li>
+          <li>Haare färben – <b>ab 50 €</b></li>
+          <li>Strähnen – <b>ab 70 €</b></li>
+          <li>Balayage – <b>ab 90 €</b></li>
+          <li>Tönung – <b>ab 45 €</b></li>
+          <li>Haarkur / Pflege – <b>ab 15 €</b></li>
+          <li>Augenbrauen färben – <b>10 €</b></li>
+          <li>Wimpern färben – <b>10 €</b></li>
+          <li>Gesichtshaarentfernung – <b>15 €</b></li>
+        </ul>
+
+        <h3>Herren</h3>
+        <ul>
+          <li>Maschinenschnitt – <b>15 €</b></li>
+          <li>Haarschnitt – <b>20 €</b></li>
+          <li>Bart schneiden – <b>10 €</b></li>
+          <li>Bart &amp; Haare – <b>25 €</b></li>
+          <li>Waschen &amp; Schneiden – <b>25 €</b></li>
+          <li>Styling – <b>5 €</b></li>
+        </ul>
+
+        <a href="#" class="btn" onclick="hidePrices(); return false;">Weniger anzeigen</a>
       </div>
     </section>
 
@@ -263,6 +290,17 @@
 <footer>
   © 2026 Golesta Beauty · Villach
 </footer>
+
+<script>
+  function showPrices(){
+    document.getElementById("price-short").style.display = "none";
+    document.getElementById("price-full").style.display = "block";
+  }
+  function hidePrices(){
+    document.getElementById("price-full").style.display = "none";
+    document.getElementById("price-short").style.display = "block";
+  }
+</script>
 
 </body>
 </html>
