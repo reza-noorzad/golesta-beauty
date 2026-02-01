@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Vielen Dank – Golesta Beauty</title>
+
+<style>
+body{
+  margin:0;
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;
+  background:#fbf8f3;
+  color:#1e1e1e;
+}
+.wrap{
+  width:min(820px,92%);
+  margin:0 auto;
+  padding:30px 0;
+}
+.card{
+  background:#fff;
+  border-radius:20px;
+  box-shadow:0 15px 40px rgba(0,0,0,.08);
+  padding:24px;
+  text-align:center;
+}
+.logo{
+  width:min(240px,70vw);
+  display:block;
+  margin:10px auto 20px;
+}
+h1{
+  margin:10px 0;
+}
+p{
+  max-width:600px;
+  margin:10px auto;
+  line-height:1.6;
+  color:rgba(0,0,0,.7);
+}
+.btn{
+  display:inline-block;
+  margin-top:20px;
+  padding:14px 20px;
+  border-radius:14px;
+  text-decoration:none;
+  font-weight:700;
+}
+.primary{
+  background:linear-gradient(180deg,#c9a24a,#b88c2c);
+  color:white;
+}
+.ghost{
+  background:#eee;
+  color:#111;
+}
+</style>
+</head>
+
+<body>
+<div class="wrap">
+  <div class="card">
+    <img src="Logo.PNG" class="logo">
+
+    <h1>Vielen Dank!</h1>
+
+    <p id="mainText"></p>
+
+    <p>Die Zahlungsdetails (IBAN) erhalten Sie in Kürze per E-Mail.</p>
+
+    <a href="index.html" class="btn primary">Zurück zur Website</a>
+    <br>
+    <a href="https://www.instagram.com/golesta.beauty" class="btn ghost">Instagram ansehen</a>
+  </div>
+</div>
+
+<script>
+const params = new URLSearchParams(window.location.search);
+const abholung = params.get("Abholung");
+
+const text = document.getElementById("mainText");
+
+if(abholung && abholung.toLowerCase().includes("email")){
+  text.innerText = "Ihr Gutschein wird nach Zahlungseingang als PDF per E-Mail an Sie gesendet.";
+}
+else if(abholung && abholung.toLowerCase().includes("salon")){
+  text.innerText = "Ihr Gutschein wird nach Zahlungseingang für Sie im Salon zur Abholung vorbereitet.";
+}
+else{
+  text.innerText = "Wir bearbeiten Ihre Gutschein-Anfrage und melden uns in Kürze bei Ihnen.";
+}
+</script>
+
+</body>
+</html>
