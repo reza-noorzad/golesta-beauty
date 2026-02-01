@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Golesta Beauty – Salon in Villach</title>
+  <meta name="description" content="Golesta Beauty in Villach – Damen & Herren: Schnitt, Farbe, Strähnen, Balayage. Termin per WhatsApp." />
+
+  <style>
+    :root{
+      --bg:#f4f4f4;
+      --text:#1f1f1f;
+      --muted:#5c5c5c;
+      --gold:#c9a14a;
+      --gold2:#9e7c2f;
+      --border:#e6e6e6;
+      --shadow:0 14px 36px rgba(0,0,0,.08);
+      --radius:18px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(900px 450px at 10% 0%, rgba(201,161,74,.14), transparent 55%),
+        radial-gradient(900px 450px at 90% 10%, rgba(31,31,31,.08), transparent 60%),
+        var(--bg);
+      line-height:1.75;
+    }
+    a{color:inherit}
+    .wrap{max-width:1050px;margin:0 auto;padding:0 18px}
+
+    /* Buttons */
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      padding:11px 16px;
+      border-radius:999px;
+      text-decoration:none;
+      font-weight:650;
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.88);
+      box-shadow: 0 8px 22px rgba(0,0,0,.06);
+    }
+    .btn.primary{
+      border:none;
+      color:#111;
+      background: linear-gradient(90deg, var(--gold), #e6cf8d);
+    }
+
+    /* Hero */
+    main{padding:28px 0 44px}
+    .hero{
+      margin:16px 0 14px;
+      background: rgba(255,255,255,.78);
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      box-shadow: var(--shadow);
+      padding:28px 18px;
+      text-align:center;
+    }
+    .logo{
+      width:min(360px, 84vw);
+      height:auto;
+      display:block;
+      margin:0 auto 14px;
+      filter: drop-shadow(0 14px 18px rgba(0,0,0,.12));
+    }
+    .sub{
+      margin:0 auto;
+      max-width:72ch;
+      color:var(--muted);
+      font-size:15px;
+    }
+    .hero-actions{
+      margin-top:16px;
+      display:flex;
+      gap:10px;
+      justify-content:center;
+      flex-wrap:wrap;
+    }
+
+    /* Cards grid */
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap:14px;
+      margin:14px 0 34px;
+    }
+    .card{
+      grid-column: span 6;
+      background: rgba(255,255,255,.86);
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      box-shadow: 0 10px 26px rgba(0,0,0,.06);
+      padding:18px;
+    }
+    .full{grid-column: span 12;}
+
+    h2{
+      margin:0 0 10px;
+      font-size:18px;
+      letter-spacing:.2px;
+    }
+    h2::after{
+      content:"";
+      display:block;
+      width:54px;
+      height:3px;
+      margin-top:10px;
+      border-radius:999px;
+      background: linear-gradient(90deg, var(--gold2), var(--gold));
+    }
+    h3{margin:14px 0 8px; font-size:16px}
+
+    ul{margin:0; padding-left:18px}
+    li{margin:7px 0}
+
+    /* Prices */
+    #price-short ul, #price-full ul { margin-top:6px; }
+    #price-short .btn, #price-full .btn { margin-top:10px; }
+
+    /* Map */
+    iframe{
+      width:100%;
+      height:300px;
+      border:0;
+      border-radius:14px;
+    }
+
+    .kvs{display:grid; gap:10px; margin-top:10px}
+    .kv{
+      padding:12px 14px;
+      background: rgba(255,255,255,.9);
+      border:1px solid var(--border);
+      border-radius:14px;
+    }
+
+    footer{
+      border-top:1px solid var(--border);
+      padding:18px 0;
+      color:var(--muted);
+      font-size:14px;
+      text-align:center;
+    }
+
+    @media (max-width: 820px){
+      .card{grid-column: span 12;}
+      iframe{height:260px}
+    }
+  </style>
+</head>
+
+<body>
+
+<main class="wrap">
+  <section class="hero">
+    <img class="logo" src="Logo.PNG" alt="Golesta Beauty Logo">
+
+    <p class="sub">
+      Premium Friseursalon &amp; Beauty Concept in Villach – Qualität, Stil und persönliche Beratung.
+      Damen &amp; Herren: Schnitt, Farbe, Strähnen, Balayage und mehr.
+    </p>
+
+    <div class="hero-actions">
+      <a class="btn primary"
+         href="https://wa.me/436769111317?text=Hallo%20Golesta%20Beauty!%20Ich%20m%C3%B6chte%20einen%20Termin%20vereinbaren."
+         target="_blank" rel="noopener">Termin per WhatsApp</a>
+
+      <a class="btn"
+         href="https://instagram.com/golesta.beauty"
+         target="_blank" rel="noopener">Instagram ansehen</a>
+    </div>
+  </section>
+
+  <div class="grid">
+    <section class="card">
+      <h2>Willkommen</h2>
+      <p>
+        Willkommen bei <b>Golesta Beauty</b> – Ihrem Beauty-Salon in Villach.
+        Wir verbinden moderne Trends mit persönlicher Beratung, damit Sie sich rundum wohlfühlen.
+      </p>
+    </section>
+
+    <section class="card">
+      <h2>Öffnungszeiten</h2>
+      <div class="kvs">
+        <div class="kv"><b>Montag</b> Geschlossen</div>
+        <div class="kv"><b>Dienstag – Samstag</b> 09:00 – 18:00</div>
+        <div class="kv"><b>Sonntag</b> Geschlossen</div>
+      </div>
+    </section>
+
+    <section class="card full">
+      <h2>Leistungen &amp; Preise</h2>
+
+      <div id="price-short">
+        <ul>
+          <li>Waschen &amp; Föhnen – <b>30 €</b></li>
+          <li>Waschen, Schneiden &amp; Föhnen – <b>40 €</b></li>
+          <li>Trockenhaarschnitt – <b>25 €</b></li>
+          <li>Haare färben – <b>ab 50 €</b></li>
+        </ul>
+        <a href="#" class="btn" onclick="showPrices(); return false;">Mehr anzeigen</a>
+      </div>
+
+      <div id="price-full" style="display:none;">
+        <h3>Damen</h3>
+        <ul>
+          <li>Waschen &amp; Föhnen – <b>30 €</b></li>
+          <li>Waschen, Schneiden &amp; Föhnen – <b>40 €</b></li>
+          <li>Trockenhaarschnitt – <b>25 €</b></li>
+          <li>Haare färben – <b>ab 50 €</b></li>
+          <li>Strähnen – <b>ab 70 €</b></li>
+          <li>Balayage – <b>ab 90 €</b></li>
+          <li>Tönung – <b>ab 45 €</b></li>
+          <li>Haarkur / Pflege – <b>ab 15 €</b></li>
+          <li>Augenbrauen färben – <b>10 €</b></li>
+          <li>Wimpern färben – <b>10 €</b></li>
+          <li>Gesichtshaarentfernung – <b>15 €</b></li>
+        </ul>
+
+        <h3>Herren</h3>
+        <ul>
+          <li>Maschinenschnitt – <b>15 €</b></li>
+          <li>Haarschnitt – <b>20 €</b></li>
+          <li>Bart schneiden – <b>10 €</b></li>
+          <li>Bart &amp; Haare – <b>25 €</b></li>
+          <li>Waschen &amp; Schneiden – <b>25 €</b></li>
+          <li>Styling – <b>5 €</b></li>
+        </ul>
+
+        <a href="#" class="btn" onclick="hidePrices(); return false;">Weniger anzeigen</a>
+      </div>
+    </section>
+
+    <section class="card full">
+      <h2>Standort</h2>
+      <p><b>Adresse:</b> Italiener Str. 6, 9500 Villach</p>
+      <iframe
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        src="https://www.google.com/maps?q=Italiener%20Str.%206%2C%209500%20Villach&output=embed"></iframe>
+    </section>
+
+    <section class="card full">
+      <h2>Kontakt</h2>
+      <p>
+        <b>Telefon / WhatsApp:</b> <a href="tel:+436769111317">0676 911 13 17</a><br>
+        <b>Instagram:</b> <a href="https://instagram.com/golesta.beauty" target="_blank" rel="noopener">@golesta.beauty</a><br>
+        <b>E-Mail:</b> <a href="mailto:golestabeauty@gmail.com">golestabeauty@gmail.com</a>
+      </p>
+    </section>
+  </div>
+</main>
+
+<footer>
+  © 2026 Golesta Beauty · Villach
+</footer>
+
+<script>
+  function showPrices(){
+    document.getElementById("price-short").style.display = "none";
+    document.getElementById("price-full").style.display = "block";
+  }
+  function hidePrices(){
+    document.getElementById("price-full").style.display = "none";
+    document.getElementById("price-short").style.display = "block";
+  }
+</script>
+
+</body>
+</html>
