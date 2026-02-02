@@ -1,497 +1,475 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Golesta Beauty – Villach</title>
+  <meta name="description" content="Golesta Beauty – Friseursalon in Villach. Leistungen & Preise, Galerie, Gutschein und Kontakt." />
+
   <style>
     :root{
       --bg:#f6f3ef;
       --card:#ffffff;
-      --text:#2b2b2b;
+      --text:#222;
       --muted:#6b6b6b;
-      --gold:#c8a24a;
-      --gold2:#b58b2b;
-      --border:#e9e3d8;
-      --shadow: 0 10px 30px rgba(0,0,0,.08);
+      --gold:#c9a24a;
+      --gold2:#b88c2c;
+      --border:rgba(0,0,0,.08);
+      --shadow:0 12px 32px rgba(0,0,0,.08);
       --radius:18px;
+      --stickyOffset:92px;
     }
-
     *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
     body{
       margin:0;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
-      background: radial-gradient(1200px 700px at 15% 0%, #fff7ea 0%, var(--bg) 60%, #f2eee7 100%);
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
       color:var(--text);
-      line-height:1.5;
+      background:
+        radial-gradient(1200px 700px at 20% -10%, rgba(201,162,74,.18), transparent 60%),
+        linear-gradient(180deg, #fbf8f3, var(--bg));
     }
-
     a{color:inherit}
-    .container{
-      width:min(980px, 92vw);
-      margin:0 auto;
-      padding: 28px 0 56px;
+    .container{width:min(980px,92vw); margin:0 auto; padding:14px 0 40px;}
+    .card{
+      background:rgba(255,255,255,.92);
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:16px;
     }
+    section{scroll-margin-top:var(--stickyOffset)}
+    h2{margin:0 0 10px; font-size:20px; letter-spacing:.2px;}
+    .sub{margin:-4px 0 12px; color:var(--muted); font-size:14px; line-height:1.6;}
+    .grid{display:grid; grid-template-columns:1fr; gap:14px; margin-top:12px;}
 
-    /* ====== TOP BAR (sticky) ====== */
+    /* ===== Sticky header (small menu row + WhatsApp row centered) ===== */
     .topbar{
-      position: sticky;
-      top: 0;
-      z-index: 50;
-      background: rgba(246,243,239,.88);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid rgba(0,0,0,.06);
+      position:sticky; top:0; z-index:100;
+      background:rgba(246,243,239,.88);
+      backdrop-filter:blur(10px);
+      border-bottom:1px solid rgba(0,0,0,.06);
     }
-    .topbar-inner{
-      width:min(980px, 92vw);
-      margin:0 auto;
-      padding: 10px 0;
-      display:flex;
-      align-items:center;
-      gap:12px;
+    .topbar-inner{width:min(980px,92vw); margin:0 auto; padding:8px 0 10px;}
+    .menu{
+      display:flex; gap:8px; flex-wrap:nowrap; overflow-x:auto;
+      -webkit-overflow-scrolling:touch;
+      padding:6px 2px;
     }
-    .nav{
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px;
-      align-items:center;
-      flex:1;
-    }
-    .nav a{
+    .menu a{
       text-decoration:none;
-      font-size:14px;
-      padding:8px 10px;
+      font-size:13px;
+      padding:7px 10px;
       border-radius:999px;
-      border:1px solid rgba(0,0,0,.08);
-      background: rgba(255,255,255,.55);
+      border:1px solid rgba(0,0,0,.10);
+      background:rgba(255,255,255,.65);
+      white-space:nowrap;
+      flex:0 0 auto;
     }
-    .nav a:hover{border-color: rgba(200,162,74,.55)}
-    .cta{
+    .menu a:hover{border-color:rgba(201,162,74,.55)}
+    .wa-row{display:flex; justify-content:center; padding-top:6px;}
+    .wa-btn{
       text-decoration:none;
-      font-weight:700;
+      font-weight:900;
       font-size:14px;
       padding:10px 14px;
       border-radius:999px;
-      background: linear-gradient(180deg, var(--gold) 0%, var(--gold2) 100%);
-      color:#141414;
+      background:linear-gradient(180deg,var(--gold),var(--gold2));
+      color:#111;
       border:1px solid rgba(0,0,0,.12);
-      box-shadow: 0 10px 24px rgba(200,162,74,.25);
-      white-space:nowrap;
+      box-shadow:0 10px 24px rgba(201,162,74,.22);
     }
-    .cta:hover{filter:brightness(.98)}
-    .cta small{font-weight:600; opacity:.8}
 
-    /* ====== HERO ====== */
-    .hero{
-      background: var(--card);
-      border:1px solid var(--border);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 22px 18px;
-      text-align:center;
-      overflow:hidden;
-    }
+    /* ===== Hero ===== */
+    .hero{text-align:center; padding:12px 0 4px;}
     .logo{
-      width:min(360px, 78vw);
-      max-height: 320px;
+      width:min(320px,78vw);
+      max-height:260px;
       object-fit:contain;
       display:block;
-      margin: 10px auto 8px;
+      margin:0 auto 10px;
+      filter:drop-shadow(0 12px 18px rgba(0,0,0,.12));
     }
-    .tagline{
-      margin: 10px auto 0;
-      color: var(--muted);
-      max-width: 760px;
-      font-size: 16px;
-    }
+    .tagline{margin:0; color:var(--muted); line-height:1.65; font-size:15px;}
 
-    /* ====== SECTIONS / CARDS ====== */
-    .grid{
-      display:grid;
-      grid-template-columns: 1fr;
-      gap: 18px;
-      margin-top: 18px;
+    /* ===== About (Golestan) ===== */
+    .about{
+      display:grid; grid-template-columns:1fr; gap:12px; align-items:center;
     }
+    @media (min-width:820px){ .about{grid-template-columns: 220px 1fr;} }
+    .portrait{
+      width:100%;
+      max-width:220px;
+      border-radius:16px;
+      border:1px solid rgba(0,0,0,.10);
+      box-shadow:0 10px 22px rgba(0,0,0,.08);
+      object-fit:cover;
+    }
+    .about p{margin:0; line-height:1.7; color:var(--muted);}
 
-    .card{
-      background: var(--card);
-      border:1px solid var(--border);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 18px 18px;
-    }
-
-    .card h2{
-      margin: 0 0 12px;
-      font-size: 20px;
-      letter-spacing:.2px;
-    }
-    .sub{
-      margin: -6px 0 12px;
-      color: var(--muted);
-      font-size: 14px;
-    }
-
-    .pill-row{
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px;
-    }
-    .pill{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding:10px 12px;
-      border-radius:999px;
+    /* ===== Prices ===== */
+    .price-grid{display:grid; grid-template-columns:1fr; gap:12px;}
+    @media (min-width:820px){ .price-grid{grid-template-columns:1fr 1fr;} }
+    .box{
       border:1px solid rgba(0,0,0,.08);
-      background: rgba(246,243,239,.55);
-      text-decoration:none;
-      font-weight:600;
+      border-radius:14px;
+      padding:12px;
+      background:rgba(246,243,239,.55);
+    }
+    .box h3{margin:0 0 10px; font-size:16px;}
+    .plist{list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:8px;}
+    .plist li{
+      display:flex; justify-content:space-between; gap:10px;
+      padding-bottom:8px;
+      border-bottom:1px dashed rgba(0,0,0,.10);
       font-size:14px;
     }
-
-    /* ====== ADDRESS / HOURS ====== */
-    .two-col{
-      display:grid;
-      grid-template-columns: 1fr;
-      gap: 12px;
-    }
-    @media (min-width: 800px){
-      .two-col{grid-template-columns: 1fr 1fr;}
-    }
-
-    .kv{
-      display:flex;
-      gap:10px;
-      align-items:flex-start;
-    }
-    .kv b{min-width: 120px}
-    .muted{color: var(--muted)}
-    .route{
-      display:inline-flex;
-      margin-top:10px;
-      text-decoration:none;
-      font-weight:700;
-      color: #1a1a1a;
-      border-bottom: 2px solid rgba(200,162,74,.65);
-      padding-bottom:2px;
-    }
-
-    /* ====== GALLERY ====== */
-    .gallery{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-    }
-    @media (min-width: 800px){
-      .gallery{grid-template-columns: 1fr 1fr 1fr;}
-    }
-    .gallery img{
-      width:100%;
-      height: 210px;
-      object-fit: cover;
-      border-radius: 14px;
-      border:1px solid rgba(0,0,0,.08);
-    }
-    .ig-btn{
-      display:inline-block;
-      margin-top: 12px;
-      text-decoration:none;
-      font-weight:800;
-      padding: 10px 14px;
-      border-radius: 999px;
-      border: 1px solid rgba(0,0,0,.12);
-      background: #111;
-      color: #fff;
-    }
-
-    /* ====== PRICES ====== */
-    .price-wrap{
-      border:1px solid rgba(0,0,0,.06);
-      border-radius: 14px;
-      padding: 12px;
-      background: rgba(246,243,239,.45);
-    }
-    .price-grid{
-      display:grid;
-      grid-template-columns: 1fr;
-      gap: 10px;
-      margin-top: 8px;
-    }
-    @media (min-width: 800px){
-      .price-grid{grid-template-columns: 1fr 1fr;}
-    }
-    .price-box{
-      background:#fff;
-      border:1px solid rgba(0,0,0,.08);
-      border-radius: 14px;
-      padding: 12px;
-    }
-    .price-box h3{
-      margin: 0 0 8px;
-      font-size: 16px;
-    }
-    ul.price{
-      list-style:none;
-      padding:0;
-      margin:0;
-      display:flex;
-      flex-direction:column;
-      gap:8px;
-    }
-    ul.price li{
-      display:flex;
-      justify-content:space-between;
-      gap:10px;
-      padding-bottom:8px;
-      border-bottom:1px dashed rgba(0,0,0,.08);
-      font-size: 14px;
-    }
-    ul.price li:last-child{border-bottom:none; padding-bottom:0}
+    .plist li:last-child{border-bottom:none; padding-bottom:0}
     .pname{color:#222}
-    .pval{font-weight:800; white-space:nowrap}
-    .note{
-      margin-top:10px;
-      color: var(--muted);
-      font-size: 13px;
-    }
-
-    /* Expand / collapse */
-    .more-toggle{
-      margin-top: 12px;
-      width: 100%;
-      display:flex;
-      justify-content:center;
-    }
+    .pval{font-weight:900; white-space:nowrap}
+    .hidden-item{display:none}
+    .toggle-row{display:flex; justify-content:center; margin-top:12px;}
     .toggle-btn{
-      border:none;
-      cursor:pointer;
+      border:1px solid rgba(0,0,0,.14);
+      background:#fff;
+      border-radius:999px;
+      padding:10px 14px;
       font-weight:900;
-      padding: 10px 14px;
-      border-radius: 999px;
-      background: linear-gradient(180deg, #fff 0%, #f2eee7 100%);
+      cursor:pointer;
+    }
+    .smallnote{margin:10px 0 0; color:var(--muted); font-size:13px; line-height:1.6;}
+
+    /* ===== Gutschein ===== */
+    .pill{
+      display:inline-flex; align-items:center; justify-content:center;
+      text-decoration:none;
+      padding:10px 12px;
+      border-radius:999px;
       border:1px solid rgba(0,0,0,.12);
+      background:rgba(0,0,0,.04);
+      font-weight:850;
     }
 
-    /* ====== CONTACT ====== */
-    .contact-list{
-      display:grid;
-      grid-template-columns: 1fr;
-      gap:10px;
+    /* ===== Gallery + Lightbox ===== */
+    .gallery{display:grid; grid-template-columns:1fr 1fr; gap:10px;}
+    @media (min-width:820px){ .gallery{grid-template-columns:1fr 1fr 1fr 1fr;} }
+    .gimg{
+      width:100%;
+      height:180px;
+      object-fit:cover;
+      border-radius:14px;
+      border:1px solid rgba(0,0,0,.10);
+      cursor:pointer;
+      background:#eee;
     }
-    @media (min-width: 800px){
-      .contact-list{grid-template-columns: 1fr 1fr;}
-    }
-    .contact-item{
-      background: rgba(246,243,239,.55);
-      border:1px solid rgba(0,0,0,.08);
-      border-radius: 14px;
-      padding: 12px;
-    }
-    .contact-item b{display:block; margin-bottom:6px}
-    .contact-item a{word-break:break-word}
+    .ig-under{margin-top:12px; text-align:center; color:var(--muted); font-size:14px;}
+    .ig-under a{font-weight:900; text-decoration:none; color:#111}
 
-    /* ====== FOOTER ====== */
-    footer{
-      margin-top: 22px;
-      text-align:center;
-      color: var(--muted);
-      font-size: 12px;
+    /* ===== Map preview ===== */
+    .map-preview{
+      border-radius:14px;
+      overflow:hidden;
+      border:1px solid rgba(0,0,0,.10);
+      cursor:pointer;
+      background:#fff;
+    }
+    .map-iframe{width:100%; height:220px; border:0; display:block;}
+    .map-caption{padding:10px 12px; color:var(--muted); font-size:14px; line-height:1.6;}
+
+    /* ===== Contact ===== */
+    .contact-list{list-style:none; padding:0; margin:0;}
+    .contact-list li{padding:10px 0; border-bottom:1px solid rgba(0,0,0,.08);}
+    .contact-list li:last-child{border-bottom:none}
+    .label{display:block; font-weight:900; margin-bottom:4px;}
+    .link{font-weight:850; text-decoration:none;}
+
+    /* ===== Modal (for gallery + map) ===== */
+    .modal{
+      position:fixed; inset:0; z-index:999;
+      display:none;
+      background:rgba(0,0,0,.78);
+      padding:16px;
+    }
+    .modal.open{display:flex; align-items:center; justify-content:center;}
+    .modal-inner{
+      width:min(980px, 96vw);
+      max-height:92vh;
+      background:#111;
+      border-radius:16px;
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,.12);
+      position:relative;
+    }
+    .close{
+      position:absolute; top:10px; right:10px;
+      background:rgba(255,255,255,.12);
+      border:1px solid rgba(255,255,255,.18);
+      color:#fff;
+      border-radius:12px;
+      padding:8px 10px;
+      font-weight:900;
+      cursor:pointer;
+      z-index:2;
+    }
+    .navbtn{
+      position:absolute; top:50%;
+      transform:translateY(-50%);
+      background:rgba(255,255,255,.12);
+      border:1px solid rgba(255,255,255,.18);
+      color:#fff;
+      border-radius:12px;
+      padding:10px 12px;
+      font-weight:900;
+      cursor:pointer;
+      z-index:2;
+      user-select:none;
+    }
+    .prev{left:10px}
+    .next{right:10px}
+
+    .modal-imgwrap{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:#111;
+      width:100%;
+      height:92vh;
+      max-height:92vh;
+    }
+    .modal-img{
+      max-width:100%;
+      max-height:92vh;
+      object-fit:contain;
+      display:block;
+    }
+    .modal-mapwrap{
+      background:#111;
+      padding-top:44px;
+    }
+    .modal-map{
+      width:100%;
+      height:min(75vh, 560px);
+      border:0;
+      display:block;
+    }
+    .modal-mapinfo{
+      padding:12px 14px 16px;
+      color:#fff;
+      opacity:.9;
+      font-size:14px;
+      line-height:1.6;
     }
 
-    /* anchor offset for sticky header */
-    section{scroll-margin-top: 80px;}
+    footer{margin-top:16px; text-align:center; color:rgba(0,0,0,.55); font-size:12px;}
   </style>
 </head>
 
 <body>
-  <!-- Sticky topbar -->
   <div class="topbar">
     <div class="topbar-inner">
-      <nav class="nav">
+      <nav class="menu" aria-label="Navigation">
         <a href="#about">Über uns</a>
         <a href="#preise">Leistungen & Preise</a>
         <a href="#gallery">Galerie</a>
+        <a href="#gutschein">Gutschein</a>
         <a href="#adresse">Adresse</a>
         <a href="#zeiten">Öffnungszeiten</a>
-        <a href="#gutschein">Gutschein</a>
         <a href="#kontakt">Kontakt</a>
       </nav>
-
-      <!-- WhatsApp CTA always visible -->
-      <a class="cta" href="https://wa.me/436769111317" target="_blank" rel="noopener">
-        Termin per WhatsApp
-      </a>
+      <div class="wa-row">
+        <!-- شماره را اگر لازم شد فقط اینجا عوض کن -->
+        <a class="wa-btn" href="https://wa.me/436769111317?text=Hallo%20Golesta%20Beauty%2C%20ich%20m%C3%B6chte%20einen%20Termin%20vereinbaren."
+           target="_blank" rel="noopener">
+          Termin per WhatsApp
+        </a>
+      </div>
     </div>
   </div>
 
   <div class="container">
-    <!-- HERO -->
-    <div class="hero" id="top">
+    <header class="hero">
       <img class="logo" src="Logo.PNG" alt="Golesta Beauty Logo">
       <p class="tagline">
-        Premium Friseursalon & Beauty Concept in Villach – Qualität, Stil und persönliche Beratung.
-        Damen & Herren: Schnitt, Farbe, Strähnen, Balayage und mehr.
+        Premium Friseursalon &amp; Beauty Concept in Villach – Qualität, Stil und persönliche Beratung.
+        <br> Damen &amp; Herren: Schnitt, Farbe, Strähnen, Balayage und mehr.
       </p>
-    </div>
+    </header>
 
     <div class="grid">
       <!-- ABOUT -->
       <section class="card" id="about">
         <h2>Über uns</h2>
-        <p class="sub">
-          Willkommen bei Golesta Beauty – Ihrem Salon für gepflegtes Haar, moderne Looks und individuelle Beratung.
-        </p>
-        <div class="pill-row">
-          <a class="pill" href="https://wa.me/436769111317" target="_blank" rel="noopener">WhatsApp: +43 676 9111317</a>
-          <a class="pill" href="tel:+436769111317">Anrufen</a>
+        <div class="about">
+          <!-- مهم: فایل باید JPEG/PNG باشد. پیشنهاد: images/goli.jpg -->
+          <img class="portrait" src="images/goli.jpg" alt="Golestan Sepehri">
+          <div>
+            <p>
+              <strong>Golestan Sepehri</strong> hat 12 Jahre Berufserfahrung als Friseurin im Iran
+              und verfügt in Österreich über den Friseurmeister.
+            </p>
+            <p style="margin-top:10px;">
+              (Text kann später gemeinsam angepasst werden – nach Wunsch.)
+            </p>
+          </div>
         </div>
       </section>
 
       <!-- PRICES -->
       <section class="card" id="preise">
         <h2>Leistungen und Preise</h2>
-        <p class="sub">Alle Preise sind Richtwerte (ab-Preise) und können je nach Haarlänge/ Aufwand variieren.</p>
+        <p class="sub">Alle Preise sind Richtwerte (ab-Preise) und können je nach Haarlänge &amp; Aufwand variieren.</p>
 
-        <div class="price-wrap">
-          <div class="price-grid">
-            <!-- DAMEN -->
-            <div class="price-box">
-              <h3>Damen</h3>
-              <ul class="price" id="damen-list">
-                <!-- short list visible -->
-                <li><span class="pname">Waschen & Föhnen</span><span class="pval">ab 25 €</span></li>
-                <li><span class="pname">Schneiden</span><span class="pval">ab 30 €</span></li>
-                <li><span class="pname">Waschen / Schneiden / Föhnen</span><span class="pval">ab 45 €</span></li>
-                <li><span class="pname">Ansatzfarbe</span><span class="pval">ab 35 €</span></li>
+        <div class="price-grid">
+          <div class="box">
+            <h3>Damen</h3>
+            <ul class="plist" id="damenList">
+              <li><span class="pname">Waschen &amp; Föhnen</span><span class="pval">ab 25 €</span></li>
+              <li><span class="pname">Schneiden</span><span class="pval">ab 30 €</span></li>
+              <li><span class="pname">Waschen / Schneiden / Föhnen</span><span class="pval">ab 45 €</span></li>
+              <li><span class="pname">Ansatzfarbe</span><span class="pval">ab 35 €</span></li>
 
-                <!-- extra items hidden by default -->
-                <li class="extra" hidden><span class="pname">Komplettfarbe</span><span class="pval">ab 60 €</span></li>
-                <li class="extra" hidden><span class="pname">Strähnen</span><span class="pval">ab 80 €</span></li>
-                <li class="extra" hidden><span class="pname">Balayage</span><span class="pval">ab 120 €</span></li>
-                <li class="extra" hidden><span class="pname">Keratin Glättung</span><span class="pval">ab 150 €</span></li>
-                <li class="extra" hidden><span class="pname">Haar Botox</span><span class="pval">ab 70 €</span></li>
-                <li class="extra" hidden><span class="pname">Make-up</span><span class="pval">ab 50 €</span></li>
-                <li class="extra" hidden><span class="pname">Hochsteckfrisur</span><span class="pval">ab 60 €</span></li>
-              </ul>
-            </div>
-
-            <!-- HERREN -->
-            <div class="price-box">
-              <h3>Herren</h3>
-              <ul class="price" id="herren-list">
-                <li><span class="pname">Schneiden</span><span class="pval">ab 20 €</span></li>
-                <li><span class="pname">Waschen & Schneiden</span><span class="pval">ab 25 €</span></li>
-                <li><span class="pname">Bart schneiden</span><span class="pval">ab 15 €</span></li>
-                <li><span class="pname">Waschen / Schneiden / Föhnen</span><span class="pval">ab 30 €</span></li>
-                <li class="extra" hidden><span class="pname">Färben</span><span class="pval">ab 35 €</span></li>
-              </ul>
-            </div>
+              <li class="hidden-item"><span class="pname">Komplettfarbe</span><span class="pval">ab 60 €</span></li>
+              <li class="hidden-item"><span class="pname">Strähnen</span><span class="pval">ab 80 €</span></li>
+              <li class="hidden-item"><span class="pname">Balayage</span><span class="pval">ab 120 €</span></li>
+              <li class="hidden-item"><span class="pname">Keratin Glättung</span><span class="pval">ab 150 €</span></li>
+              <li class="hidden-item"><span class="pname">Haar Botox</span><span class="pval">ab 70 €</span></li>
+              <li class="hidden-item"><span class="pname">Make-up</span><span class="pval">ab 50 €</span></li>
+              <li class="hidden-item"><span class="pname">Hochsteckfrisur</span><span class="pval">ab 60 €</span></li>
+            </ul>
           </div>
 
-          <div class="note">
-            Hinweis: Der Gutschein ist frei wählbar (z. B. 50€, 100€). Bitte geben Sie den gewünschten Betrag an.
-          </div>
+          <div class="box">
+            <h3>Herren</h3>
+            <ul class="plist" id="herrenList">
+              <li><span class="pname">Schneiden</span><span class="pval">ab 20 €</span></li>
+              <li><span class="pname">Waschen &amp; Schneiden</span><span class="pval">ab 25 €</span></li>
+              <li><span class="pname">Bart schneiden</span><span class="pval">ab 15 €</span></li>
+              <li><span class="pname">Waschen / Schneiden / Föhnen</span><span class="pval">ab 30 €</span></li>
 
-          <!-- Button MUST be at the END of this section -->
-          <div class="more-toggle">
-            <button class="toggle-btn" id="togglePrices" type="button">Mehr anzeigen</button>
+              <li class="hidden-item"><span class="pname">Färben</span><span class="pval">ab 35 €</span></li>
+            </ul>
           </div>
         </div>
+
+        <div class="toggle-row">
+          <button class="toggle-btn" id="togglePrices" type="button">Mehr anzeigen</button>
+        </div>
+
+        <p class="smallnote"><strong>Damen &amp; Herren</strong></p>
       </section>
 
       <!-- GALLERY -->
       <section class="card" id="gallery">
         <h2>Galerie</h2>
-        <p class="sub">Ein kleiner Einblick – mehr Fotos und Videos finden Sie auf Instagram.</p>
+        <p class="sub">Tippen Sie auf ein Foto, um es groß zu sehen und durchzublättern.</p>
 
-        <div class="gallery">
-          <img src="images/gallery-01.jpg" alt="Golesta Beauty Galerie 1">
-          <img src="images/gallery-02.jpg" alt="Golesta Beauty Galerie 2">
-          <img src="images/gallery-03.jpg" alt="Golesta Beauty Galerie 3">
-          <img src="images/gallery-04.jpg" alt="Golesta Beauty Galerie 4">
-          <img src="images/gallery-05.jpg" alt="Golesta Beauty Galerie 5">
-          <img src="images/gallery-06.jpg" alt="Golesta Beauty Galerie 6">
+        <div class="gallery" id="galleryGrid">
+          <img class="gimg" src="images/gallery-01.jpg" alt="Golesta Beauty 01" data-index="0">
+          <img class="gimg" src="images/gallery-02.jpg" alt="Golesta Beauty 02" data-index="1">
+          <img class="gimg" src="images/gallery-03.jpg" alt="Golesta Beauty 03" data-index="2">
+          <img class="gimg" src="images/gallery-04.jpg" alt="Golesta Beauty 04" data-index="3">
+          <img class="gimg" src="images/gallery-05.jpg" alt="Golesta Beauty 05" data-index="4">
+          <img class="gimg" src="images/gallery-06.jpg" alt="Golesta Beauty 06" data-index="5">
+          <img class="gimg" src="images/gallery-07.jpg" alt="Golesta Beauty 07" data-index="6">
+          <img class="gimg" src="images/gallery-10.jpg" alt="Golesta Beauty 10" data-index="7">
         </div>
 
-        <a class="ig-btn" href="https://www.instagram.com/golesta.beauty" target="_blank" rel="noopener">
-          Mehr auf Instagram
-        </a>
-      </section>
-
-      <!-- ADDRESS + HOURS (separate) -->
-      <section class="card" id="adresse">
-        <h2>Adresse</h2>
-        <div class="two-col">
-          <div>
-            <div class="kv"><b>Adresse</b><span class="muted">Italiener Straße 6, 9500 Villach</span></div>
-            <a class="route" href="https://www.google.com/maps/search/?api=1&query=Italiener+Stra%C3%9Fe+6,+9500+Villach" target="_blank" rel="noopener">
-              Route anzeigen
-            </a>
-          </div>
-          <div>
-            <div class="kv"><b>Telefon</b><span class="muted"><a href="tel:+436769111317">+43 676 9111317</a></span></div>
-            <div class="kv"><b>WhatsApp</b><span class="muted"><a href="https://wa.me/436769111317" target="_blank" rel="noopener">+43 676 9111317</a></span></div>
-          </div>
-        </div>
-      </section>
-
-      <section class="card" id="zeiten">
-        <h2>Öffnungszeiten</h2>
-        <div class="price-wrap">
-          <div class="kv"><b>Dienstag – Samstag</b><span class="muted">09:00 – 18:00</span></div>
-          <div class="kv"><b>Sonntag</b><span class="muted">Geschlossen</span></div>
-          <div class="kv"><b>Montag</b><span class="muted">Geschlossen</span></div>
+        <div class="ig-under">
+          Mehr Fotos &amp; Videos finden Sie auf Instagram:
+          <a href="https://www.instagram.com/golesta.beauty" target="_blank" rel="noopener">@golesta.beauty</a>
         </div>
       </section>
 
       <!-- GUTSCHEIN -->
       <section class="card" id="gutschein">
-        <h2>Gutschein online bestellen</h2>
+        <h2>Gutschein</h2>
         <p class="sub">
-          Bitte füllen Sie das Formular aus. Nach dem Absenden erhalten Sie die Zahlungsdetails (IBAN) per E-Mail.
+          Gutschein online anfragen. Nach dem Absenden erhalten Sie die Zahlungsdetails (IBAN) per E-Mail.
         </p>
-        <div class="pill-row">
-          <a class="pill" href="https://tally.so/r/A7vdEy" target="_blank" rel="noopener">Zum Gutschein-Formular</a>
-        </div>
-        <p class="note">
-          Sobald die Zahlung eingegangen ist, wird der Gutschein vorbereitet (digital oder zur Abholung – je nach Auswahl im Formular).
+
+        <a class="pill" href="https://tally.so/r/A7vdEy" target="_blank" rel="noopener">Zum Gutschein-Formular</a>
+
+        <p class="smallnote" style="margin-top:10px;">
+          Hinweis: Der Gutschein ist frei wählbar (z. B. 50€, 100€). Bitte geben Sie den gewünschten Betrag an.
         </p>
       </section>
 
-      <!-- CONTACT -->
+      <!-- ADRESSE (map preview -> click to enlarge) -->
+      <section class="card" id="adresse">
+        <h2>Adresse</h2>
+        <p class="sub"><strong>Italiener Straße 6, 9500 Villach</strong></p>
+
+        <div class="map-preview" id="openMap" role="button" tabindex="0" aria-label="Karte öffnen">
+          <iframe class="map-iframe"
+            src="https://www.google.com/maps?q=Italiener%20Stra%C3%9Fe%206%2C%209500%20Villach&output=embed"
+            loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          <div class="map-caption">Tippen Sie auf die Karte, um sie größer zu öffnen.</div>
+        </div>
+      </section>
+
+      <!-- HOURS -->
+      <section class="card" id="zeiten">
+        <h2>Öffnungszeiten</h2>
+        <div class="box">
+          <ul class="plist">
+            <li><span class="pname">Dienstag – Samstag</span><span class="pval">09:00 – 18:00</span></li>
+            <li><span class="pname">Sonntag</span><span class="pval">geschlossen</span></li>
+            <li><span class="pname">Montag</span><span class="pval">geschlossen</span></li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- CONTACT (only Telefon + Instagram link + Email) -->
       <section class="card" id="kontakt">
         <h2>Kontakt</h2>
-        <p class="sub">Schreiben Sie uns gern – am schnellsten erreichen Sie uns über WhatsApp.</p>
+        <p class="sub">Schnellster Weg: Termin per WhatsApp (oben). Hier finden Sie die Kontaktdaten.</p>
 
-        <div class="contact-list">
-          <div class="contact-item">
-            <b>Telefon</b>
-            <a href="tel:+436769111317">+43 676 9111317</a>
-          </div>
-
-          <div class="contact-item">
-            <b>E-Mail</b>
-            <a href="mailto:sepehri.golestan1368@gmail.com">sepehri.golestan1368@gmail.com</a>
-          </div>
-
-          <div class="contact-item">
-            <b>Instagram</b>
-            <a href="https://www.instagram.com/golesta.beauty" target="_blank" rel="noopener">
+        <ul class="contact-list">
+          <li>
+            <span class="label">Telefon</span>
+            <a class="link" href="tel:+436769111317">+43 676 9111317</a>
+          </li>
+          <li>
+            <span class="label">Instagram</span>
+            <a class="link" href="https://www.instagram.com/golesta.beauty" target="_blank" rel="noopener">
               instagram.com/golesta.beauty
             </a>
-          </div>
-
-          <div class="contact-item">
-            <b>WhatsApp</b>
-            <a href="https://wa.me/436769111317" target="_blank" rel="noopener">+43 676 9111317</a>
-          </div>
-        </div>
+          </li>
+          <li>
+            <span class="label">E-Mail</span>
+            <a class="link" href="mailto:sepehri.golestan1368@gmail.com">sepehri.golestan1368@gmail.com</a>
+          </li>
+        </ul>
       </section>
 
-      <footer>
-        © <span id="year"></span> Golesta Beauty – Villach
-      </footer>
+      <footer>© <span id="year"></span> Golesta Beauty</footer>
+    </div>
+  </div>
+
+  <!-- Gallery Modal -->
+  <div class="modal" id="imgModal" aria-hidden="true">
+    <div class="modal-inner">
+      <button class="close" id="closeImg" type="button">✕</button>
+      <button class="navbtn prev" id="prevImg" type="button">‹</button>
+      <button class="navbtn next" id="nextImg" type="button">›</button>
+      <div class="modal-imgwrap" id="imgWrap">
+        <img class="modal-img" id="modalImg" src="" alt="">
+      </div>
+    </div>
+  </div>
+
+  <!-- Map Modal -->
+  <div class="modal" id="mapModal" aria-hidden="true">
+    <div class="modal-inner">
+      <button class="close" id="closeMap" type="button">✕</button>
+      <div class="modal-mapwrap">
+        <iframe class="modal-map"
+          src="https://www.google.com/maps?q=Italiener%20Stra%C3%9Fe%206%2C%209500%20Villach&output=embed"
+          loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <div class="modal-mapinfo">
+          <strong>Adresse:</strong> Italiener Straße 6, 9500 Villach
+        </div>
+      </div>
     </div>
   </div>
 
@@ -499,21 +477,96 @@
     // year
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // Expand / collapse prices
-    const btn = document.getElementById('togglePrices');
+    // Mehr/Weniger für Preise
+    const toggleBtn = document.getElementById('togglePrices');
+    const hiddenItems = document.querySelectorAll('#preise .hidden-item');
     let expanded = false;
 
-    function setExtras(hidden){
-      document.querySelectorAll('#preise .extra').forEach(el => el.hidden = hidden);
+    function applyPricesState(){
+      hiddenItems.forEach(el => el.style.display = expanded ? 'flex' : 'none');
+      toggleBtn.textContent = expanded ? 'Weniger anzeigen' : 'Mehr anzeigen';
     }
-    setExtras(true);
+    applyPricesState();
+    toggleBtn.addEventListener('click', () => { expanded = !expanded; applyPricesState(); });
 
-    btn.addEventListener('click', () => {
-      expanded = !expanded;
-      setExtras(!expanded);
-      btn.textContent = expanded ? 'Weniger anzeigen' : 'Mehr anzeigen';
+    // Gallery lightbox with next/prev + swipe
+    const gallerySources = [
+      'images/gallery-01.jpg','images/gallery-02.jpg','images/gallery-03.jpg','images/gallery-04.jpg',
+      'images/gallery-05.jpg','images/gallery-06.jpg','images/gallery-07.jpg','images/gallery-10.jpg'
+    ];
+
+    const imgModal = document.getElementById('imgModal');
+    const modalImg = document.getElementById('modalImg');
+    const closeImg = document.getElementById('closeImg');
+    const prevImg = document.getElementById('prevImg');
+    const nextImg = document.getElementById('nextImg');
+    const imgWrap = document.getElementById('imgWrap');
+
+    let currentIndex = 0;
+
+    function openImg(i){
+      currentIndex = i;
+      modalImg.src = gallerySources[currentIndex];
+      imgModal.classList.add('open');
+      imgModal.setAttribute('aria-hidden','false');
+    }
+    function closeImgModal(){
+      imgModal.classList.remove('open');
+      imgModal.setAttribute('aria-hidden','true');
+      modalImg.src = '';
+    }
+    function showPrev(){ currentIndex = (currentIndex - 1 + gallerySources.length) % gallerySources.length; modalImg.src = gallerySources[currentIndex]; }
+    function showNext(){ currentIndex = (currentIndex + 1) % gallerySources.length; modalImg.src = gallerySources[currentIndex]; }
+
+    document.querySelectorAll('.gimg').forEach(img => {
+      img.addEventListener('click', () => openImg(parseInt(img.dataset.index,10)));
+    });
+
+    closeImg.addEventListener('click', closeImgModal);
+    prevImg.addEventListener('click', showPrev);
+    nextImg.addEventListener('click', showNext);
+
+    imgModal.addEventListener('click', (e) => { if(e.target === imgModal) closeImgModal(); });
+    window.addEventListener('keydown', (e) => {
+      if(!imgModal.classList.contains('open')) return;
+      if(e.key === 'Escape') closeImgModal();
+      if(e.key === 'ArrowLeft') showPrev();
+      if(e.key === 'ArrowRight') showNext();
+    });
+
+    // Swipe
+    let xStart = null;
+    imgWrap.addEventListener('touchstart', (e) => { xStart = e.touches[0].clientX; }, {passive:true});
+    imgWrap.addEventListener('touchend', (e) => {
+      if(xStart === null) return;
+      const xEnd = e.changedTouches[0].clientX;
+      const diff = xEnd - xStart;
+      if(Math.abs(diff) > 40){
+        diff > 0 ? showPrev() : showNext();
+      }
+      xStart = null;
+    });
+
+    // Map modal
+    const mapModal = document.getElementById('mapModal');
+    const openMap = document.getElementById('openMap');
+    const closeMap = document.getElementById('closeMap');
+
+    function openMapModal(){
+      mapModal.classList.add('open');
+      mapModal.setAttribute('aria-hidden','false');
+    }
+    function closeMapModal(){
+      mapModal.classList.remove('open');
+      mapModal.setAttribute('aria-hidden','true');
+    }
+    openMap.addEventListener('click', openMapModal);
+    openMap.addEventListener('keydown', (e) => { if(e.key === 'Enter') openMapModal(); });
+    closeMap.addEventListener('click', closeMapModal);
+    mapModal.addEventListener('click', (e) => { if(e.target === mapModal) closeMapModal(); });
+    window.addEventListener('keydown', (e) => {
+      if(mapModal.classList.contains('open') && e.key === 'Escape') closeMapModal();
     });
   </script>
 </body>
 </html>
-          
