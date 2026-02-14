@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Golesta Beauty – Scan</title>
+  <meta name="robots" content="noindex" />
+
+  <style>
+    :root{
+      --bg:#f6f3ef;
+      --card:#ffffff;
+      --text:#222;
+      --muted:#6b6b6b;
+      --gold:#c9a24a;
+      --gold2:#b88c2c;
+      --border:rgba(0,0,0,.10);
+      --shadow:0 14px 34px rgba(0,0,0,.10);
+      --radius:18px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      background: radial-gradient(1200px 700px at 20% -10%, rgba(201,162,74,.18), transparent 60%),
+                  linear-gradient(180deg, #fbf8f3, var(--bg));
+      color:var(--text);
+    }
+    .wrap{
+      width:min(520px, 92vw);
+      margin: 0 auto;
+      padding: 18px 0 28px;
+    }
+    .card{
+      background:rgba(255,255,255,.92);
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:18px;
+      text-align:center;
+    }
+    .logo{
+      width:min(260px, 70vw);
+      max-height:200px;
+      object-fit:contain;
+      display:block;
+      margin:4px auto 10px;
+      filter:drop-shadow(0 10px 16px rgba(0,0,0,.12));
+    }
+    h1{
+      margin:0 0 8px;
+      font-size:18px;
+      letter-spacing:.2px;
+    }
+    p{
+      margin:0 0 14px;
+      color:var(--muted);
+      line-height:1.6;
+      font-size:14px;
+    }
+    .btns{
+      display:grid;
+      gap:10px;
+      margin-top:10px;
+    }
+    .btn{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      text-decoration:none;
+      font-weight:900;
+      padding:14px 14px;
+      border-radius:14px;
+      border:1px solid rgba(0,0,0,.12);
+      background:#fff;
+    }
+    .btn-primary{
+      background:linear-gradient(180deg,var(--gold),var(--gold2));
+      color:#111;
+      box-shadow:0 12px 26px rgba(201,162,74,.22);
+    }
+    .small{
+      margin-top:14px;
+      font-size:12px;
+      color:rgba(0,0,0,.55);
+    }
+    .small a{font-weight:800; text-decoration:none;}
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <div class="card">
+      <img class="logo" src="../Logo.PNG" alt="Golesta Beauty Logo">
+
+      <h1>Golesta Beauty</h1>
+      <p>Wählen Sie eine Option:</p>
+
+      <!-- لینک‌ها -->
+      <!-- WhatsApp: فقط شماره بدون + و فاصله -->
+      <div class="btns">
+        <a class="btn btn-primary"
+           href="https://wa.me/436769111317?text=Hallo%20Golesta%20Beauty%2C%20ich%20m%C3%B6chte%20einen%20Termin%20vereinbaren."
+           target="_blank" rel="noopener">
+          💬 Termin per WhatsApp
+        </a>
+
+        <a class="btn" href="tel:+436769111317">
+          📞 Anrufen
+        </a>
+
+        <a class="btn" href="https://www.instagram.com/golesta.beauty/" target="_blank" rel="noopener">
+          📸 Instagram
+        </a>
+
+        <!-- فعلاً لینک Vercel. بعداً این رو به golestabeauty.com تغییر می‌دی -->
+        <a class="btn" href="https://golesta-beauty-web.vercel.app" target="_blank" rel="noopener">
+          🌐 Website
+        </a>
+
+        <a class="btn"
+           href="https://www.google.com/maps/search/?api=1&query=Italiener%20Stra%C3%9Fe%206%2C%209500%20Villach"
+           target="_blank" rel="noopener">
+          📍 Map öffnen
+        </a>
+      </div>
+
+      <div class="small">
+        Adresse: Italiener Straße 6, 9500 Villach
+      </div>
+    </div>
+  </div>
+</body>
+</html>
