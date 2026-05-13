@@ -426,18 +426,132 @@ const SITE_DATA = {
     </header>
 
     <div class="grid">
-      <section class="card" id="about">
-        <h2>Über uns</h2>
-        <div class="about">
-          <img class="portrait" src="images/goli.JPG" alt="Golestan Sepehri">
-          <div>
-            <p>
-              <strong>Golestan Sepehri</strong> hat 12 Jahre Berufserfahrung als Friseurin im Iran
-              und verfügt in Österreich über den Friseurmeister.
-            </p>
-          </div>
+      <!-- TEAM -->
+<section class="card" id="about">
+  <h2>Unser Team</h2>
+
+  <p class="sub">
+    Lernen Sie unser Team und unsere Leidenschaft für Schönheit,
+    Styling und persönliche Beratung kennen.
+  </p>
+
+  <style>
+    .team-wrap{
+      display:flex;
+      flex-direction:column;
+      gap:18px;
+      margin-top:14px;
+    }
+
+    .team-card{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:14px;
+      align-items:center;
+      padding:14px;
+      border:1px solid rgba(0,0,0,.08);
+      border-radius:16px;
+      background:rgba(246,243,239,.45);
+    }
+
+    @media (min-width:760px){
+      .team-card{
+        grid-template-columns:220px 1fr;
+      }
+    }
+
+    .team-img{
+      width:100%;
+      max-width:220px;
+      border-radius:16px;
+      object-fit:cover;
+      border:1px solid rgba(0,0,0,.10);
+      box-shadow:0 10px 22px rgba(0,0,0,.08);
+    }
+
+    .team-content h3{
+      margin:0 0 6px;
+      font-size:22px;
+    }
+
+    .team-role{
+      color:#b88c2c;
+      font-weight:800;
+      margin-bottom:10px;
+      font-size:14px;
+      letter-spacing:.2px;
+    }
+
+    .team-content p{
+      margin:0;
+      line-height:1.8;
+      color:var(--muted);
+      font-size:15px;
+    }
+  </style>
+
+  <div class="team-wrap">
+
+    <!-- ===== TEAM MEMBERS ===== -->
+    <!--
+    برای اضافه کردن پرسنل جدید:
+    ۱- یک team-card را کامل کپی کنید
+    ۲- عکس، اسم و متن را تغییر دهید
+    -->
+
+    <!-- PERSON 1 -->
+    <div class="team-card">
+
+      <img class="team-img"
+           src="images/goli.JPG"
+           alt="Golestan Sepehri">
+
+      <div class="team-content">
+
+        <h3>Golestan Sepehri</h3>
+
+        <div class="team-role">
+          Friseurmeisterin & Beauty Expertin
         </div>
-      </section>
+
+        <p>
+          Mit über 12 Jahren Berufserfahrung steht Golestan
+          für individuelle Beratung, moderne Techniken und
+          hochwertige Ergebnisse. Ihr Fokus liegt auf
+          professionellem Styling, natürlichen Farben und
+          einem angenehmen Wohlfühl-Erlebnis für jede Kundin.
+        </p>
+
+      </div>
+    </div>
+
+    <!-- PERSON 2 -->
+    <div class="team-card">
+
+      <img class="team-img"
+           src="images/goli.JPG"
+           alt="Team Member">
+
+      <div class="team-content">
+
+        <h3>Mazari</h3>
+
+        <div class="team-role">
+          Beauty & Styling
+        </div>
+
+        <p>
+          Mazari unterstützt unser Team mit Leidenschaft
+          für Beauty, Styling und persönliche Betreuung.
+          Freundlichkeit, Präzision und eine angenehme
+          Atmosphäre stehen dabei immer im Mittelpunkt.
+        </p>
+
+      </div>
+    </div>
+
+  </div>
+</section>
 
       <section class="card" id="preise">
         <h2>Leistungen und Preise</h2>
