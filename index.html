@@ -43,7 +43,6 @@
     .sub{margin:-4px 0 12px; color:var(--muted); font-size:14px; line-height:1.6;}
     .grid{display:grid; grid-template-columns:1fr; gap:14px; margin-top:12px;}
 
-    /* ===== Sticky header (small menu row + WhatsApp row centered) ===== */
     .topbar{
       position:sticky; top:0; z-index:100;
       background:rgba(246,243,239,.88);
@@ -66,7 +65,6 @@
       white-space:nowrap;
       flex:0 0 auto;
     }
-    .menu a:hover{border-color:rgba(201,162,74,.55)}
     .wa-row{display:flex; justify-content:center; padding-top:6px;}
     .wa-btn{
       text-decoration:none;
@@ -80,7 +78,6 @@
       box-shadow:0 10px 24px rgba(201,162,74,.22);
     }
 
-    /* ===== Hero ===== */
     .hero{text-align:center; padding:12px 0 4px;}
     .logo{
       width:min(320px,78vw);
@@ -92,11 +89,8 @@
     }
     .tagline{margin:0; color:var(--muted); line-height:1.65; font-size:15px;}
 
-    /* ===== About (Golestan) ===== */
-    .about{
-      display:grid; grid-template-columns:1fr; gap:12px; align-items:center;
-    }
-    @media (min-width:820px){ .about{grid-template-columns: 220px 1fr;} }
+    .about{display:grid; grid-template-columns:1fr; gap:12px; align-items:center;}
+    @media (min-width:820px){ .about{grid-template-columns:220px 1fr;} }
     .portrait{
       width:100%;
       max-width:220px;
@@ -107,7 +101,6 @@
     }
     .about p{margin:0; line-height:1.7; color:var(--muted);}
 
-    /* ===== Prices ===== */
     .price-grid{display:grid; grid-template-columns:1fr; gap:12px;}
     @media (min-width:820px){ .price-grid{grid-template-columns:1fr 1fr;} }
     .box{
@@ -125,9 +118,8 @@
       font-size:14px;
     }
     .plist li:last-child{border-bottom:none; padding-bottom:0}
-    .pname{color:#222}
     .pval{font-weight:900; white-space:nowrap}
-    .hidden-item{display:none}
+    .price-extra{display:none}
     .toggle-row{display:flex; justify-content:center; margin-top:12px;}
     .toggle-btn{
       border:1px solid rgba(0,0,0,.14);
@@ -138,8 +130,6 @@
       cursor:pointer;
     }
     .smallnote{margin:10px 0 0; color:var(--muted); font-size:13px; line-height:1.6;}
-
-    /* ===== Gutschein ===== */
     .pill{
       display:inline-flex; align-items:center; justify-content:center;
       text-decoration:none;
@@ -150,7 +140,6 @@
       font-weight:850;
     }
 
-    /* ===== Gallery + Lightbox ===== */
     .gallery{display:grid; grid-template-columns:1fr 1fr; gap:10px;}
     @media (min-width:820px){ .gallery{grid-template-columns:1fr 1fr 1fr 1fr;} }
     .gimg{
@@ -165,7 +154,6 @@
     .ig-under{margin-top:12px; text-align:center; color:var(--muted); font-size:14px;}
     .ig-under a{font-weight:900; text-decoration:none; color:#111}
 
-    /* ===== Map preview ===== */
     .map-preview{
       border-radius:14px;
       overflow:hidden;
@@ -176,14 +164,12 @@
     .map-iframe{width:100%; height:220px; border:0; display:block;}
     .map-caption{padding:10px 12px; color:var(--muted); font-size:14px; line-height:1.6;}
 
-    /* ===== Contact ===== */
     .contact-list{list-style:none; padding:0; margin:0;}
     .contact-list li{padding:10px 0; border-bottom:1px solid rgba(0,0,0,.08);}
     .contact-list li:last-child{border-bottom:none}
     .label{display:block; font-weight:900; margin-bottom:4px;}
     .link{font-weight:850; text-decoration:none;}
 
-    /* ===== Modal (for gallery + map) ===== */
     .modal{
       position:fixed; inset:0; z-index:999;
       display:none;
@@ -226,7 +212,6 @@
     }
     .prev{left:10px}
     .next{right:10px}
-
     .modal-imgwrap{
       display:flex;
       align-items:center;
@@ -242,29 +227,171 @@
       object-fit:contain;
       display:block;
     }
-    .modal-mapwrap{
-      background:#111;
-      padding-top:44px;
-    }
-    .modal-map{
-      width:100%;
-      height:min(75vh, 560px);
-      border:0;
-      display:block;
-    }
-    .modal-mapinfo{
-      padding:12px 14px 16px;
-      color:#fff;
-      opacity:.9;
-      font-size:14px;
-      line-height:1.6;
-    }
-
+    .modal-mapwrap{background:#111; padding-top:44px;}
+    .modal-map{width:100%; height:min(75vh,560px); border:0; display:block;}
+    .modal-mapinfo{padding:12px 14px 16px; color:#fff; opacity:.9; font-size:14px; line-height:1.6;}
     footer{margin-top:16px; text-align:center; color:rgba(0,0,0,.55); font-size:12px;}
   </style>
 </head>
 
 <body>
+
+<script>
+/* =====================================================
+   HIER KONTAKTDATEN, GUTSCHEIN & PREISE ÄNDERN
+===================================================== */
+const SITE_DATA = {
+  phone: "+43 676 9111317",
+  whatsapp: "436769111317",
+  email: "info@golestabeauty.com",
+  instagram: "https://www.instagram.com/golesta.beauty/",
+  address: "Italiener Straße 6, 9500 Villach",
+  gutscheinText: "Gutscheine können direkt im Salon gekauft werden.",
+
+  prices: [
+    {
+      title: "Damen – Haarschnitt & Styling",
+      items: [
+        ["Haarschnitt & Fingerstyling", "40 €"],
+        ["Haarschnitt & Föhnen S", "44 €"],
+        ["Haarschnitt & Föhnen M", "55 €"],
+        ["Haarschnitt & Föhnen L", "66 €"],
+        ["Haarschnitt & Föhnen XL", "77 €"],
+        ["Trockenhaarschnitt M", "30 €"],
+        ["Trockenhaarschnitt L", "40 €"],
+        ["Pony Schneiden", "9 €"],
+        ["Haarschnitt & Eindrehen S", "48 €"],
+        ["Haarschnitt & Eindrehen M", "60 €"],
+        ["Haarschnitt & Eindrehen L", "70 €"],
+        ["Föhnen S", "22 €"],
+        ["Föhnen M", "33 €"],
+        ["Föhnen L", "44 €"],
+        ["Föhnen XL", "55 €"],
+        ["Eindrehen S", "26 €"],
+        ["Eindrehen M", "36 €"],
+        ["Eindrehen L", "47 €"],
+        ["Aufpreis Volumen", "10 €"],
+        ["Aufpreis lange Haare", "10 €"]
+      ]
+    },
+    {
+      title: "Haarpflege",
+      items: [
+        ["Schnelle Pflege S", "5 €"],
+        ["Schnelle Pflege M", "8 €"],
+        ["Schnelle Pflege L", "11 €"],
+        ["Schnelle Pflege XL", "13 €"],
+        ["Haar Maske S", "14 €"],
+        ["Haar Maske M", "19 €"],
+        ["Haar Maske L", "23 €"],
+        ["Haar Maske XL", "27 €"],
+        ["Pflege Farbe S", "16 €"],
+        ["Pflege Farbe M", "21 €"],
+        ["Pflege Farbe L", "24 €"],
+        ["Pflege Farbe XL", "29 €"],
+        ["3-Phase Pflege S", "29 €"],
+        ["3-Phase Pflege M", "39 €"],
+        ["3-Phase Pflege L", "44 €"],
+        ["3-Phase Pflege XL", "57 €"],
+        ["Plex Treatment S", "41 €"],
+        ["Plex Treatment M", "53 €"],
+        ["Plex Treatment L", "64 €"],
+        ["Plex Treatment XL", "77 €"]
+      ]
+    },
+    {
+      title: "Färben & Strähnen",
+      items: [
+        ["Ansatzfärbung S", "31 €"],
+        ["Ansatzfärbung M", "41 €"],
+        ["Komplettfärbung S", "45 €"],
+        ["Komplettfärbung M", "54 €"],
+        ["Komplettfärbung L", "69 €"],
+        ["Komplettfärbung XL", "79 €"],
+        ["Face-Framing Strähnen", "24 €"],
+        ["Teil-Strähnen S", "37 €"],
+        ["Teil-Strähnen M", "55 €"],
+        ["Teil-Strähnen L", "69 €"],
+        ["Teil-Strähnen XL", "79 €"],
+        ["Strähnen Komplett S", "53 €"],
+        ["Strähnen Komplett M", "72 €"],
+        ["Strähnen Komplett L", "89 €"],
+        ["Strähnen Komplett XL", "99 €"],
+        ["Abmattierung / Tönung S", "21 €"],
+        ["Abmattierung / Tönung M", "32 €"],
+        ["Abmattierung / Tönung L", "41 €"],
+        ["Abmattierung / Tönung XL", "52 €"],
+        ["Blondierungswäsche S", "38 €"],
+        ["Blondierungswäsche M", "44 €"],
+        ["Blondierungswäsche L", "53 €"]
+      ]
+    },
+    {
+      title: "Dauerwelle & Keratin",
+      items: [
+        ["Teilwelle", "47 €"],
+        ["Dauerwelle Komplett S", "53 €"],
+        ["Dauerwelle Komplett M", "62 €"],
+        ["Dauerwelle Komplett L", "77 €"],
+        ["Keratin / Protein Behandlung S", "97 €"],
+        ["Keratin / Protein Behandlung M", "150 €"],
+        ["Keratin / Protein Behandlung L", "220 €"],
+        ["Keratin / Protein Behandlung XL", "310 €"]
+      ]
+    },
+    {
+      title: "Gesichtsbehandlung",
+      items: [
+        ["Fadentechnik komplett", "20 €"],
+        ["Waxing komplett", "25 €"],
+        ["Oberlippe Waxing", "10 €"],
+        ["Augenbrauen Zupfen S", "12 €"],
+        ["Augenbrauen Zupfen M", "15 €"],
+        ["Augenbrauen Färben", "12 €"],
+        ["Wimpern Färben", "12 €"],
+        ["Augenbrauen Lifting", "40 €"],
+        ["Wimpernlifting", "45 €"],
+        ["Gesichtsreinigung", "55 €"],
+        ["Gesichtsmaske", "14 €"],
+        ["Augenpads", "10 €"],
+        ["Handmassage", "12 €"]
+      ]
+    },
+    {
+      title: "Braut / Haarstyling & Make-up",
+      items: [
+        ["Frisur-Styling / Flechten S", "15 €"],
+        ["Frisur-Styling / Flechten M", "27 €"],
+        ["Frisur-Styling / Flechten L", "36 €"],
+        ["Frisur-Styling / Flechten XL", "47 €"],
+        ["Hochsteckfrisur S", "39 €"],
+        ["Hochsteckfrisur M", "53 €"],
+        ["Hochsteckfrisur L", "67 €"],
+        ["Tages-Make-Up", "41 €"],
+        ["Abend-Make-Up (+ Wimpern)", "67 €"],
+        ["Braut Make-Up", "150 €"],
+        ["Braut Hochsteckfrisur", "150 €"],
+        ["Braut Probe", "200 €"]
+      ]
+    },
+    {
+      title: "Nagelpflege",
+      items: [
+        ["Nagelverlängerung", "77 €"],
+        ["Auffüllen", "53 €"],
+        ["Maniküre", "25 €"],
+        ["Gel-Lack / Shellac", "35 €"],
+        ["Nagellack", "15 €"],
+        ["Gel-Lack Entfernen", "12 €"],
+        ["Nagellack Entfernen", "3 €"],
+        ["Nagel-Piercing", "10 €"],
+        ["Nagel Design (+ Stein)", "5 €"]
+      ]
+    }
+  ]
+};
+</script>
+
   <div class="topbar">
     <div class="topbar-inner">
       <nav class="menu" aria-label="Navigation">
@@ -277,11 +404,7 @@
         <a href="#kontakt">Kontakt</a>
       </nav>
       <div class="wa-row">
-        <!-- شماره را اگر لازم شد فقط اینجا عوض کن -->
-        <a class="wa-btn" href="https://wa.me/436769111317?text=Hallo%20Golesta%20Beauty%2C%20ich%20m%C3%B6chte%20einen%20Termin%20vereinbaren."
-           target="_blank" rel="noopener">
-          Termin per WhatsApp
-        </a>
+        <a class="wa-btn" id="waTop" target="_blank" rel="noopener">Termin per WhatsApp</a>
       </div>
     </div>
   </div>
@@ -296,69 +419,28 @@
     </header>
 
     <div class="grid">
-      <!-- ABOUT -->
       <section class="card" id="about">
         <h2>Über uns</h2>
         <div class="about">
-          <!-- مهم: فایل باید JPEG/PNG باشد. پیشنهاد: images/goli.jpg -->
           <img class="portrait" src="images/goli.JPG" alt="Golestan Sepehri">
           <div>
             <p>
               <strong>Golestan Sepehri</strong> hat 12 Jahre Berufserfahrung als Friseurin im Iran
               und verfügt in Österreich über den Friseurmeister.
             </p>
-            <p style="margin-top:10px;">
-              
-            </p>
           </div>
         </div>
       </section>
 
-      <!-- PRICES -->
       <section class="card" id="preise">
         <h2>Leistungen und Preise</h2>
-        <p class="sub">Alle Preise sind Richtwerte (ab-Preise) und können je nach Haarlänge &amp; Aufwand variieren.</p>
-
-        <div class="price-grid">
-          <div class="box">
-            <h3>Damen</h3>
-            <ul class="plist" id="damenList">
-              <li><span class="pname">Waschen &amp; Föhnen</span><span class="pval">ab 25 €</span></li>
-              <li><span class="pname">Schneiden</span><span class="pval">ab 30 €</span></li>
-              <li><span class="pname">Waschen / Schneiden / Föhnen</span><span class="pval">ab 45 €</span></li>
-              <li><span class="pname">Ansatzfarbe</span><span class="pval">ab 35 €</span></li>
-
-              <li class="hidden-item"><span class="pname">Komplettfarbe</span><span class="pval">ab 60 €</span></li>
-              <li class="hidden-item"><span class="pname">Strähnen</span><span class="pval">ab 80 €</span></li>
-              <li class="hidden-item"><span class="pname">Balayage</span><span class="pval">ab 120 €</span></li>
-              <li class="hidden-item"><span class="pname">Keratin Glättung</span><span class="pval">ab 150 €</span></li>
-              <li class="hidden-item"><span class="pname">Haar Botox</span><span class="pval">ab 70 €</span></li>
-              <li class="hidden-item"><span class="pname">Make-up</span><span class="pval">ab 50 €</span></li>
-              <li class="hidden-item"><span class="pname">Hochsteckfrisur</span><span class="pval">ab 60 €</span></li>
-            </ul>
-          </div>
-
-          <div class="box">
-            <h3>Herren</h3>
-            <ul class="plist" id="herrenList">
-              <li><span class="pname">Schneiden</span><span class="pval">ab 20 €</span></li>
-              <li><span class="pname">Waschen &amp; Schneiden</span><span class="pval">ab 25 €</span></li>
-              <li><span class="pname">Bart schneiden</span><span class="pval">ab 15 €</span></li>
-              <li><span class="pname">Waschen / Schneiden / Föhnen</span><span class="pval">ab 30 €</span></li>
-
-              <li class="hidden-item"><span class="pname">Färben</span><span class="pval">ab 35 €</span></li>
-            </ul>
-          </div>
-        </div>
-
+        <p class="sub">Alle Preise sind Richtwerte und können je nach Haarlänge &amp; Aufwand variieren.</p>
+        <div class="price-grid" id="priceGrid"></div>
         <div class="toggle-row">
           <button class="toggle-btn" id="togglePrices" type="button">Mehr anzeigen</button>
         </div>
-
-        <p class="smallnote"><strong>Damen &amp; Herren</strong></p>
       </section>
 
-      <!-- GALLERY -->
       <section class="card" id="gallery">
         <h2>Galerie</h2>
         <p class="sub">Tippen Sie auf ein Foto, um es groß zu sehen und durchzublättern.</p>
@@ -376,28 +458,18 @@
 
         <div class="ig-under">
           Mehr Fotos &amp; Videos finden Sie auf Instagram:
-          <a href="https://www.instagram.com/golesta.beauty" target="_blank" rel="noopener">@golesta.beauty</a>
+          <a id="igGallery" target="_blank" rel="noopener">@golesta.beauty</a>
         </div>
       </section>
 
-      <!-- GUTSCHEIN -->
       <section class="card" id="gutschein">
         <h2>Gutschein</h2>
-        <p class="sub">
-          Gutschein online anfragen. Nach dem Absenden erhalten Sie die Zahlungsdetails (IBAN) per E-Mail.
-        </p>
-
-        <a class="pill" href="https://tally.so/r/A7vdEy" target="_blank" rel="noopener">Zum Gutschein-Formular</a>
-
-        <p class="smallnote" style="margin-top:10px;">
-          Hinweis: Der Gutschein ist frei wählbar (z. B. 50€, 100€). Bitte geben Sie den gewünschten Betrag an.
-        </p>
+        <p class="sub" id="gutscheinText"></p>
       </section>
 
-      <!-- ADRESSE (map preview -> click to enlarge) -->
       <section class="card" id="adresse">
         <h2>Adresse</h2>
-        <p class="sub"><strong>Italiener Straße 6, 9500 Villach</strong></p>
+        <p class="sub"><strong id="addressText"></strong></p>
 
         <div class="map-preview" id="openMap" role="button" tabindex="0" aria-label="Karte öffnen">
           <iframe class="map-iframe"
@@ -407,19 +479,17 @@
         </div>
       </section>
 
-      <!-- HOURS -->
       <section class="card" id="zeiten">
         <h2>Öffnungszeiten</h2>
         <div class="box">
           <ul class="plist">
-            <li><span class="pname">Dienstag – Samstag</span><span class="pval">09:00 – 18:00</span></li>
-            <li><span class="pname">Sonntag</span><span class="pval">geschlossen</span></li>
-            <li><span class="pname">Montag</span><span class="pval">geschlossen</span></li>
+            <li><span>Dienstag – Samstag</span><span class="pval">09:00 – 18:00</span></li>
+            <li><span>Sonntag</span><span class="pval">geschlossen</span></li>
+            <li><span>Montag</span><span class="pval">geschlossen</span></li>
           </ul>
         </div>
       </section>
 
-      <!-- CONTACT (only Telefon + Instagram link + Email) -->
       <section class="card" id="kontakt">
         <h2>Kontakt</h2>
         <p class="sub">Schnellster Weg: Termin per WhatsApp (oben). Hier finden Sie die Kontaktdaten.</p>
@@ -427,17 +497,15 @@
         <ul class="contact-list">
           <li>
             <span class="label">Telefon</span>
-            <a class="link" href="tel:+436769111317">+43 676 9111317</a>
+            <a class="link" id="phoneLink"></a>
           </li>
           <li>
             <span class="label">Instagram</span>
-            <a class="link" href="https://www.instagram.com/golesta.beauty" target="_blank" rel="noopener">
-              instagram.com/golesta.beauty
-            </a>
+            <a class="link" id="igContact" target="_blank" rel="noopener">instagram.com/golesta.beauty</a>
           </li>
           <li>
             <span class="label">E-Mail</span>
-            <a class="link" href="mailto:sepehri.golestan1368@gmail.com">sepehri.golestan1368@gmail.com</a>
+            <a class="link" id="emailLink"></a>
           </li>
         </ul>
       </section>
@@ -446,7 +514,6 @@
     </div>
   </div>
 
-  <!-- Gallery Modal -->
   <div class="modal" id="imgModal" aria-hidden="true">
     <div class="modal-inner">
       <button class="close" id="closeImg" type="button">✕</button>
@@ -458,7 +525,6 @@
     </div>
   </div>
 
-  <!-- Map Modal -->
   <div class="modal" id="mapModal" aria-hidden="true">
     <div class="modal-inner">
       <button class="close" id="closeMap" type="button">✕</button>
@@ -474,22 +540,50 @@
   </div>
 
   <script>
-    // year
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // Mehr/Weniger für Preise
+    const whatsappText = encodeURIComponent("Hallo Golesta Beauty, ich möchte einen Termin vereinbaren.");
+    const waUrl = `https://wa.me/${SITE_DATA.whatsapp}?text=${whatsappText}`;
+
+    document.getElementById("waTop").href = waUrl;
+    document.getElementById("igGallery").href = SITE_DATA.instagram;
+    document.getElementById("igContact").href = SITE_DATA.instagram;
+    document.getElementById("emailLink").href = `mailto:${SITE_DATA.email}`;
+    document.getElementById("emailLink").textContent = SITE_DATA.email;
+    document.getElementById("phoneLink").href = `tel:${SITE_DATA.phone.replaceAll(" ","")}`;
+    document.getElementById("phoneLink").textContent = SITE_DATA.phone;
+    document.getElementById("addressText").textContent = SITE_DATA.address;
+    document.getElementById("gutscheinText").textContent = SITE_DATA.gutscheinText;
+
+    const priceGrid = document.getElementById("priceGrid");
+
+    SITE_DATA.prices.forEach((category, index) => {
+      const box = document.createElement("div");
+      box.className = "box" + (index > 1 ? " price-extra" : "");
+      box.innerHTML = `
+        <h3>${category.title}</h3>
+        <ul class="plist">
+          ${category.items.map(item => `
+            <li>
+              <span>${item[0]}</span>
+              <span class="pval">${item[1]}</span>
+            </li>
+          `).join("")}
+        </ul>
+      `;
+      priceGrid.appendChild(box);
+    });
+
     const toggleBtn = document.getElementById('togglePrices');
-    const hiddenItems = document.querySelectorAll('#preise .hidden-item');
     let expanded = false;
-
-    function applyPricesState(){
-      hiddenItems.forEach(el => el.style.display = expanded ? 'flex' : 'none');
+    toggleBtn.addEventListener('click', () => {
+      expanded = !expanded;
+      document.querySelectorAll('.price-extra').forEach(el => {
+        el.style.display = expanded ? 'block' : 'none';
+      });
       toggleBtn.textContent = expanded ? 'Weniger anzeigen' : 'Mehr anzeigen';
-    }
-    applyPricesState();
-    toggleBtn.addEventListener('click', () => { expanded = !expanded; applyPricesState(); });
+    });
 
-    // Gallery lightbox with next/prev + swipe
     const gallerySources = [
       'images/gallery-01.jpg','images/gallery-02.jpg','images/gallery-03.jpg','images/gallery-04.jpg',
       'images/gallery-05.jpg','images/gallery-06.jpg','images/gallery-07.jpg','images/gallery-10.jpg'
@@ -501,7 +595,6 @@
     const prevImg = document.getElementById('prevImg');
     const nextImg = document.getElementById('nextImg');
     const imgWrap = document.getElementById('imgWrap');
-
     let currentIndex = 0;
 
     function openImg(i){
@@ -534,7 +627,6 @@
       if(e.key === 'ArrowRight') showNext();
     });
 
-    // Swipe
     let xStart = null;
     imgWrap.addEventListener('touchstart', (e) => { xStart = e.touches[0].clientX; }, {passive:true});
     imgWrap.addEventListener('touchend', (e) => {
@@ -547,7 +639,6 @@
       xStart = null;
     });
 
-    // Map modal
     const mapModal = document.getElementById('mapModal');
     const openMap = document.getElementById('openMap');
     const closeMap = document.getElementById('closeMap');
