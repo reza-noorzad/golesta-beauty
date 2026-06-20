@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Golesta Beauty – Links</title>
+  <meta name="description" content="Golesta Beauty Villach – Website, Instagram, WhatsApp, Kontakt, Adresse und Bewertungen." />
+  <style>
+    :root{--bg:#f6f3ef;--card:#fff;--text:#222;--muted:#6b6b6b;--gold:#c9a24a;--gold2:#b88c2c;--border:rgba(0,0,0,.10);--shadow:0 12px 32px rgba(0,0,0,.10);--radius:22px}
+    *{box-sizing:border-box}
+    body{margin:0;min-height:100vh;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:var(--text);background:radial-gradient(900px 500px at 20% -10%,rgba(201,162,74,.22),transparent 60%),linear-gradient(180deg,#fbf8f3,var(--bg));display:flex;justify-content:center;align-items:flex-start;padding:22px 14px}
+    .page{width:min(480px,100%)}.card{background:rgba(255,255,255,.94);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px 16px;text-align:center}
+    .logo{width:min(220px,68vw);max-height:190px;object-fit:contain;display:block;margin:0 auto 8px;filter:drop-shadow(0 10px 16px rgba(0,0,0,.10))}
+    h1{margin:6px 0 4px;font-size:28px;letter-spacing:.2px}.subtitle{margin:0 0 18px;color:var(--muted);line-height:1.55;font-size:15px}
+    .buttons{display:flex;flex-direction:column;gap:11px;margin-top:16px}.btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:14px 14px;border-radius:999px;text-decoration:none;font-weight:900;font-size:16px;border:1px solid rgba(0,0,0,.12);background:#fff;color:#111;box-shadow:0 8px 18px rgba(0,0,0,.06)}
+    .btn.gold{background:linear-gradient(180deg,var(--gold),var(--gold2));color:#111;box-shadow:0 10px 24px rgba(201,162,74,.28)}
+    .small{margin:18px 0 0;color:var(--muted);font-size:13px;line-height:1.6}footer{text-align:center;color:rgba(0,0,0,.50);font-size:12px;margin-top:14px}
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="card">
+      <img class="logo" src="Logo.PNG" alt="Golesta Beauty Logo">
+      <h1>Golesta Beauty</h1>
+      <p class="subtitle">Friseursalon &amp; Beauty Concept in Villach<br>Alle wichtigen Links auf einen Blick</p>
+      <div class="buttons">
+        <a class="btn gold" href="https://golestabeauty.com/">🌐 Website öffnen</a>
+        <a class="btn" href="https://www.instagram.com/golesta.beauty/" target="_blank" rel="noopener">📸 Instagram</a>
+        <a class="btn" href="https://wa.me/436769111317?text=Hallo%20Golesta%20Beauty%2C%20ich%20m%C3%B6chte%20einen%20Termin%20vereinbaren." target="_blank" rel="noopener">💬 WhatsApp Nachricht</a>
+        <a class="btn" href="tel:+436769111317">📞 Direkt anrufen</a>
+        <a class="btn" href="mailto:info@golestabeauty.com">✉️ E-Mail senden</a>
+        <a class="btn" href="https://www.google.com/maps/search/?api=1&query=Italiener%20Stra%C3%9Fe%206%2C%209500%20Villach" target="_blank" rel="noopener">📍 Adresse / Route</a>
+        <a class="btn" href="https://search.google.com/local/writereview?placeid=ChIJu9YCaU-BcEcRATRKa-dAT4A" target="_blank" rel="noopener">⭐ Google Bewertung schreiben</a>
+      </div>
+      <p class="small">Italiener Straße 6, 9500 Villach<br>Dienstag – Samstag: 09:00 – 18:00</p>
+    </section>
+    <footer>© <span id="year"></span> Golesta Beauty</footer>
+  </main>
+  <script>document.getElementById("year").textContent = new Date().getFullYear();</script>
+</body>
+</html>
