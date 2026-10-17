@@ -1,0 +1,8 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    // Server decodes and re-encodes uploads. Never allow direct client writes.
+    // Uploaded salon images use explicit public download-token URLs.
+    match /{allPaths=**} { allow read, write: if false; }
+  }
+}

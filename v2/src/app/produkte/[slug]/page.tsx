@@ -1,15 +1,17 @@
 
 "use client";
 
-import { use, useState } from "react";
+import { Suspense, use, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-import siteData from "@/data/site-data.json";
+import {useContent} from "@/lib/content-client";
+import AnnouncementBanner from "@/components/AnnouncementBanner";
+import PriceDisplay from "@/components/PriceDisplay";
+import ProductReviews from "@/components/ProductReviews";
 
 import {
-  getProductBySlug,
   formatProductPrice,
 } from "@/data/products";
 
@@ -19,19 +21,25 @@ type Props = {
   }>;
 };
 
-export default function ProductDetailPage({ params }: Props) {
+function ProductDetailPage({ params }: Props) {
   const { slug } = use(params);
-  const product = getProductBySlug(slug);
+  const {data,loading,error}=useContent();
+  const siteData=data.settings;
+  const product = data.products.find(p=>p.slug===slug);
+  const [variantId,setVariantId]=useState("");
 
   const [activeImage, setActiveImage] = useState(0);
 
+  if(loading)return <p role="status" className="p-10">Produkt wird geladen …</p>;
+  if(error)return <p role="alert" className="p-10">{error}</p>;
   if (!product) {
     notFound();
   }
 
+  const variant=product.variants.find(v=>v.id===variantId);
   const message =
     `Hallo Golesta Beauty, ich interessiere mich für ` +
-    `das Produkt "${product.name}".`;
+    `das Produkt "${product.name}"${variant ? ` – ${variant.name}` : ""}.`;
 
   const whatsappUrl =
     `https://wa.me/${siteData.whatsapp}?text=` +
@@ -39,6 +47,7 @@ export default function ProductDetailPage({ params }: Props) {
 
   return (
     <main className="min-h-screen bg-[#faf7f2] text-[#332b26]">
+      <AnnouncementBanner announcements={data.announcements}/>
       <header className="border-b border-[#e9e0d3] bg-white">
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-5 sm:px-6">
           <Link
@@ -121,13 +130,11 @@ export default function ProductDetailPage({ params }: Props) {
               {product.name}
             </h1>
 
-            <p className="mt-6 text-2xl font-medium text-[#8b6a3c]">
-              {formatProductPrice(
-                product.price,
-                product.currency
-              )}
-            </p>
+            {product.brand&&<p className="mt-3 text-sm uppercase tracking-widest text-[#a98348]">{product.brand}</p>}
+            <PriceDisplay className="mt-6 text-2xl" product={product} promotions={data.promotions} variantId={variantId}/>
+            {product.shortDescription&&<p className="mt-4 whitespace-pre-line text-[#74685d]">{product.shortDescription}</p>}
 
+            {product.variants.length>0 && <label className="mt-6 block">Variante<select value={variantId} onChange={e=>setVariantId(e.target.value)} className="mt-2 w-full rounded-lg border bg-white p-3"><option value="">Bitte wählen</option>{product.variants.map(v=><option key={v.id} value={v.id} disabled={!v.available}>{v.name} – {formatProductPrice(v.price)}{!v.available?' (nicht verfügbar)':''}</option>)}</select></label>}
             <div className="mt-8 border-t border-[#e8ddd0] pt-7">
               <h2 className="font-serif text-2xl">
                 Produktbeschreibung
@@ -152,6 +159,9 @@ export default function ProductDetailPage({ params }: Props) {
             </p>
           </div>
         </div>
+        {!!product.attributes?.length&&<section className="mt-12 rounded-2xl border border-[#e8ddd0] bg-white p-6"><h2 className="font-serif text-2xl">Produkteigenschaften</h2><dl className="mt-4 divide-y divide-[#e8ddd0]">{product.attributes.map(a=><div key={a.id} className="grid gap-2 py-3 sm:grid-cols-2"><dt className="font-medium">{a.label}</dt><dd className="whitespace-pre-line text-[#74685d]">{a.value}</dd></div>)}</dl></section>}
+        {product.ingredients&&<section className="mt-8 rounded-2xl border border-[#e8ddd0] bg-white p-6"><h2 className="font-serif text-2xl">Inhaltsstoffe / INCI</h2><p className="mt-3 whitespace-pre-line text-sm leading-7 text-[#74685d]">{product.ingredients}</p></section>}
+        {product.allowReviews&&<ProductReviews product={product}/>}
       </section>
 
       <footer className="bg-[#332b26] px-5 py-9 text-center text-sm text-white/80">
@@ -160,3 +170,5 @@ export default function ProductDetailPage({ params }: Props) {
     </main>
   );
 }
+
+export default function Page(props:Props){return <Suspense fallback={<p className="p-10">Produkt wird geladen …</p>}><ProductDetailPage {...props}/></Suspense>;}

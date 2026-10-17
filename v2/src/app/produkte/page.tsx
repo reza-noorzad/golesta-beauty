@@ -6,17 +6,19 @@ import Image from "next/image";
 import Link from "next/link";
 
 import {
-  getPublishedProducts,
-  getPublishedCategories,
-  formatProductPrice,
 } from "@/data/products";
 
-const allProducts = getPublishedProducts();
-const categories = getPublishedCategories();
+import { useContent } from "@/lib/content-client";
+import AnnouncementBanner from "@/components/AnnouncementBanner";
+import PriceDisplay from "@/components/PriceDisplay";
+import { productPrice } from "@/lib/pricing";
 
 const PAGE_SIZE = 9;
 
 export default function ProductsPage() {
+ const {data, loading, error}=useContent();
+ const allProducts=data.products;
+ const categories=data.categories;
   const [search, setSearch] = useState("");
   const [categoryId, setCategoryId] = useState("all");
   const [sortBy, setSortBy] = useState("default");
@@ -40,14 +42,14 @@ export default function ProductsPage() {
     if (sortBy === "price-asc") {
       result.sort(
         (a, b) =>
-          (a.price ?? Infinity) - (b.price ?? Infinity)
+          (productPrice(a, data.promotions).current ?? Infinity) - (productPrice(b, data.promotions).current ?? Infinity)
       );
     }
 
     if (sortBy === "price-desc") {
       result.sort(
         (a, b) =>
-          (b.price ?? -Infinity) - (a.price ?? -Infinity)
+          (productPrice(b, data.promotions).current ?? -Infinity) - (productPrice(a, data.promotions).current ?? -Infinity)
       );
     }
 
@@ -58,7 +60,7 @@ export default function ProductsPage() {
     }
 
     return result;
-  }, [search, categoryId, sortBy]);
+  }, [search, categoryId, sortBy, allProducts, data.promotions]);
 
   const visibleProducts = filteredProducts.slice(0, visibleCount);
 
@@ -68,6 +70,7 @@ export default function ProductsPage() {
 
   return (
     <main className="min-h-screen bg-[#faf7f2] text-[#332b26]">
+      <AnnouncementBanner announcements={data.announcements}/>
       <header className="border-b border-[#e9e0d3] bg-white">
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-5 sm:px-6">
           <Link
@@ -101,7 +104,7 @@ export default function ProductsPage() {
           </p>
         </div>
 
-        {allProducts.length === 0 ? (
+        {loading ? <p role="status" className="mt-10">Produkte werden geladen …</p> : error ? <p role="alert" className="mt-10">{error}</p> : allProducts.length === 0 ? (
           <div className="mx-auto mt-14 max-w-2xl rounded-3xl border border-[#e8ddd0] bg-white px-6 py-16 text-center sm:px-12">
             <div className="mx-auto mb-7 flex h-16 w-16 items-center justify-center rounded-full border border-[#e8ddd0] text-2xl text-[#a98348]">
               ✧
@@ -229,15 +232,10 @@ export default function ProductsPage() {
                         </h2>
 
                         <p className="mt-3 line-clamp-2 text-sm leading-6 text-[#74685d]">
-                          {product.description}
+                          {product.shortDescription || product.description}
                         </p>
 
-                        <p className="mt-5 font-medium text-[#8b6a3c]">
-                          {formatProductPrice(
-                            product.price,
-                            product.currency
-                          )}
-                        </p>
+                        <PriceDisplay className="mt-5" product={product} promotions={data.promotions}/>
                       </div>
                     </Link>
                   ))}

@@ -5,19 +5,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-import siteData from "@/data/site-data.json";
-import { getPublishedProducts, formatProductPrice } from "@/data/products";
+import { useContent } from "@/lib/content-client";
+import { formatProductPrice } from "@/data/products";
 import ServicesGrid from "@/components/ServicesGrid";
-
-const whatsappUrl =
-  `https://wa.me/${siteData.whatsapp}?text=` +
-  encodeURIComponent(
-    "Hallo Golesta Beauty, ich möchte einen Termin vereinbaren."
-  );
-
-const mapsUrl =
-  "https://www.google.com/maps/search/?api=1&query=" +
-  encodeURIComponent(siteData.address);
+import AnnouncementBanner from "@/components/AnnouncementBanner";
+import PriceDisplay from "@/components/PriceDisplay";
 
 const navigation = [
   { label: "Startseite", href: "#start" },
@@ -28,27 +20,6 @@ const navigation = [
   { label: "Gutschein", href: "#gutschein" },
   { label: "Kontakt", href: "#kontakt" },
 ];
-
-const team = [
-  {
-    name: "MST. Golestan Sepehri",
-    image: "/images/goli.jpg",
-  },
-  {
-    name: "Mazari",
-    image: "/images/mazari.jpg",
-  },
-];
-
-const gallery = Array.from(
-  { length: 18 },
-  (_, index) =>
-    `/images/gallery-${String(index + 1).padStart(2, "0")}.jpg`
-);
-
-const featuredProducts = getPublishedProducts()
-  .filter((product) => product.featured)
-  .slice(0, 3);
 
 function SectionHeading({
   eyebrow,
@@ -79,9 +50,19 @@ function SectionHeading({
 }
 
 export default function Home() {
+  const { data, error } = useContent();
+  const siteData = {...data.settings, gutscheinText:data.voucher.description};
+  const team = data.team;
+  const [showAllGallery, setShowAllGallery] = useState(false);
+  const chosenGallery = data.gallery.filter(g => g.homepage).slice(0, data.settings.galleryLimit || 6);
+  const shownGallery = showAllGallery ? data.gallery : chosenGallery;
+  const gallery = shownGallery.map(g => g.image);
+  const featuredProducts = data.products.filter(p=>p.featured).slice(0,3);
+  const whatsappUrl = `https://wa.me/${siteData.whatsapp}?text=${encodeURIComponent("Hallo Golesta Beauty, ich möchte einen Termin vereinbaren.")}`;
+  const mapsUrl = siteData.routeUrl || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(siteData.address)}`;
+
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeImage, setActiveImage] = useState<number | null>(null);
-  const [showAllGallery, setShowAllGallery] = useState(false);
 
   useEffect(() => {
     if (activeImage === null) return;
@@ -109,11 +90,12 @@ export default function Home() {
     window.addEventListener("keydown", onKeyDown);
 
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [activeImage]);
+  }, [activeImage, gallery.length]);
 
   return (
     <main className="min-h-screen overflow-x-clip bg-[#faf7f2] text-[#332b26]">
-      {/* HEADER */}
+      {error && <p role="status" className="p-3 text-center">{error}</p>}
+      <AnnouncementBanner announcements={data.announcements}/>{/* HEADER */}
       <header className="sticky top-0 z-40 border-b border-[#e9e0d3] bg-[#faf7f2]/95 backdrop-blur">
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-3 sm:px-6">
           <a
@@ -122,7 +104,7 @@ export default function Home() {
             onClick={() => setMenuOpen(false)}
           >
             <Image
-              src="/Logo.PNG"
+              src={siteData.logo || "/Logo.PNG"}
               alt="Golesta Beauty"
               width={52}
               height={52}
@@ -130,7 +112,7 @@ export default function Home() {
             />
 
             <span className="truncate text-sm font-semibold tracking-[0.12em] sm:text-lg">
-              GOLESTA BEAUTY
+              {siteData.salonName || "GOLESTA BEAUTY"}
             </span>
           </a>
 
@@ -197,7 +179,7 @@ export default function Home() {
                 onClick={() => setMenuOpen(false)}
                 className="mt-4 rounded-full bg-[#a98348] px-6 py-3 text-center text-sm text-white"
               >
-                Termin vereinbaren
+                {siteData.appointmentLabel || "Termin vereinbaren"}
               </a>
             </div>
           </nav>
@@ -211,20 +193,18 @@ export default function Home() {
       >
         <div>
           <p className="text-xs uppercase tracking-[0.3em] text-[#a98348] sm:text-sm">
-            Beauty Salon · Villach
+            {siteData.heroEyebrow || "Beauty Salon · Villach"}
           </p>
 
           <h1 className="mt-7 font-serif text-[2.75rem] leading-[1.12] sm:text-5xl lg:text-[3.4rem] xl:text-[3.9rem]">
-            Deine Schönheit.
+            {siteData.heroTitle || "Deine Schönheit."}
             <span className="mt-2 block italic text-[#a98348]">
-              Unsere Leidenschaft.
+              {siteData.heroAccent || "Unsere Leidenschaft."}
             </span>
           </h1>
 
           <p className="mt-7 max-w-lg text-base leading-8 text-[#74685d] sm:text-lg">
-            Willkommen bei Golesta Beauty in Villach.
-            Entdecke unsere Behandlungen, unser Team und
-            unsere Beauty-Welt.
+            {siteData.heroDescription || "Willkommen bei Golesta Beauty in Villach."}
           </p>
 
           <div className="mt-9 flex flex-wrap gap-3">
@@ -234,7 +214,7 @@ export default function Home() {
               rel="noopener noreferrer"
               className="rounded-full bg-[#a98348] px-7 py-4 text-sm font-medium text-white transition hover:bg-[#8d6d3f]"
             >
-              Termin vereinbaren
+              {siteData.appointmentLabel || "Termin vereinbaren"}
             </a>
 
             <a
@@ -248,7 +228,7 @@ export default function Home() {
 
         <div className="overflow-hidden rounded-t-[140px] rounded-b-2xl bg-[#e8ddd0] sm:rounded-t-[180px]">
           <Image
-            src="/images/gallery-01.jpg"
+            src={siteData.heroImage || "/images/gallery-01.jpg"}
             alt="Golesta Beauty Salon in Villach"
             width={800}
             height={950}
@@ -259,7 +239,7 @@ export default function Home() {
       </section>
 
       {/* SERVICES */}
-      <ServicesGrid />
+      <ServicesGrid heading={siteData.servicesHeading} description={siteData.servicesDescription}/>
 
       {/* PRODUCTS */}
       <section
@@ -269,8 +249,8 @@ export default function Home() {
         <div className="mx-auto max-w-7xl">
           <SectionHeading
             eyebrow="Beauty Collection"
-            title="Unsere Produkte"
-            description="Entdecke unsere ausgewählten Beauty-Produkte."
+            title={siteData.productHeading || "Unsere Produkte"}
+            description={siteData.productDescription || "Entdecke unsere ausgewählten Beauty-Produkte."}
           />
 
           {featuredProducts.length > 0 ? (
@@ -306,12 +286,7 @@ export default function Home() {
                       {product.description}
                     </p>
 
-                    <p className="mt-5 font-medium text-[#8b6a3c]">
-                      {formatProductPrice(
-                        product.price,
-                        product.currency
-                      )}
-                    </p>
+                    <PriceDisplay className="mt-5" product={product} promotions={data.promotions}/>
                   </div>
                 </Link>
               ))}
@@ -347,34 +322,23 @@ export default function Home() {
         <div className="mx-auto max-w-6xl">
           <SectionHeading
             eyebrow="Die Menschen hinter Golesta"
-            title="Unser Team"
+            title={siteData.teamHeading || "Unser Team"}
           />
 
-          <div className="mx-auto mt-12 flex max-w-5xl flex-wrap justify-center gap-8">
-            {team.map((member) => (
-              <article
-                key={member.name}
-                className="w-full max-w-[320px] text-center sm:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.5rem)]"
-              >
-                <div className="overflow-hidden rounded-2xl bg-[#eee5d9]">
-                  <Image
-                    src={member.image}
-                    alt={member.name}
-                    width={600}
-                    height={650}
-                    className="aspect-[4/5] w-full object-cover"
-                  />
-                </div>
-
-                <h3 className="mt-5 font-serif text-2xl">
-                  {member.name}
-                </h3>
-              </article>
-            ))}
+          <div className="mx-auto mt-12 max-w-5xl space-y-10">
+            {team.map(member => <article key={member.id} className="grid items-start gap-7 rounded-2xl border border-[#e8ddd0] bg-[#faf7f2] p-5 sm:p-7 md:grid-cols-[220px_minmax(0,1fr)]">
+              <div className="overflow-hidden rounded-2xl bg-[#eee5d9]">{member.image ? <Image src={member.image} alt={member.name} width={500} height={550} className="aspect-[4/5] w-full object-cover"/> : <div className="flex aspect-[4/5] items-center justify-center text-[#74685d]">Kein Foto</div>}</div>
+              <div><h3 className="font-serif text-3xl">{member.name}</h3>
+                {member.role && <p className="mt-2 font-semibold text-[#9c783f]">{member.role}</p>}
+                {member.experience && <p className="mt-4 text-sm font-medium text-[#74685d]">{member.experience}</p>}
+                {member.bio && <p className="mt-4 whitespace-pre-line leading-8 text-[#74685d]">{member.bio}</p>}
+                {!!member.specialties?.length && <div className="mt-5"><h4 className="mb-3 font-semibold">Fachgebiete & Spezialisierungen</h4><ul className="space-y-2 text-sm leading-7 text-[#74685d]">{member.specialties.map((item,index) => <li key={index} className="flex gap-2"><span className="text-[#a98348]">✧</span><span>{item}</span></li>)}</ul></div>}
+              </div>
+            </article>)}
           </div>
 
           <p className="mt-9 text-center text-sm text-[#74685d]">
-            Persönlich, professionell und mit Leidenschaft für Beauty.
+            {siteData.teamFooter || "Persönlich, professionell und mit Leidenschaft für Beauty."}
           </p>
         </div>
       </section>
@@ -387,12 +351,12 @@ export default function Home() {
         <div className="mx-auto max-w-7xl">
           <SectionHeading
             eyebrow="Einblicke in unsere Arbeit"
-            title="Unsere Galerie"
-            description="Entdecke unsere Arbeiten und lass dich inspirieren."
+            title={siteData.galleryHeading || "Unsere Galerie"}
+            description={siteData.galleryDescription || "Entdecke unsere Arbeiten und lass dich inspirieren."}
           />
 
           <div className="mt-12 grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3">
-            {(showAllGallery ? gallery : gallery.slice(0, 6)).map(
+            {gallery.map(
               (src, index) => (
                 <button
                   key={src}
@@ -403,7 +367,7 @@ export default function Home() {
                 >
                   <Image
                     src={src}
-                    alt={`Golesta Beauty Galerie ${index + 1}`}
+                    alt={shownGallery[index]?.alt || "Golesta Beauty"}
                     width={500}
                     height={600}
                     sizes="(max-width: 767px) 50vw, 33vw"
@@ -414,7 +378,7 @@ export default function Home() {
             )}
           </div>
 
-          {gallery.length > 6 && (
+          {data.gallery.length > chosenGallery.length && (
             <div className="mt-10 flex justify-center">
               <button
                 type="button"
@@ -443,7 +407,7 @@ export default function Home() {
       </section>
 
       {/* GIFT CARD */}
-      <section
+      {data.voucher.published && <section
         id="gutschein"
         className="scroll-mt-24 bg-[#eae0d3] px-5 py-20 text-center sm:px-6"
       >
@@ -453,14 +417,14 @@ export default function Home() {
           </p>
 
           <h2 className="mt-4 font-serif text-4xl md:text-5xl">
-            Gutschein
+            {siteData.voucherHeading || "Gutschein"}
           </h2>
 
           <p className="mx-auto mt-6 max-w-xl leading-7 text-[#74685d]">
             {siteData.gutscheinText}
-          </p>
+          </p><div className="mt-5 flex flex-wrap justify-center gap-3">{data.voucher.values.map((v,i)=><span className="rounded-full border px-4 py-2" key={i}>{formatProductPrice(v)}</span>)}</div>
         </div>
-      </section>
+      </section>}
 
       {/* CONTACT */}
       <section
@@ -475,7 +439,7 @@ export default function Home() {
             </p>
 
             <h2 className="mt-4 font-serif text-4xl">
-              Kontakt & Anfahrt
+              {siteData.contactHeading || "Kontakt & Anfahrt"}
             </h2>
 
             <p className="mt-7 leading-7">
@@ -505,6 +469,8 @@ export default function Home() {
               Instagram
             </a>
 
+            {(siteData.socials || []).filter(x => x.published).map(social => <a key={social.id} href={social.url} target="_blank" rel="noopener noreferrer" className="mt-3 block text-[#8b6a3c]">{social.name}</a>)}
+
             <a
               href={siteData.reviewUrl}
               target="_blank"
@@ -530,27 +496,7 @@ export default function Home() {
               Öffnungszeiten
             </h3>
 
-            <div className="mt-6 space-y-4 text-sm">
-              <p className="flex flex-wrap justify-between gap-2">
-                <span>Montag – Freitag</span>
-                <span className="shrink-0 whitespace-nowrap">
-                  09:00 – 18:00
-                </span>
-              </p>
-
-              <p className="flex flex-wrap justify-between gap-2">
-                <span>Samstag</span>
-                <span className="shrink-0 whitespace-nowrap">
-                  09:00 – 14:00
-                </span>
-              </p>
-
-              <p className="flex flex-wrap justify-between gap-2">
-                <span>Sonntag</span>
-                <span className="shrink-0 whitespace-nowrap">
-                  Geschlossen
-                </span>
-              </p>
+            <div className="mt-6 space-y-4 text-sm">{siteData.hours.map((h,i)=><p key={i} className="flex flex-wrap justify-between gap-2"><span>{h.label}</span><span className="shrink-0 whitespace-nowrap">{h.value}</span></p>)}
             </div>
           </div>
         </div>
@@ -562,7 +508,7 @@ export default function Home() {
       </footer>
 
       {/* GALLERY LIGHTBOX */}
-      {activeImage !== null && (
+      {activeImage !== null && gallery[activeImage] && (
         <div
           role="dialog"
           aria-modal="true"
