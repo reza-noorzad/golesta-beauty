@@ -1,6 +1,8 @@
 import type { Content, Discount } from "./content";
 export function isActivePeriod(data: { enabled: boolean; startsAt?: string; endsAt?: string }, now = Date.now()): boolean {
   if (!data.enabled) return false;
+  if ((data.startsAt&&!Number.isFinite(Date.parse(data.startsAt)))||(data.endsAt&&!Number.isFinite(Date.parse(data.endsAt)))) return false;
+  if(data.startsAt&&data.endsAt&&Date.parse(data.endsAt)<=Date.parse(data.startsAt))return false;
   if (data.startsAt && Date.parse(data.startsAt) > now) return false;
   if (data.endsAt && Date.parse(data.endsAt) <= now) return false;
   return true;

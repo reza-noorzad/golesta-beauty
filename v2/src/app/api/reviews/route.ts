@@ -8,6 +8,7 @@ import {
   limitedBody,
 } from "@/lib/server/firebase";
 import { parseStoredContent } from "@/lib/content";
+import { PUBLIC_CATALOG_ENABLED } from "@/lib/public-config";
 
 type StoredReview = {
   productId: string;
@@ -29,6 +30,7 @@ const schema = z
   .strict();
 
 export async function GET(request: Request) {
+  if (!PUBLIC_CATALOG_ENABLED) return Response.json({ error: "Produktbewertungen sind derzeit nicht verfügbar." }, { status: 404, headers: { "Cache-Control": "no-store" } });
   try {
     const productId =
       new URL(request.url).searchParams.get("productId") || "";
@@ -37,9 +39,13 @@ export async function GET(request: Request) {
       throw new HttpError(400, "Produkt-ID ungültig.");
     }
 
-    const snapshot = await backend()
-      .db.collection("golestaV2Reviews")
+    const {db}=backend();
+    const content=await db.doc("golestaV2/content").get();
+    const data=parseStoredContent(content.data()?.data);
+    if(!data.products.some(product=>product.id===productId&&product.published&&product.allowReviews&&data.categories.some(category=>category.id===product.categoryId&&category.published)))throw new HttpError(404,"Bewertungen für dieses Produkt nicht verfügbar.");
+    const snapshot = await db.collection("golestaV2Reviews")
       .where("productId", "==", productId)
+      .where("status", "==", "approved")
       .limit(200)
       .get();
 
@@ -49,7 +55,8 @@ export async function GET(request: Request) {
         data: document.data() as StoredReview,
       }))
       .filter(({ data }) => data.status === "approved")
-      .slice(-50)
+      .sort((a,b)=>b.data.createdAt.localeCompare(a.data.createdAt))
+      .slice(0,50)
       .map(({ id, data }) => ({
         id,
         name: data.name,
@@ -68,12 +75,13 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
+  if (!PUBLIC_CATALOG_ENABLED) return Response.json({ error: "Produktbewertungen sind derzeit nicht verfügbar." }, { status: 404, headers: { "Cache-Control": "no-store" } });
   try {
     const origin = request.headers.get("origin");
 
     if (
       !origin ||
-      new URL(origin).host !== new URL(request.url).host
+      origin !== new URL(request.url).origin
     ) {
       throw new HttpError(403, "Anfrage nicht erlaubt.");
     }
@@ -84,7 +92,8 @@ export async function POST(request: Request) {
       body = JSON.parse(
         (await limitedBody(request, 4500)).toString()
       );
-    } catch {
+    } catch (error) {
+      if(error instanceof HttpError)throw error;
       throw new HttpError(400, "Ungültige Anfrage.");
     }
 

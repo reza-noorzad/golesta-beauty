@@ -7,11 +7,16 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test": "node --import tsx --test tests/content.test.ts tests/image.test.ts tests/pricing.test.ts",
+    "test": "node --import tsx --test tests/content.test.ts tests/image.test.ts tests/pricing.test.ts tests/auth.test.ts tests/api-errors.test.ts tests/public.test.ts tests/product-management.test.ts tests/administration.test.ts",
     "test:rules": "firebase emulators:exec --project demo-golesta-v2 --only firestore,storage \"node --test tests/rules.test.mjs\"",
     "test:browser": "playwright test tests/browser.spec.ts",
     "typecheck": "next typegen && tsc --noEmit",
-    "test:smoke": "node tests/api-smoke.mjs"
+    "test:smoke": "node tests/api-smoke.mjs",
+    "test:auth-browser": "playwright test tests/admin-auth.spec.ts --workers=1",
+    "test:admin-ui": "playwright test tests/admin-ui.spec.ts --workers=1",
+    "test:admin-api": "node --experimental-test-module-mocks --import tsx --test tests/admin-routes.test.mts tests/upload-route.test.mts",
+    "test:public-api": "node --experimental-test-module-mocks --import tsx --test tests/public-routes.test.mts tests/review-submission.test.mts",
+    "test:public-browser": "playwright test tests/public-site.spec.ts tests/services.spec.ts tests/browser.spec.ts --workers=1"
   },
   "dependencies": {
     "cloudinary": "^2.8.0",
@@ -38,6 +43,6 @@
     "typescript": "^5"
   },
   "engines": {
-    "node": ">=24.12.0"
+    "node": ">=24.12.0 <25"
   }
 }

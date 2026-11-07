@@ -1,77 +1,55 @@
 "use client";
-
 import Link from "next/link";
-import { useEffect, useState, type FormEvent } from "react";
-import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
-import { doc, getDoc } from "firebase/firestore";
-import { useRouter } from "next/navigation";
-import { auth, db, firebaseConfigured } from "@/lib/firebase";
+import { useState, type FormEvent } from "react";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "@/lib/firebase";
+import { useAdminSession } from "@/components/admin/AdminSession";
+import { Brand } from "@/components/admin/AdminShell";
+import { Icon, LoadingState, Notice } from "@/components/admin/ui";
+import { ApiError, withTimeout } from "@/lib/request";
 
 export default function AdminLogin() {
-  const router = useRouter();
+  const { state, retry, logout } = useAdminSession();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState("");
-
-  useEffect(() => {
-    if (!auth || !db) return;
-    const firestore = db;
-    let version = 0;
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      const current = ++version;
-      if (!user) return;
-      try {
-        const snapshot = await getDoc(doc(firestore, "admins", user.uid));
-        if (current !== version) return;
-        if (snapshot.exists() && snapshot.data().active === true) {
-          router.replace("/admin");
-        } else {
-          setMessage("Dieses Konto hat keine Admin-Berechtigung.");
-        }
-      } catch {
-        if (current === version) setMessage("Admin-Berechtigung konnte nicht geprüft werden.");
-      }
-    });
-    return () => { version++; unsubscribe(); };
-  }, [router]);
-
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (!auth) { setMessage("Firebase ist nicht konfiguriert."); return; }
+    if (!auth || busy || state.status === "checking") return;
     setBusy(true);
     setMessage("");
     try {
-      await signInWithEmailAndPassword(auth, email.trim(), password);
-      // AdminShell checks admins/{uid} and redirects authorized accounts.
-    } catch {
-      setMessage("Anmeldung fehlgeschlagen. E-Mail oder Passwort prüfen.");
-    } finally {
-      setBusy(false);
-    }
+      await withTimeout(signInWithEmailAndPassword(auth, email.trim(), password), 15_000,
+        "Die Anmeldung dauert zu lange. Bitte prüfe deine Verbindung und versuche es erneut.");
+      setPassword("");
+      if (state.status === "error") retry();
+      // The shared session provider verifies server-side authorization.
+    } catch (error) {
+      const code = error && typeof error === "object" && "code" in error ? error.code : "";
+      setMessage(error instanceof ApiError ? error.message :
+        code === "auth/network-request-failed" ? "Keine Verbindung. Bitte prüfe deine Internetverbindung." :
+        code === "auth/too-many-requests" ? "Zu viele Anmeldeversuche. Bitte später erneut versuchen." :
+        "Anmeldung fehlgeschlagen. Bitte prüfe E-Mail und Passwort.");
+    } finally { setBusy(false); }
   }
 
-  return (
-    <main className="flex min-h-screen items-center justify-center bg-[#faf7f2] px-5 py-12 text-[#332b26]">
-      <section className="w-full max-w-lg rounded-2xl border border-[#e8ddd0] bg-white p-7 sm:p-10">
-        <p className="text-xs uppercase tracking-[0.25em] text-[#a98348]">Golesta Beauty · Admin</p>
-        <h1 className="mt-3 font-serif text-3xl">Anmeldung</h1>
-        <p className="mt-4 text-sm leading-6 text-[#74685d]">Nur für freigeschaltete Administratoren.</p>
-        {!firebaseConfigured && <p className="mt-4 rounded-lg bg-amber-50 p-3 text-sm">Firebase-Konfiguration fehlt in .env.local.</p>}
-        <form onSubmit={handleSubmit} className="mt-7 space-y-5">
-          <label className="block text-sm">E-Mail
-            <input type="email" autoComplete="username" required value={email} onChange={(e) => setEmail(e.target.value)} className="mt-2 w-full rounded-xl border border-[#e8ddd0] px-4 py-3 outline-[#a98348]" />
-          </label>
-          <label className="block text-sm">Passwort
-            <input type="password" autoComplete="current-password" required value={password} onChange={(e) => setPassword(e.target.value)} className="mt-2 w-full rounded-xl border border-[#e8ddd0] px-4 py-3 outline-[#a98348]" />
-          </label>
-          {message && <p role="alert" className="text-sm text-red-700">{message}</p>}
-          <button type="submit" disabled={busy || !firebaseConfigured} className="w-full rounded-full bg-[#a98348] px-6 py-3 font-medium text-white disabled:opacity-50">
-            {busy ? "Bitte warten …" : "Anmelden"}
-          </button>
-        </form>
-        <Link href="/" className="mt-7 inline-block text-sm text-[#8b6a3c] underline">Zur Website</Link>
-      </section>
-    </main>
-  );
+  return <main className="admin-login">
+    <aside className="admin-login-aside"><Brand /><p className="admin-eyebrow mt-16">Mit Liebe zum Detail</p><h2>Mehr Zeit für das,<br />was du liebst.</h2><p className="admin-muted max-w-sm">Dein Salonauftritt, an einem Ort. Pflege dein Angebot und schenke deinen Kundinnen und Kunden einen schönen ersten Eindruck.</p><p className="admin-eyebrow mt-16">Golesta Beauty · Villach</p></aside>
+    <section className="admin-card admin-login-panel">
+      <div className="mb-7 lg:hidden"><Brand /></div>
+      <p className="admin-eyebrow">Willkommen zurück</p><h1 className="mt-2 mb-3">Anmeldung</h1>
+      <p className="text-sm admin-muted">Dein persönlicher Zugang zur Salonverwaltung.</p>
+      {state.status==="checking"&&<LoadingState>Zugriff wird geprüft …</LoadingState>}
+      {"message" in state&&<div className="mt-5 space-y-3"><Notice tone="error">{state.message}</Notice><div className="flex flex-wrap gap-2"><button type="button" onClick={retry} className="admin-button">Erneut versuchen</button>{auth?.currentUser&&<button type="button" onClick={() => void logout()} className="admin-button admin-button-quiet">Anderes Konto verwenden</button>}</div></div>}
+      <form onSubmit={handleSubmit} className="mt-7 space-y-5">
+        <label className="admin-field"><span className="admin-field-label">E-Mail</span><input type="email" autoComplete="username" autoCapitalize="none" spellCheck={false} required value={email} placeholder="Deine E-Mail-Adresse" onChange={(event) => setEmail(event.target.value)} className="admin-input" /></label>
+        <label className="admin-field"><span className="admin-field-label">Passwort</span><input type="password" autoComplete="current-password" required value={password} placeholder="Dein Passwort" onChange={(event) => setPassword(event.target.value)} className="admin-input" /></label>
+        {message&&<Notice tone="error">{message}</Notice>}
+        <button type="submit" disabled={busy||!auth||state.status==="checking"} className="admin-button admin-button-primary w-full">{busy?"Bitte warten …":"Anmelden"}<Icon name="arrow" /></button>
+      </form>
+      <p className="mt-5 text-xs admin-muted">Der Zugang ist freigeschalteten Mitarbeitenden vorbehalten.</p>
+      <Link href="/" className="admin-button admin-button-quiet mt-6"><Icon name="external" />Zur Website</Link>
+    </section>
+  </main>;
 }

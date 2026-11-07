@@ -38,6 +38,8 @@ export const productSchema = z.object({
   attributes: z.array(attribute).max(40).optional(),
   price, currency: z.literal("EUR"), categoryId: id,
   images: z.array(image).max(12), featured: z.boolean(),
+  available: z.boolean().optional(),
+  featuredOrder: z.number().int().min(0).max(499).optional(),
   variants: z.array(z.object({ id, name: z.string().max(200), price, available: z.boolean(), sku: z.string().max(100).optional() }).strict()).max(50),
   discount: discount.optional(), allowReviews: z.boolean().optional(), showRating: z.boolean().optional(),
 }).strict();

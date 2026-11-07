@@ -1,28 +1,26 @@
 "use client";
 import Image from "next/image";
 import type { EditorProps } from "./editor-types";
-import { Input, Toggle, button, card, makeId } from "./editor-types";
+import { Input, Toggle, button, input, makeId } from "./editor-types";
 import Reorderable from "./Reorderable";
 import ImageUpload from "./ImageUpload";
-export default function TeamEditor({ data, edit }: EditorProps) {
-  function move(from:number,to:number) { if(to<0||to>=data.team.length||from===to)return;edit(d=>{const [x]=d.team.splice(from,1);d.team.splice(to,0,x);d.team.forEach((m,i)=>m.sortOrder=i);}); }
+import { Badge, EmptyState, Icon } from "./ui";
+export default function TeamEditor({data,edit}:EditorProps) {
+  function move(from:number,to:number) {if(to<0||to>=data.team.length||from===to)return;edit((draft) => {const [member]=draft.team.splice(from,1);draft.team.splice(to,0,member);draft.team.forEach((member,index) => member.sortOrder=index);});}
   return <div className="space-y-5">
-    <div className="flex flex-wrap items-center justify-between gap-3"><h2 className="font-serif text-2xl">Mitarbeiter ({data.team.length})</h2><button type="button" className={button} onClick={()=>edit(d=>d.team.push({id:makeId(),name:"",role:"",image:"",bio:"",experience:"",specialties:[],published:false,sortOrder:d.team.length}))}>+ Teammitglied</button></div>
-    <p className="text-sm text-[#74685d]">Name, Position, persönliche Vorstellung, Berufserfahrung und Spezialisierungen werden separat gepflegt.</p>
-    <Reorderable items={data.team} idOf={m=>m.id} move={move}>{(m,i)=><details className={card} open={undefined}>
-      <summary className="cursor-pointer font-serif text-xl">{m.name} · {m.published?"Sichtbar":"Entwurf"}</summary>
-      <div className="mt-5 grid gap-4 lg:grid-cols-[200px_1fr]">
-        <div className="space-y-3"><div className="relative aspect-[4/5] overflow-hidden rounded-xl bg-[#eee5d9]">{m.image && <Image src={m.image} alt={m.name} fill sizes="200px" className="object-cover"/>}</div><ImageUpload label="Foto ändern" onUploaded={urls=>edit(d=>{const member=d.team.find(x=>x.id===m.id);if(member)member.image=urls[0];})}/></div>
-        <div className="space-y-4">
-          <Input label="Name" value={m.name} onChange={v=>edit(d=>{d.team[i].name=v;})}/>
-          <Input label="Position / Funktion" value={m.role} onChange={v=>edit(d=>{d.team[i].role=v;})}/>
-          <Input label="Berufserfahrung (optional)" value={m.experience||""} onChange={v=>edit(d=>{d.team[i].experience=v;})}/>
-          <Input label="Persönliche Vorstellung (mehrere Absätze möglich)" multiline value={m.bio||""} onChange={v=>edit(d=>{d.team[i].bio=v;})}/>
-          <div className="rounded-xl border border-[#e8ddd0] p-4"><div className="flex flex-wrap items-center justify-between gap-3"><h3 className="font-semibold">Fachgebiete & Spezialisierungen</h3><button type="button" className={button} onClick={()=>edit(d=>{(d.team[i].specialties ||= []).push("");})}>+ Spezialgebiet</button></div>
-            {(m.specialties||[]).map((s,j)=><div key={j} className="mt-2 flex gap-2"><input aria-label={`Spezialisierung ${j+1}`} className="min-w-0 flex-1 rounded-xl border px-3 py-2" value={s} placeholder="z. B. Hochsteckfrisuren" onChange={e=>edit(d=>{d.team[i].specialties![j]=e.target.value;})}/><button type="button" className={button} onClick={()=>edit(d=>d.team[i].specialties!.splice(j,1))}>×</button></div>)}
-          </div>
-          <Toggle label="Auf Webseite anzeigen" checked={m.published} onChange={v=>edit(d=>{d.team[i].published=v;})}/>
-          <div><button type="button" className={`${button} text-red-700`} onClick={()=>{if(confirm("Teammitglied entfernen?"))edit(d=>d.team.splice(i,1));}}>Entfernen</button></div>
+    <div className="flex flex-wrap items-center justify-between gap-3"><h2>Dein Team <span className="admin-muted">({data.team.length})</span></h2><button type="button" className={button} onClick={() => edit((draft) => draft.team.push({id:makeId(),name:"",role:"",image:"",bio:"",experience:"",specialties:[],published:false,sortOrder:draft.team.length}))}>+ Teammitglied</button></div>
+    {!data.team.length&&<EmptyState title="Die Menschen hinter deinem Salon" icon="team">Ergänze ein Teammitglied und stelle es persönlich vor.</EmptyState>}
+    <Reorderable compact items={data.team} idOf={(member) => member.id} move={move}>{(member,index) => <details className="admin-disclosure">
+      <summary><span className="admin-summary-content"><span className="admin-thumb">{member.image?<Image src={member.image} alt="" fill sizes="42px" className="object-cover" />:<span className="flex h-full items-center justify-center"><Icon name="team" /></span>}</span><span className="min-w-0"><span className="admin-summary-name">{member.name||"Neues Teammitglied"}</span><span className="admin-summary-meta">{member.role||"Persönliches Profil"}</span></span></span><Badge tone={member.published?"success":"neutral"}>{member.published?"Sichtbar":"Entwurf"}</Badge></summary>
+      <div className="admin-disclosure-body grid gap-6 xl:grid-cols-[160px_minmax(0,1fr)]">
+        <div className="space-y-3"><div className="relative aspect-[4/5] w-full max-w-40 overflow-hidden rounded-xl bg-[#eee5d9]">{member.image&&<Image src={member.image} alt={member.name||"Teamfoto"} fill sizes="160px" className="object-cover" />}</div><ImageUpload label="Foto ändern" onUploaded={(urls) => edit((draft) => {const found=draft.team.find((entry) => entry.id===member.id);if(found)found.image=urls[0];})} /></div>
+        <div className="space-y-5"><div className="admin-grid-2"><Input label="Name" placeholder="Vor- und Nachname" value={member.name} onChange={(value) => edit((draft) => {draft.team[index].name=value;})} /><Input label="Position" placeholder="Aufgabe im Salon" value={member.role} onChange={(value) => edit((draft) => {draft.team[index].role=value;})} /></div>
+          <Input label="Berufserfahrung (optional)" placeholder="Erfahrung und Qualifikationen" value={member.experience??""} onChange={(value) => edit((draft) => {draft.team[index].experience=value;})} />
+          <Input label="Persönliche Vorstellung" multiline placeholder="Ein paar Worte zur Person und ihrer Leidenschaft" value={member.bio??""} onChange={(value) => edit((draft) => {draft.team[index].bio=value;})} />
+          <section className="admin-fieldset space-y-3"><div className="admin-card-title"><h3>Spezialisierungen</h3><button type="button" className={button} onClick={() => edit((draft) => {(draft.team[index].specialties||=[]).push("");})}>+ Spezialgebiet</button></div>
+            {(member.specialties||[]).map((specialty,specialtyIndex) => <div key={specialtyIndex} className="flex gap-2"><input aria-label={`Spezialisierung ${specialtyIndex+1}`} className={input+" flex-1"} value={specialty} placeholder="z. B. Hochsteckfrisuren" onChange={(event) => edit((draft) => {draft.team[index].specialties![specialtyIndex]=event.target.value;})} /><button type="button" className={button+" admin-button-danger admin-button-icon"} aria-label={`Spezialisierung ${specialtyIndex+1} entfernen`} onClick={() => edit((draft) => draft.team[index].specialties!.splice(specialtyIndex,1))}><Icon name="close" /></button></div>)}
+          </section>
+          <div className="flex flex-wrap items-center justify-between gap-3"><Toggle label="Auf der Website anzeigen" checked={member.published} onChange={(value) => edit((draft) => {draft.team[index].published=value;})} /><button type="button" className={button+" admin-button-danger"} onClick={() => {if(confirm("Dieses Teammitglied entfernen?"))edit((draft) => draft.team.splice(index,1));}}>Teammitglied entfernen</button></div>
         </div>
       </div>
     </details>}</Reorderable>

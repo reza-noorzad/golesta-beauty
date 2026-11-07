@@ -1,7 +1,8 @@
 "use client";
-import { useEffect, useState } from "react";
-import { db } from "@/lib/firebase";
-import { initialServices, watchServices, type ServiceCategory } from "@/lib/services-store";
+import { useState } from "react";
+import { usePublicSite } from "@/components/public/PublicSite";
+import type { ServiceCategory } from "@/lib/services";
+import Link from "next/link";
 
 function makeRows(items: ServiceCategory[], columns: number) {
   const rows: ServiceCategory[][] = [];
@@ -27,23 +28,21 @@ function CategoryLayout({ categories, columns, visibility, activeId, onToggle, o
       </div>
       {activeCategory && <div className="mt-5 rounded-2xl border border-[#e8ddd0] bg-[#faf7f2] p-5 sm:p-8">
         <div className="flex flex-wrap items-center justify-between gap-3"><h3 className="font-serif text-2xl">{activeCategory.title}</h3><button type="button" onClick={onClose} className="text-sm text-[#8b6a3c] underline">Schließen</button></div>
-        <div className="mt-6 divide-y divide-[#e8ddd0]">{activeCategory.items.map(item => <div key={item.id} className="flex items-start justify-between gap-4 py-3 text-sm sm:text-base"><span>{item.name}</span><span className="shrink-0 text-right font-medium text-[#8b6a3c]">{item.price}</span></div>)}</div>
+        <div className="mt-6 divide-y divide-[#e8ddd0]">{activeCategory.items.map(item => <div key={item.id} className="flex flex-wrap items-start justify-between gap-x-4 gap-y-1 py-3 text-sm sm:text-base"><span className="min-w-0 [overflow-wrap:anywhere]">{item.name}</span><span className="ml-auto text-right font-medium text-[#8b6a3c]">{item.price}</span></div>)}</div>
       </div>}
     </div>;
   })}</div></div>;
 }
 export default function ServicesGrid({heading,description}:{heading?:string;description?:string}) {
-  const [categories, setCategories] = useState<ServiceCategory[]>(initialServices);
+  const { services: categories, servicesError } = usePublicSite();
   const [activeId, setActiveId] = useState<string | null>(null);
-  useEffect(() => {
-    if (!db) return;
-    return watchServices(db, next => setCategories(next), error => console.error("Services Firestore:", error));
-  }, []);
   const toggle = (id: string) => setActiveId(previous => previous === id ? null : id);
   return <section id="leistungen" className="scroll-mt-24 bg-white px-5 py-20 sm:px-6 lg:py-24"><div className="mx-auto max-w-7xl">
     <div className="mx-auto mb-12 max-w-2xl text-center"><p className="text-xs uppercase tracking-[0.3em] text-[#a98348]">Unser Angebot</p><h2 className="mt-4 font-serif text-4xl md:text-5xl">{heading || "Leistungen & Preise"}</h2><p className="mt-5 leading-7 text-[#74685d]">{description || "Entdecke unsere Behandlungen und Preise."}</p></div>
     <CategoryLayout categories={categories} columns={1} visibility="block sm:hidden" activeId={activeId} onToggle={toggle} onClose={()=>setActiveId(null)}/>
     <CategoryLayout categories={categories} columns={2} visibility="hidden sm:block lg:hidden" activeId={activeId} onToggle={toggle} onClose={()=>setActiveId(null)}/>
     <CategoryLayout categories={categories} columns={3} visibility="hidden lg:block" activeId={activeId} onToggle={toggle} onClose={()=>setActiveId(null)}/>
+    {servicesError && <p role="status" className="mt-5 text-center text-sm text-[#74685d]">Die aktuellen Leistungen können gerade nicht geladen werden. Bitte bestätige die Preise bei deiner Terminvereinbarung.</p>}
+    <div className="mt-9 text-center"><Link href="/leistungen" className="public-link-button">Alle Leistungen & Preise ansehen</Link></div>
   </div></section>;
 }

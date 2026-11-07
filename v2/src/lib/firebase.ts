@@ -1,7 +1,9 @@
 "use client";
-
-import { getApp, getApps, initializeApp, type FirebaseApp } from "firebase/app";
-import { getAuth, type Auth } from "firebase/auth";
+import { getApp, getApps, initializeApp } from "firebase/app";
+import {
+  getAuth, initializeAuth, indexedDBLocalPersistence, browserLocalPersistence,
+  browserSessionPersistence, inMemoryPersistence, type Auth,
+} from "firebase/auth";
 import { getFirestore, type Firestore } from "firebase/firestore";
 
 const config = {
@@ -12,17 +14,26 @@ const config = {
   messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
-
-export const firebaseConfigured = Boolean(
-  config.apiKey && config.authDomain && config.projectId && config.appId
-);
-
-let app: FirebaseApp | null = null;
+export const firebaseConfigured = Boolean(config.apiKey && config.authDomain && config.projectId && config.appId);
 export let auth: Auth | null = null;
 export let db: Firestore | null = null;
+export let firebaseInitializationError = "";
 
 if (firebaseConfigured) {
-  app = getApps().length ? getApp() : initializeApp(config);
-  auth = getAuth(app);
-  db = getFirestore(app);
+  try {
+    const app = getApps().find((app) => app.name === "[DEFAULT]") ? getApp() : initializeApp(config);
+    try {
+      auth = initializeAuth(app, {
+        persistence: [indexedDBLocalPersistence, browserLocalPersistence, browserSessionPersistence, inMemoryPersistence],
+      });
+    } catch (error) {
+      if ((error as { code?: string }).code !== "auth/already-initialized") throw error;
+      auth = getAuth(app);
+    }
+    db = getFirestore(app);
+  } catch {
+    auth = null;
+    db = null;
+    firebaseInitializationError = "Die Anmeldung konnte nicht gestartet werden. Bitte lade die Seite neu oder kontaktiere den Salon.";
+  }
 }

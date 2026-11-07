@@ -1,43 +1,81 @@
 "use client";
 import { useEffect, useState } from "react";
-import { auth, db } from "@/lib/firebase";
+import { auth } from "@/lib/firebase";
 import { readServices, saveServices, type ServiceCategory } from "@/lib/services-store";
 import Reorderable from "@/components/admin/Reorderable";
-import { Input, button, card, makeId } from "@/components/admin/editor-types";
-export default function ServicesAdmin(){
-  const [categories,setCategories]=useState<ServiceCategory[]>([]);const [selected,setSelected]=useState<string|null>(null);
-  const [loading,setLoading]=useState(true);const [saving,setSaving]=useState(false);const [dirty,setDirty]=useState(false);const [isLive,setIsLive]=useState(false);
-  const [updatedAt,setUpdatedAt]=useState<string|null>(null);const [message,setMessage]=useState("");
-  const current=categories.find(c=>c.id===selected);
-  useEffect(()=>{let cancelled=false;(async()=>{if(!db||!auth?.currentUser){setMessage("Bitte erneut anmelden.");setLoading(false);return;}
-    try{const result=await readServices(db);if(cancelled)return;setCategories(result.categories);setSelected(result.categories[0]?.id||null);setIsLive(result.isLive);setUpdatedAt(result.updatedAt);}
-    catch(e){if(!cancelled)setMessage(e instanceof Error?e.message:"Laden fehlgeschlagen.");}finally{if(!cancelled)setLoading(false);}})();return()=>{cancelled=true;};},[]);
-  useEffect(()=>{function warn(e:BeforeUnloadEvent){if(dirty){e.preventDefault();e.returnValue="";}}window.addEventListener("beforeunload",warn);return()=>window.removeEventListener("beforeunload",warn);},[dirty]);
-  function update(fn:(draft:ServiceCategory[])=>void){setCategories(prev=>{const draft=structuredClone(prev);fn(draft);return draft.map((c,i)=>({...c,sortOrder:i}));});setDirty(true);setMessage("");}
-  function moveCategory(from:number,to:number){if(to<0||to>=categories.length||from===to)return;update(d=>{const [v]=d.splice(from,1);d.splice(to,0,v);});}
-  function moveService(categoryId:string,from:number,to:number){const c=categories.find(x=>x.id===categoryId);if(!c||to<0||to>=c.items.length||from===to)return;update(d=>{const arr=d.find(x=>x.id===categoryId)!.items;const [v]=arr.splice(from,1);arr.splice(to,0,v);});}
-  async function save(){if(!db||!auth?.currentUser){setMessage("Bitte erneut anmelden.");return;}setSaving(true);setMessage("");try{setUpdatedAt(await saveServices(db,categories,updatedAt));setDirty(false);setIsLive(true);setMessage("Gespeichert! Änderungen sind in Firestore.");}catch(e){setMessage(e instanceof Error?e.message:"Speichern fehlgeschlagen.");}finally{setSaving(false);}}
-  if(loading)return <p className="p-6">Leistungen werden geladen …</p>;
-  return <section className="space-y-6"><div><p className="text-xs uppercase tracking-[0.25em] text-[#a98348]">Admin</p><h1 className="mt-3 font-serif text-4xl">Leistungen & Preise</h1>
-    <p className="mt-3 text-sm leading-6 text-[#74685d]">{isLive?"Firestore-Daten geladen.":"Lokale Originaldaten geladen."} Kategorien und Leistungen per Griff ziehen; Pfeile bleiben für Tastatur und kleine Bildschirme.</p></div>
-    <div className="sticky top-0 z-30 flex flex-wrap items-center gap-3 rounded-xl border border-[#e8ddd0] bg-[#faf7f2]/95 p-3 shadow-sm backdrop-blur">
-      <button type="button" className="rounded-xl bg-[#a98348] px-5 py-3 text-sm font-semibold text-white disabled:opacity-50" disabled={saving||!dirty} onClick={()=>void save()}>{saving?"Speichert …":"Änderungen speichern"}</button>
-      <button type="button" className={button} onClick={()=>{const id=makeId();update(d=>d.push({id,title:"Neue Kategorie",desc:"",sortOrder:d.length,items:[]}));setSelected(id);}}>+ Kategorie</button>
-      <span className="text-sm text-[#74685d]">{categories.length} Kategorien · {categories.reduce((n,c)=>n+c.items.length,0)} Leistungen {dirty?"· Ungespeichert":""}</span></div>
-    {message&&<p role="status" className="rounded-xl border bg-white p-3 text-sm">{message}</p>}
-    <div className="grid items-start gap-5 lg:grid-cols-[300px_minmax(0,1fr)]"><div className={card+" p-3"}>
-      <Reorderable items={categories} idOf={c=>c.id} move={moveCategory}>{c=><button type="button" className={`w-full rounded-lg p-2 text-left text-sm ${selected===c.id?"bg-[#eee5d9]":"hover:bg-[#faf7f2]"}`} onClick={()=>setSelected(c.id)}>{c.title} <span className="text-[#74685d]">({c.items.length})</span></button>}</Reorderable></div>
-      {current?<div className={card+" space-y-5"} key={current.id}>
-        <div className="flex flex-wrap items-center justify-between gap-2"><h2 className="font-serif text-2xl">Kategorie bearbeiten</h2><button type="button" className="text-sm text-red-700 underline" onClick={()=>{if(confirm(`Kategorie „${current.title}“ und ${current.items.length} Leistungen entfernen?`)){update(d=>d.splice(d.findIndex(x=>x.id===current.id),1));setSelected(categories.find(x=>x.id!==current.id)?.id||null);}}}>Kategorie löschen</button></div>
-        <Input label="Name" value={current.title} onChange={v=>update(d=>{d.find(c=>c.id===current.id)!.title=v;})}/>
-        <Input label="Beschreibung" multiline value={current.desc} onChange={v=>update(d=>{d.find(c=>c.id===current.id)!.desc=v;})}/>
-        <div className="flex flex-wrap items-center justify-between gap-3"><h3 className="font-serif text-xl">Leistungen ({current.items.length})</h3><button type="button" className={button} onClick={()=>update(d=>d.find(c=>c.id===current.id)!.items.push({id:makeId(),name:"Neue Leistung",price:"Preis auf Anfrage"}))}>+ Leistung</button></div>
-        <Reorderable items={current.items} idOf={x=>x.id} move={(a,b)=>moveService(current.id,a,b)}>{item=><div className="grid gap-3 rounded-xl border border-[#e8ddd0] p-3 sm:grid-cols-[1fr_135px_auto]">
-          <Input label="Leistung" value={item.name} onChange={v=>update(d=>{d.find(c=>c.id===current.id)!.items.find(x=>x.id===item.id)!.name=v;})}/>
-          <Input label="Preis (Text)" value={item.price} onChange={v=>update(d=>{d.find(c=>c.id===current.id)!.items.find(x=>x.id===item.id)!.price=v;})}/>
-          <button type="button" className={`${button} self-end text-red-700`} onClick={()=>{if(confirm("Leistung entfernen?"))update(d=>{const cat=d.find(c=>c.id===current.id)!;cat.items=cat.items.filter(x=>x.id!==item.id);});}}>×</button>
-        </div>}</Reorderable>
-      </div>:<div className={card}>Kategorie auswählen oder hinzufügen.</div>}</div>
-    <p className="text-xs leading-6 text-[#74685d]">Hinweis: Vor der ersten Speicherung werden die Originalleistungen übernommen. Es findet kein automatisches Überschreiben der Firestore-Daten statt.</p>
+import { Input, button, card, input, makeId } from "@/components/admin/editor-types";
+import { Badge, EmptyState, Icon, LoadingState, Notice, PageHeader, SaveBar } from "@/components/admin/ui";
+import { useUnsavedChanges } from "@/components/admin/useUnsavedChanges";
+export default function ServicesAdmin() {
+  const [categories,setCategories]=useState<ServiceCategory[]>([]);
+  const [selected,setSelected]=useState<string|null>(null);
+  const [expanded,setExpanded]=useState<string|null>(null);
+  const [search,setSearch]=useState("");
+  const [loading,setLoading]=useState(true);
+  const [saving,setSaving]=useState(false);
+  const [dirty,setDirty]=useState(false);
+  const [loadError,setLoadError]=useState(false);
+  const [updatedAt,setUpdatedAt]=useState<string|null>(null);
+  const [message,setMessage]=useState("");
+  const [tone,setTone]=useState<"success"|"error">("success");
+  const current=categories.find((category) => category.id===selected);
+  useEffect(() => {
+    let active=true;
+    readServices().then((result) => {if(active){setCategories(result.categories);setSelected(result.categories[0]?.id||null);setUpdatedAt(result.updatedAt);}})
+      .catch((error) => {if(active){setMessage(error instanceof Error?error.message:"Die Leistungen konnten nicht geladen werden.");setLoadError(true);}})
+      .finally(() => {if(active)setLoading(false);});
+    return () => {active=false;};
+  },[]);
+  useUnsavedChanges(dirty);
+  function update(mutate:(draft:ServiceCategory[]) => void) {
+    setCategories((previous) => {const draft=structuredClone(previous);mutate(draft);return draft.map((category,index) => ({...category,sortOrder:index}));});
+    setDirty(true);setMessage("");
+  }
+  function choose(id:string) {setSelected(id);setExpanded(null);setSearch("");}
+  function moveCategory(from:number,to:number) {if(to<0||to>=categories.length||from===to)return;update((draft) => {const [category]=draft.splice(from,1);draft.splice(to,0,category);});}
+  function moveService(from:number,to:number) {
+    if(!current||to<0||to>=current.items.length||from===to)return;
+    update((draft) => {const items=draft.find((category) => category.id===current.id)!.items;const [item]=items.splice(from,1);items.splice(to,0,item);});
+  }
+  async function save() {
+    if(saving||!dirty)return;
+    if(!auth?.currentUser){setTone("error");setMessage("Bitte erneut anmelden.");return;}
+    if(categories.some((category) => !category.title.trim()||category.items.some((item) => !item.name.trim()))){setTone("error");setMessage("Bitte gib allen Kategorien und Leistungen einen Namen.");return;}
+    setSaving(true);setMessage("");
+    try{setUpdatedAt(await saveServices(categories,updatedAt));setDirty(false);setTone("success");setMessage("Deine Leistungen und Preise wurden gespeichert.");}
+    catch(error){setTone("error");setMessage(error instanceof Error?error.message:"Speichern fehlgeschlagen. Bitte erneut versuchen.");}
+    finally{setSaving(false);}
+  }
+  return <section>
+    <PageHeader title="Leistungen & Preise" description="Dein Angebot im Überblick. Wähle eine Kategorie und öffne nur die Leistung, die du bearbeiten möchtest." />
+    {loading?<LoadingState>Leistungen werden geladen …</LoadingState>:loadError?<div className="space-y-4"><Notice tone="error">{message}</Notice><button type="button" className={button} onClick={() => window.location.reload()}>Erneut versuchen</button></div>:<>
+      <SaveBar dirty={dirty} busy={saving} onSave={() => void save()} />
+      {message&&<div className="mb-5"><Notice tone={tone}>{message}</Notice></div>}
+      <fieldset disabled={saving} className="min-w-0 space-y-5" aria-busy={saving}>
+        <div className="flex flex-wrap items-center justify-between gap-3"><p className="text-sm admin-muted">{categories.length} Kategorien · {categories.reduce((count,category) => count+category.items.length,0)} Leistungen</p><button type="button" className={button} onClick={() => {const id=makeId();update((draft) => draft.push({id,title:"",desc:"",sortOrder:draft.length,items:[]}));choose(id);}}>+ Kategorie</button></div>
+        <div className="admin-service-choice"><label className="admin-field"><span className="admin-field-label">Kategorie auswählen</span><select className={input} value={selected||""} onChange={(event) => choose(event.target.value)}>{categories.map((category) => <option key={category.id} value={category.id}>{category.title||"Neue Kategorie"}</option>)}</select></label></div>
+        <div className="admin-service-layout">
+          <aside className={card+" admin-service-categories"} aria-label="Leistungskategorien"><h2 className="mb-4">Kategorien</h2><div className="space-y-1">{categories.map((category) => <button type="button" key={category.id} aria-pressed={selected===category.id} className={`admin-nav-link w-full text-left ${selected===category.id?"bg-[#eee6d8] text-[#654924]":""}`} onClick={() => choose(category.id)}><span className="min-w-0 flex-1">{category.title||"Neue Kategorie"}</span><span className="text-xs">{category.items.length}</span></button>)}</div></aside>
+          {current?<div className="min-w-0 space-y-4" key={current.id}>
+            <details className="admin-disclosure"><summary><span className="min-w-0 flex-1">{current.title||"Neue Kategorie"}</span><Badge>Kategorie bearbeiten</Badge></summary><div className="admin-disclosure-body space-y-4">
+              <Input label="Kategoriename" placeholder="Name der Kategorie" value={current.title} onChange={(value) => update((draft) => {draft.find((category) => category.id===current.id)!.title=value;})} />
+              <Input label="Beschreibung" multiline placeholder="Kurze Beschreibung des Angebots" value={current.desc} onChange={(value) => update((draft) => {draft.find((category) => category.id===current.id)!.desc=value;})} />
+              <button type="button" className={button+" admin-button-danger"} onClick={() => {if(confirm(`Kategorie „${current.title||"Neue Kategorie"}“ mit ${current.items.length} Leistungen entfernen?`)){update((draft) => draft.splice(draft.findIndex((category) => category.id===current.id),1));choose(categories.find((category) => category.id!==current.id)?.id||"");}}}>Kategorie entfernen</button>
+            </div></details>
+            <div className="flex flex-wrap items-center justify-between gap-3"><h2>Leistungen <span className="admin-muted">({current.items.length})</span></h2><button type="button" className={button} onClick={() => {const id=makeId();update((draft) => draft.find((category) => category.id===current.id)!.items.push({id,name:"",price:""}));setSearch("");setExpanded(id);}}>+ Leistung</button></div>
+            {!current.items.length&&<EmptyState title="Platz für dein Angebot" icon="services">Füge die erste Leistung in dieser Kategorie hinzu.</EmptyState>}
+            <label className="admin-field"><span className="admin-field-label">Leistungen in dieser Kategorie suchen</span><input type="search" className={input} value={search} placeholder="Name oder Preis suchen" onChange={event=>setSearch(event.target.value)}/></label>
+            {search&&!current.items.some(item=>`${item.name} ${item.price}`.toLocaleLowerCase("de").includes(search.trim().toLocaleLowerCase("de")))&&<EmptyState title="Keine passende Leistung">Passe die Suche an.</EmptyState>}
+            <Reorderable compact items={current.items.filter(item=>`${item.name} ${item.price}`.toLocaleLowerCase("de").includes(search.trim().toLocaleLowerCase("de")))} idOf={(item) => item.id} move={(from,to)=>{const visible=current.items.filter(item=>`${item.name} ${item.price}`.toLocaleLowerCase("de").includes(search.trim().toLocaleLowerCase("de")));moveService(current.items.findIndex(item=>item.id===visible[from].id),current.items.findIndex(item=>item.id===visible[to].id));}}>{(item) => <details className="admin-disclosure" open={expanded===item.id}>
+              <summary onClick={(event) => {event.preventDefault();setExpanded((previous) => previous===item.id?null:item.id);}}><span className="min-w-0 flex-1">{item.name||"Neue Leistung"}</span><Badge>{item.price||"Preis festlegen"}</Badge></summary>
+              <div className="admin-disclosure-body space-y-4"><div className="admin-grid-2"><Input label="Leistung" placeholder="Name der Behandlung" value={item.name} onChange={(value) => update((draft) => {draft.find((category) => category.id===current.id)!.items.find((entry) => entry.id===item.id)!.name=value;})} /><Input label="Preis" placeholder="z. B. 45 € oder auf Anfrage" value={item.price} onChange={(value) => update((draft) => {draft.find((category) => category.id===current.id)!.items.find((entry) => entry.id===item.id)!.price=value;})} /></div>
+                <button type="button" className={button+" admin-button-danger"} onClick={() => {if(confirm("Diese Leistung entfernen?"))update((draft) => {const category=draft.find((category) => category.id===current.id)!;category.items=category.items.filter((entry) => entry.id!==item.id);});}}>Leistung entfernen</button>
+              </div>
+            </details>}</Reorderable>
+          </div>:<EmptyState title="Dein Angebot beginnt hier" icon="services">Lege eine Kategorie für deine Leistungen an.</EmptyState>}
+        </div>
+        {categories.length>1&&<details className="admin-disclosure"><summary><Icon name="grip" />Reihenfolge der Kategorien</summary><div className="admin-disclosure-body"><Reorderable items={categories} idOf={(category) => category.id} move={moveCategory}>{(category) => <p className="text-sm">{category.title||"Neue Kategorie"}</p>}</Reorderable></div></details>}
+      </fieldset>
+    </>}
   </section>;
 }

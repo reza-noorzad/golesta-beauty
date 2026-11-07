@@ -3,23 +3,18 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
-import { useContent } from "@/lib/content-client";
+import { usePublicSite } from "@/components/public/PublicSite";
+import GalleryLightbox from "@/components/public/GalleryLightbox";
+import { contactLinks } from "@/lib/public-content";
+import { PUBLIC_CATALOG_ENABLED } from "@/lib/public-config";
+import { visibleFeatured } from "@/lib/product-management";
 import { formatProductPrice } from "@/data/products";
 import ServicesGrid from "@/components/ServicesGrid";
-import AnnouncementBanner from "@/components/AnnouncementBanner";
 import PriceDisplay from "@/components/PriceDisplay";
 
-const navigation = [
-  { label: "Startseite", href: "#start" },
-  { label: "Leistungen", href: "#leistungen" },
-  { label: "Produkte", href: "#produkte" },
-  { label: "Team", href: "#team" },
-  { label: "Galerie", href: "#galerie" },
-  { label: "Gutschein", href: "#gutschein" },
-  { label: "Kontakt", href: "#kontakt" },
-];
+
 
 function SectionHeading({
   eyebrow,
@@ -50,141 +45,24 @@ function SectionHeading({
 }
 
 export default function Home() {
-  const { data, error } = useContent();
+  const { data, error } = usePublicSite();
   const siteData = {...data.settings, gutscheinText:data.voucher.description};
   const team = data.team;
   const [showAllGallery, setShowAllGallery] = useState(false);
   const chosenGallery = data.gallery.filter(g => g.homepage).slice(0, data.settings.galleryLimit || 6);
   const shownGallery = showAllGallery ? data.gallery : chosenGallery;
   const gallery = shownGallery.map(g => g.image);
-  const featuredProducts = data.products.filter(p=>p.featured).slice(0,3);
+  const featuredProducts = visibleFeatured(data);
   const whatsappUrl = `https://wa.me/${siteData.whatsapp}?text=${encodeURIComponent("Hallo Golesta Beauty, ich möchte einen Termin vereinbaren.")}`;
   const mapsUrl = siteData.routeUrl || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(siteData.address)}`;
 
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [activeImage, setActiveImage] = useState<number | null>(null);
-
-  useEffect(() => {
-    if (activeImage === null) return;
-
-    function onKeyDown(event: KeyboardEvent) {
-      if (event.key === "Escape") {
-        setActiveImage(null);
-      }
-
-      if (event.key === "ArrowRight") {
-        setActiveImage((current) =>
-          current === null ? null : (current + 1) % gallery.length
-        );
-      }
-
-      if (event.key === "ArrowLeft") {
-        setActiveImage((current) =>
-          current === null
-            ? null
-            : (current - 1 + gallery.length) % gallery.length
-        );
-      }
-    }
-
-    window.addEventListener("keydown", onKeyDown);
-
-    return () => window.removeEventListener("keydown", onKeyDown);
-  }, [activeImage, gallery.length]);
+  const [activeImageId, setActiveImageId] = useState<string | null>(null);
+  const activeImage = shownGallery.findIndex((image) => image.id === activeImageId);
 
   return (
-    <main className="min-h-screen overflow-x-clip bg-[#faf7f2] text-[#332b26]">
+    <main className="min-h-screen bg-[#faf7f2] text-[#332b26]">
       {error && <p role="status" className="p-3 text-center">{error}</p>}
-      <AnnouncementBanner announcements={data.announcements}/>{/* HEADER */}
-      <header className="sticky top-0 z-40 border-b border-[#e9e0d3] bg-[#faf7f2]/95 backdrop-blur">
-        <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-3 sm:px-6">
-          <a
-            href="#start"
-            className="flex min-w-0 items-center gap-2 sm:gap-3"
-            onClick={() => setMenuOpen(false)}
-          >
-            <Image
-              src={siteData.logo || "/Logo.PNG"}
-              alt="Golesta Beauty"
-              width={52}
-              height={52}
-              className="h-11 w-11 shrink-0 object-contain sm:h-13 sm:w-13"
-            />
 
-            <span className="truncate text-sm font-semibold tracking-[0.12em] sm:text-lg">
-              {siteData.salonName || "GOLESTA BEAUTY"}
-            </span>
-          </a>
-
-          <nav
-            aria-label="Hauptnavigation"
-            className="hidden items-center gap-5 text-sm lg:flex"
-          >
-            {navigation.slice(1).map((item) => (
-              <a
-                key={item.label}
-                href={item.href}
-                className="transition-colors hover:text-[#a98348]"
-              >
-                {item.label}
-              </a>
-            ))}
-          </nav>
-
-          <div className="flex shrink-0 items-center gap-2">
-            <a
-              href={whatsappUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hidden rounded-full bg-[#a98348] px-5 py-3 text-sm font-medium text-white transition hover:bg-[#8d6d3f] sm:inline-flex"
-            >
-              Termin anfragen
-            </a>
-
-            <button
-              type="button"
-              aria-label={menuOpen ? "Menü schließen" : "Menü öffnen"}
-              aria-expanded={menuOpen}
-              aria-controls="mobile-navigation"
-              onClick={() => setMenuOpen((open) => !open)}
-              className="flex h-11 w-11 items-center justify-center rounded-xl border border-[#e9e0d3] text-2xl lg:hidden"
-            >
-              {menuOpen ? "×" : "☰"}
-            </button>
-          </div>
-        </div>
-
-        {menuOpen && (
-          <nav
-            id="mobile-navigation"
-            aria-label="Mobile Navigation"
-            className="border-t border-[#e9e0d3] bg-[#faf7f2] px-5 py-4 lg:hidden"
-          >
-            <div className="mx-auto flex max-w-7xl flex-col">
-              {navigation.map((item) => (
-                <a
-                  key={item.label}
-                  href={item.href}
-                  onClick={() => setMenuOpen(false)}
-                  className="border-b border-[#e9e0d3] py-3 text-sm"
-                >
-                  {item.label}
-                </a>
-              ))}
-
-              <a
-                href={whatsappUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => setMenuOpen(false)}
-                className="mt-4 rounded-full bg-[#a98348] px-6 py-3 text-center text-sm text-white"
-              >
-                {siteData.appointmentLabel || "Termin vereinbaren"}
-              </a>
-            </div>
-          </nav>
-        )}
-      </header>
 
       {/* HERO */}
       <section
@@ -253,7 +131,7 @@ export default function Home() {
             description={siteData.productDescription || "Entdecke unsere ausgewählten Beauty-Produkte."}
           />
 
-          {featuredProducts.length > 0 ? (
+          {PUBLIC_CATALOG_ENABLED && featuredProducts.length > 0 ? (
             <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {featuredProducts.map((product) => (
                 <Link
@@ -308,7 +186,7 @@ export default function Home() {
               href="/produkte"
               className="inline-flex rounded-full border border-[#a98348] px-8 py-3.5 text-sm font-medium text-[#8b6a3c] transition hover:bg-[#eee5d9]"
             >
-              Alle Produkte ansehen
+              {PUBLIC_CATALOG_ENABLED ? "Alle Produkte ansehen" : "Unsere Produkte – bald verfügbar"}
             </Link>
           </div>
         </div>
@@ -359,9 +237,9 @@ export default function Home() {
             {gallery.map(
               (src, index) => (
                 <button
-                  key={src}
+                  key={shownGallery[index].id}
                   type="button"
-                  onClick={() => setActiveImage(index)}
+                  onClick={() => setActiveImageId(shownGallery[index].id)}
                   aria-label={`Galeriebild ${index + 1} vergrößern`}
                   className="group overflow-hidden rounded-xl bg-[#e8ddd0] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#a98348]"
                 >
@@ -400,7 +278,7 @@ export default function Home() {
               rel="noopener noreferrer"
               className="font-semibold text-[#9c783f] underline decoration-[#c9b08b] underline-offset-4 transition-colors hover:text-[#6f512c]"
             >
-              @golesta.beauty
+              Instagram ansehen
             </a>
           </p>
         </div>
@@ -422,7 +300,7 @@ export default function Home() {
 
           <p className="mx-auto mt-6 max-w-xl leading-7 text-[#74685d]">
             {siteData.gutscheinText}
-          </p><div className="mt-5 flex flex-wrap justify-center gap-3">{data.voucher.values.map((v,i)=><span className="rounded-full border px-4 py-2" key={i}>{formatProductPrice(v)}</span>)}</div>
+          </p><div className="mt-5 flex flex-wrap justify-center gap-3">{data.voucher.values.map((v,i)=><span className="rounded-full border px-4 py-2" key={i}>{formatProductPrice(v)}</span>)}</div><a href={contactLinks(siteData).phone} className="mt-6 inline-flex min-h-11 items-center rounded-full border border-[#a98348] px-5 py-3 font-medium text-[#684b28] focus-visible:outline-2 focus-visible:outline-offset-4">Zum Gutscheinkauf anrufen</a>
         </div>
       </section>}
 
@@ -502,71 +380,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* FOOTER */}
-      <footer className="bg-[#332b26] px-5 py-10 text-center text-sm text-white/80">
-        <p>© 2026 Golesta Beauty · Villach</p>
-      </footer>
-
-      {/* GALLERY LIGHTBOX */}
-      {activeImage !== null && gallery[activeImage] && (
-        <div
-          role="dialog"
-          aria-modal="true"
-          aria-label="Galeriebild anzeigen"
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 p-4"
-          onClick={() => setActiveImage(null)}
-        >
-          <button
-            type="button"
-            aria-label="Galerie schließen"
-            onClick={() => setActiveImage(null)}
-            className="absolute top-5 right-5 z-10 rounded-full bg-white/15 px-4 py-2 text-2xl text-white"
-          >
-            ×
-          </button>
-
-          <button
-            type="button"
-            aria-label="Vorheriges Bild"
-            onClick={(event) => {
-              event.stopPropagation();
-              setActiveImage(
-                (activeImage - 1 + gallery.length) % gallery.length
-              );
-            }}
-            className="absolute left-3 z-10 rounded-full bg-white/15 px-4 py-3 text-2xl text-white sm:left-6"
-          >
-            ‹
-          </button>
-
-          <div
-            className="relative h-[80vh] w-[80vw]"
-            onClick={(event) => event.stopPropagation()}
-          >
-            <Image
-              src={gallery[activeImage]}
-              alt={`Golesta Beauty Galerie ${activeImage + 1}`}
-              fill
-              sizes="80vw"
-              className="object-contain"
-            />
-          </div>
-
-          <button
-            type="button"
-            aria-label="Nächstes Bild"
-            onClick={(event) => {
-              event.stopPropagation();
-              setActiveImage(
-                (activeImage + 1) % gallery.length
-              );
-            }}
-            className="absolute right-3 z-10 rounded-full bg-white/15 px-4 py-3 text-2xl text-white sm:right-6"
-          >
-            ›
-          </button>
-        </div>
-      )}
+      {activeImage >= 0 && shownGallery[activeImage] && <GalleryLightbox image={shownGallery[activeImage]} position={activeImage} total={shownGallery.length} onClose={() => setActiveImageId(null)} onPrevious={() => setActiveImageId(shownGallery[(activeImage-1+shownGallery.length)%shownGallery.length].id)} onNext={() => setActiveImageId(shownGallery[(activeImage+1)%shownGallery.length].id)} />}
     </main>
   );
 }

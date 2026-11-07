@@ -1,57 +1,52 @@
 "use client";
 import { useState, type ChangeEvent } from "react";
 import { adminRequest } from "@/lib/content-client";
+import { withTimeout } from "@/lib/request";
+import { useUploadActivity } from "./UploadActivity";
 import { button } from "./editor-types";
 
-/** Reduces large phone photos client-side before validating again with Sharp on the server. */
-async function prepare(file: File): Promise<Blob> {
-  if (!/^image\/(jpeg|png|webp)$/.test(file.type)) throw new Error("Nur JPG, PNG oder WebP verwenden.");
-  if (file.size <= 4 * 1024 * 1024) return file;
-  const bitmap = await createImageBitmap(file);
+/** Server Sharp validation/rotation is authoritative; large originals are reduced first. */
+async function prepare(file:File):Promise<Blob> {
+  if(!/^image\/(jpeg|png|webp)$/.test(file.type))throw Error("Bitte verwende JPG, PNG oder WebP.");
+  if(!file.size)throw Error("Die ausgewählte Datei ist leer.");
+  if(file.size>30*1024*1024)throw Error("Das Originalbild ist zu groß. Bitte verwende ein Bild unter 30 MB.");
+  if(file.size<=4*1024*1024)return file;
+  if(typeof createImageBitmap!=="function")throw Error("Bitte verwende in diesem Browser ein Bild unter 4 MB.");
+  const bitmap=await createImageBitmap(file,{imageOrientation:"from-image"});
   try {
-    if (bitmap.width * bitmap.height > 60_000_000) throw new Error("Bild ist zu groß.");
-    const scale = Math.min(1, 1800 / bitmap.width, 1800 / bitmap.height);
-    const canvas = document.createElement("canvas");
-    canvas.width = Math.round(bitmap.width * scale);
-    canvas.height = Math.round(bitmap.height * scale);
-    const ctx = canvas.getContext("2d");
-    if (!ctx) throw new Error("Browser konnte Bild nicht verarbeiten.");
-    ctx.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
-    const result = await new Promise<Blob | null>(resolve => canvas.toBlob(resolve, "image/webp", 0.78));
-    if (!result || result.size > 4 * 1024 * 1024) throw new Error("Bild nach Optimierung noch zu groß.");
+    if(bitmap.width*bitmap.height>60_000_000)throw Error("Das Bild hat zu viele Bildpunkte. Bitte verkleinere es vor dem Hochladen.");
+    const scale=Math.min(1,1800/bitmap.width,1800/bitmap.height);const canvas=document.createElement("canvas");
+    canvas.width=Math.round(bitmap.width*scale);canvas.height=Math.round(bitmap.height*scale);
+    const context=canvas.getContext("2d");if(!context)throw Error("Das Bild konnte nicht vorbereitet werden.");
+    context.drawImage(bitmap,0,0,canvas.width,canvas.height);
+    const result=await new Promise<Blob|null>(resolve=>canvas.toBlob(resolve,"image/webp",.78));
+    if(!result||result.size>4*1024*1024)throw Error("Das Bild ist nach der Verkleinerung noch zu groß.");
     return result;
-  } finally { bitmap.close(); }
+  }finally{bitmap.close();}
 }
-export default function ImageUpload({ onUploaded, multiple = false, label = "Bild(er) hochladen", disabled = false }: {
-  onUploaded: (urls: string[]) => void; multiple?: boolean; label?: string; disabled?: boolean;
+export default function ImageUpload({onUploaded,multiple=false,label="Bilder auswählen",disabled=false,maxFiles=multiple?12:1}:{
+  onUploaded:(urls:string[])=>void;multiple?:boolean;label?:string;disabled?:boolean;maxFiles?:number;
 }) {
-  const [busy, setBusy] = useState(false);
-  const [progress, setProgress] = useState("");
-  const [error, setError] = useState("");
-  async function upload(event: ChangeEvent<HTMLInputElement>) {
-    const files = Array.from(event.target.files || []);
-    event.target.value = "";
-    if (!files.length) return;
-    setBusy(true); setError("");
-    const uploaded: string[] = [];
+  const activity=useUploadActivity();const [busy,setBusy]=useState(false);const [progress,setProgress]=useState("");const [error,setError]=useState("");
+  async function upload(event:ChangeEvent<HTMLInputElement>) {
+    const files=Array.from(event.target.files||[]);event.target.value="";
+    if(!files.length||busy)return;
+    setError("");setProgress("");
+    if(files.length>maxFiles){setError(`Du kannst noch ${Math.max(0,maxFiles)} ${maxFiles===1?"Bild":"Bilder"} auswählen.`);return;}
+    if(files.some(file=>!/^image\/(jpeg|png|webp)$/.test(file.type)||!file.size)){setError("Bitte wähle ausschließlich gültige JPG-, PNG- oder WebP-Dateien.");return;}
+    setBusy(true);activity?.begin();const uploaded:string[]=[];
     try {
-      for (let i = 0; i < files.length; i++) {
-        setProgress(`${i + 1} / ${files.length}`);
-        const blob = await prepare(files[i]);
-        const response = await adminRequest("/api/admin/upload", { method: "POST", headers: { "Content-Type": "application/octet-stream" }, body: blob });
-        if (typeof response.url !== "string") throw new Error("Upload-Antwort ungültig.");
+      for(let index=0;index<files.length;index++){
+        setProgress(`Bild ${index+1} von ${files.length}`);
+        const blob=await withTimeout(prepare(files[index]),20_000,"Das Vorbereiten dauert zu lange. Bitte wähle ein kleineres Bild.");
+        const response=await adminRequest<{url:string}>("/api/admin/upload",{method:"POST",headers:{"Content-Type":"application/octet-stream"},body:blob});
         uploaded.push(response.url);
-        onUploaded([response.url]); // Keep successful uploads even if a subsequent file fails.
       }
-      setProgress(`${uploaded.length} Bild(er) hochgeladen – Änderungen speichern.`);
-    } catch (e) { setError(e instanceof Error ? e.message : "Upload fehlgeschlagen."); }
-    finally { setBusy(false); }
+      setProgress(`${uploaded.length} ${uploaded.length===1?"Bild":"Bilder"} übernommen. Bitte Änderungen speichern.`);
+    }catch(error){setError(`${error instanceof Error?error.message:"Das Bild konnte nicht hochgeladen werden."}${uploaded.length?` ${uploaded.length===1?"Ein bereits übernommenes Bild bleibt":`${uploaded.length} bereits übernommene Bilder bleiben`} erhalten. Bitte speichere deine Änderungen.`:""}`);}
+    finally{try{if(uploaded.length)onUploaded(uploaded);}finally{setBusy(false);activity?.end();}}
   }
-  return <div className="space-y-2">
-    <label className={`${button} cursor-pointer ${disabled || busy ? "pointer-events-none opacity-40" : ""}`}>
-      {busy ? `Lädt hoch ${progress}` : label}
-      <input className="sr-only" type="file" accept="image/jpeg,image/png,image/webp" multiple={multiple} disabled={disabled || busy} onChange={e => void upload(e)}/>
-    </label>
-    {(error || progress) && <p role="status" className={`text-xs ${error ? "text-red-700" : "text-[#74685d]"}`}>{error || progress}</p>}
-  </div>;
+  return <div className="space-y-2"><label className={`${button} admin-upload cursor-pointer ${disabled||busy||maxFiles<=0?"pointer-events-none opacity-40":""}`}>
+    {busy?`Wird hochgeladen: ${progress}`:label}<input aria-label={label} className="sr-only" type="file" accept="image/jpeg,image/png,image/webp" multiple={multiple} disabled={disabled||busy||maxFiles<=0} onChange={event=>void upload(event)}/>
+  </label>{(error||progress)&&<p role={error?"alert":"status"} className={`text-xs ${error?"text-red-700":"admin-muted"}`}>{error||progress}</p>}</div>;
 }

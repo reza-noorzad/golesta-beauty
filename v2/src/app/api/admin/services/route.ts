@@ -2,9 +2,13 @@ import { z } from "zod";
 import {
   failure,
   HttpError,
-  limitedBody,
+  readJson,
+  readDeadline,
+  json,
   requireAdmin,
 } from "@/lib/server/firebase";
+import { initialServices, normalizeCategories } from "@/lib/services";
+export const runtime = "nodejs";
 const item = z
   .object({
     id: z.string().min(1).max(100),
@@ -25,21 +29,21 @@ const schema = z
       .strict(),
   )
   .max(100);
+export async function GET(request: Request) {
+  try {
+    const { db } = await requireAdmin(request);
+    const snap = await readDeadline(db.doc("publicServices/current").get());
+    return json({ categories: snap.exists ? normalizeCategories(snap.data()?.categories) : initialServices(),
+      isLive: snap.exists, updatedAt: snap.data()?.updatedAt || null });
+  } catch (error) { return failure(error); }
+}
 export async function PUT(request: Request) {
   try {
     const { db } = await requireAdmin(request);
-    let body;
-    try {
-      body = JSON.parse((await limitedBody(request, 800000)).toString());
-    } catch (e) {
-      if (e instanceof HttpError) throw e;
-      throw new HttpError(400, "Ungültiges JSON.");
-    }
-    if (!body || typeof body !== "object" || Array.isArray(body))
-      throw new HttpError(400, "Ungültige Daten.");
-    const parsed = schema.safeParse(body.categories);
+    const parsed = z.object({ categories: schema, expectedUpdatedAt: z.string().datetime().nullable() }).strict()
+      .safeParse(await readJson(request, 800000));
     if (!parsed.success) throw new HttpError(400, "Leistungen prüfen.");
-    const categories = parsed.data;
+    const { categories, expectedUpdatedAt } = parsed.data;
     if (
       new Set(categories.map((c) => c.id)).size !== categories.length ||
       categories.some(
@@ -51,14 +55,14 @@ export async function PUT(request: Request) {
     const ref = db.doc("publicServices/current");
     await db.runTransaction(async (tx) => {
       const snap = await tx.get(ref);
-      if ((snap.data()?.updatedAt || null) !== body.expectedUpdatedAt)
+      if ((snap.data()?.updatedAt || null) !== expectedUpdatedAt)
         throw new HttpError(
           409,
           "Zwischenzeitlich geändert. Bitte Seite neu laden.",
         );
       tx.set(ref, { categories, updatedAt });
     });
-    return Response.json({ updatedAt });
+    return json({ updatedAt });
   } catch (e) {
     return failure(e);
   }
