@@ -1,6 +1,6 @@
 {
   "date": "2026-11-11",
-  "scope": "Current read-only Vercel project/deployment metadata and local code review. No environment values/credentials retrieved; no live Firebase/Auth/Firestore/Cloudinary calls.",
+  "scope": "Current review: local Git/source/configuration metadata only. Existing Vercel/public-HTML evidence below is historical and was not queried again. No live backend requests, secret files or resource identifier values read.",
   "preview": {
     "project": "golesta-beauty",
     "framework": "nextjs",
@@ -28,30 +28,31 @@
     "currentCheck": "Existence in project list only; no Production settings/deployment/data change."
   },
   "sharedResources": {
-    "firebaseProject": null,
-    "firestoreDatabase": null,
-    "firebaseAuthentication": null,
-    "cloudinaryProductEnvironment": null,
-    "cloudinaryParentAccount": null
+    "firebaseProject": false,
+    "firestoreDatabase": false,
+    "firebaseAuthentication": false,
+    "cloudinaryProductEnvironment": false,
+    "cloudinaryParentAccount": null,
+    "firebaseStorage": false
   },
   "gates": {
-    "firebase": "REQUIRES OWNER CONFIRMATION",
-    "cloudinary": "REQUIRES OWNER CONFIRMATION",
-    "vercelRootAndGitSettings": "REQUIRES OWNER CONFIRMATION",
-    "liveIntegrationQA": "BLOCKED"
+    "legacySharing": "RESOLVED_BY_OWNER_CONFIRMATION",
+    "runtimeConfiguration": "PENDING_AUTHORIZED_VERIFICATION",
+    "deployedPolicies": "PENDING_AUTHORIZED_VERIFICATION",
+    "administratorAndIntegration": "PENDING_AUTHORIZED_VERIFICATION"
   },
-  "conclusion": "UNKNOWN, neither proven isolated nor shared. Separate Vercel projects, READY build, old key names and absent HTML markers do not prove separation.",
+  "conclusion": "Owner confirmation resolves the legacy-sharing concern: old static site uses no Firebase or Cloudinary; existing Firebase belongs to V2. This is not an independent live audit. Runtime configuration, deployed policies and Cloudinary operation remain unverified. Preview and future V2 Production are NOT asserted to have separate data or credentials; reuse the existing project.",
   "configuredCode": {
     "firestoreDatabase": "(default)",
     "authentication": "Default Auth project/tenant; no separate test tenancy configured",
-    "cloudinaryFolder": "golesta-v2"
+    "cloudinaryFolder": "golesta-v2",
+    "storage": "Configured Admin Storage client; no active app bucket I/O found; Firebase-hosted image URLs allowed. Current uploads use Cloudinary.",
+    "clientServerProjectGuard": "backend() rejects missing or mismatched server/client project fields; this is source behavior, not a live comparison."
   },
   "manualChecks": [
-    "Confirm root v2 and Git settings in the Preview project's dashboard",
-    "Privately compare Preview and all actual production Firebase project IDs, (default) database and Auth project/tenant",
-    "Privately compare Cloudinary cloud names/product environments and parent account/billing",
-    "Check shared environment groups, integrations and deployment overrides, not only project-level variables",
-    "Confirm the intended Preview resources contain only authorized isolated test data before any live mutation"
+    "Privately verify actual new Vercel Preview/Production variable targets and existing V2 project consistency; owner already confirmed purpose/legacy non-use.",
+    "Authorize verification of deployed policies, existing admin login/session, real published content and existing Cloudinary integration; no resource/account creation.",
+    "Record and approve BOTH-domain routing/rollback separately; no assertion that V2 Preview/Production have different data or credentials."
   ],
   "historicalEvidence": {
     "date": "2026-11-07",
@@ -160,5 +161,215 @@
       ]
     }
   },
-  "ownership": "Authorized Firebase/Cloudinary/Vercel admins can confirm assignments privately. Owner's phone is not needed for local work; MFA/recovery belongs to the actual account holder when required."
+  "ownership": "Authorized Firebase/Cloudinary/Vercel admins can confirm assignments privately. Owner's phone is not needed for local work; MFA/recovery belongs to the actual account holder when required.",
+  "currentLocalHead": "3dd1c9ac01d24fcbde54b7929e381bb3e7307098",
+  "priorMetadataNote": "preview/production/historicalEvidence entries retain earlier observations; they are not current deployment/settings/resource assertions.",
+  "offlineReview": {
+    "date": "2026-11-11",
+    "head": "3dd1c9ac01d24fcbde54b7929e381bb3e7307098",
+    "scope": "New evidence is local-code-only. No network, Vercel/environment API, live provider call, Firebase Console, credentials/private identifier read or owner phone used. The local origin/main reference was not fetched; it is not a verified currently deployed revision.",
+    "resourceMatrix": [
+      {
+        "resource": "Firebase project",
+        "classification": "UNKNOWN",
+        "productionRepositoryUse": "No direct Firebase initialization/configuration in the reviewed static main snapshot.",
+        "developmentCode": "Client configuration and named server app use environment fields; backend rejects missing/mismatched client/server project fields.",
+        "unknown": "Actual deployed Production/Preview project assignments, credentials/IAM scope and any other production consumers are unavailable. Code equality validation is not a deployed identity comparison."
+      },
+      {
+        "resource": "Firestore",
+        "classification": "UNKNOWN",
+        "productionRepositoryUse": "No Firestore SDK/REST calls or backend routes in the reviewed static source.",
+        "developmentCode": "Client and server call getFirestore(app) without a database ID, selecting the default database. Public GET content/services read it; server mutations use it.",
+        "unknown": "Deployed project/default-database relationship and existing-data purpose are unverified. If project is shared, this code targets the same default database; collection prefixes do not isolate it."
+      },
+      {
+        "resource": "Authentication",
+        "classification": "UNKNOWN",
+        "productionRepositoryUse": "No Firebase Auth code/login/account storage in the reviewed static source; external Google review navigation is not Firebase Authentication.",
+        "developmentCode": "Client Auth persistence and server getAuth(app)/verifyIdToken use the project default Auth store; no test tenant configured.",
+        "unknown": "Actual project/user-store assignment and other production users are unverified. Separate app names or Vercel projects do not isolate users in a shared Firebase project."
+      },
+      {
+        "resource": "Firebase Storage",
+        "classification": "UNKNOWN",
+        "productionRepositoryUse": "Reviewed legacy images are repository assets; no Firebase Storage SDK/REST or hosted-image references found.",
+        "developmentCode": "Server initializes getStorage(app) with configured storageBucket; no active app bucket operations or client Storage upload calls found. Current image uploads use Cloudinary. Image schemas/Next optimizer allow Firebase-hosted images.",
+        "unknown": "Configured bucket identity/ownership/IAM, other consumers and stored image URL targets cannot be established offline. Initializing a Storage client is not evidence of a used or isolated bucket."
+      },
+      {
+        "resource": "Cloudinary",
+        "classification": "UNKNOWN",
+        "productionRepositoryUse": "No Cloudinary SDK, upload endpoint or hosted image reference in reviewed static source.",
+        "developmentCode": "Admin upload configures server-only cloud_name/key/secret, writes a Firestore quota transaction and uploads to a fixed folder with unique IDs and overwrite:false.",
+        "unknown": "Actual Preview/Production product environment and parent/billing account assignments, credentials' scope and stored asset origins are unavailable. A folder is not isolation; distinct clouds would not prove separate parent accounts."
+      }
+    ],
+    "legacyRepository": {
+      "ref": "local origin/main snapshot (not fetched)",
+      "commit": "e2d73ff2fd4868fa12a54f70cf28ebc0c201b5a5",
+      "trackedFiles": 28,
+      "htmlFiles": 5,
+      "backendOrDependencyConfigFiles": 0,
+      "externalScriptSources": 0,
+      "networkFetchCalls": 0,
+      "directFirebaseFirestoreAuthStorageCloudinaryReferences": 0,
+      "workingLegacyHtmlMatchesSnapshotIgnoringEol": true,
+      "reviewNavigation": "JavaScript and meta-refresh redirect to Google's short review service, not a custom Firebase review API.",
+      "websiteNavigation": "The scan page's external Website link equals the production site's default Vercel alias, not the Preview alias. Only comparison booleans were emitted; destinations/identifiers were not exported.",
+      "historicalApiBackup": "Ignored untracked API backup imports V2-style server Firebase/content helpers and uses a database; absent from production tree, not a deployable production backend or evidence of current production resource use.",
+      "limit": "No fetch/live deployment binding verified; separate services, deployment rewrites, injected code or other production consumers cannot be ruled out from this tree alone.",
+      "sources": [
+        {
+          "path": "index.html",
+          "sha256": "382d300fcc7744beedfa58d66c40996178dc5a58c918f26c6c809a7d86dbfadf"
+        },
+        {
+          "path": "review/index.html",
+          "sha256": "f3b387bcecb78db3727b746781541e40f48e082409762c6c01b572c6b267ff4f"
+        },
+        {
+          "path": "scan/index.html",
+          "sha256": "6f7cef454cb21e557827c3abfd9cd3e04b4f919f904c7c8c2f12fe04b15427f3"
+        },
+        {
+          "path": "links.html",
+          "sha256": "fcced5bca072d0a11542c0e25043699666eb93bd2651c0a39a0f55c20286fd98"
+        },
+        {
+          "path": "thanks.html",
+          "sha256": "c241399054657a9a3c7f6a32bf53a6a3e6126c86560b37dbb57e414e0b166c54"
+        }
+      ]
+    },
+    "activeCode": {
+      "sources": [
+        {
+          "path": "v2/src/lib/firebase.ts",
+          "sha256": "95c9cc3cc90ffaba3ddd043bc832f7f834ff5cfa97b811b1cca7cb06deb39d94"
+        },
+        {
+          "path": "v2/src/lib/server/firebase.ts",
+          "sha256": "c6e54f2699f728a1304bbf615b64e8cf4022e2bf41baad3e8b9091a284f4165f"
+        },
+        {
+          "path": "v2/src/app/api/admin/upload/route.ts",
+          "sha256": "f982447351713f3281758181274af519c316be75ac1e711907ad33702e382939"
+        },
+        {
+          "path": "v2/src/app/api/content/route.ts",
+          "sha256": "74953fdc72eeeab4ec297488cb2e1ceab7f4ddd604ee813f31a6e46fb7cb58be"
+        },
+        {
+          "path": "v2/src/app/api/services/route.ts",
+          "sha256": "add6cf2eb914dab168ca32904da9f2d6edd1ed5e3833716d3304076c85ed90d3"
+        },
+        {
+          "path": "v2/src/lib/content-client.ts",
+          "sha256": "acc30a0ef69ee8994145be9dbd0b9378ed596ab5b9cdb59bb905246dc69947a1"
+        },
+        {
+          "path": "v2/src/components/public/PublicSite.tsx",
+          "sha256": "2cb35ae0da0a97f7a088dcc389a68959bd43aa1f15224523ea5a251e7fc290fa"
+        },
+        {
+          "path": "v2/src/lib/content.ts",
+          "sha256": "87649bb837e1905f7466107abe028e98508072c395f4dea909e935b3074ba0ef"
+        },
+        {
+          "path": "v2/next.config.ts",
+          "sha256": "ca388641aaf962a2dd2fa943a39ec9ad36ac0f0c92509503e5414002b1eb4d56"
+        },
+        {
+          "path": "v2/tests/support/public-browser.ts",
+          "sha256": "08f08a0c8e29de864ec8bbe75d35a1e6b5c53cafd5da73bea0b3ad0ab08f3b26"
+        }
+      ],
+      "sourceBehaviorOnly": true,
+      "sameProjectImplications": [
+        "Default Firestore database and default Auth store would be shared for matching projects; V2 collection prefixes do not isolate users/databases.",
+        "Server Admin access is not separated by client Firestore/Storage Security Rules; actual IAM permissions were not checked."
+      ],
+      "assetOriginRisk": "Image validation permits approved URL shapes across buckets/cloud names without binding those targets to the configured bucket/cloud. Stored records were not read, so external asset origins remain unknown."
+    },
+    "localConfigurationMetadata": {
+      "trackedEnvironmentFiles": 0,
+      "localEnvironmentFileExists": true,
+      "localVercelLinkFileExists": false,
+      "rootVercelLinkFileExists": false,
+      "secretFilesRead": false,
+      "resourceIdentifierValuesRead": false,
+      "identifierComparisonsPerformed": "Only existing non-secret repository link/role metadata comparisons; no provider resource IDs compared.",
+      "historicalLocalClientServerIdMatch": "Previously recorded only; not repeated and not evidence of deployed Production/Preview identities.",
+      "sufficiency": "The reviewed local metadata does not provide paired authoritative deployed Production and Preview inventories; key presence/source defaults cannot establish deployed equality/separation."
+    },
+    "minimumOwnerConfirmations": [
+      "Confirm that the currently served Production site is the reviewed static root/main snapshot, with no injected scripts, platform rewrites/API integrations or additional production application using these resources. A yes/no source/deployment-scope confirmation can establish NOT USED BY PRODUCTION without supplying identifiers.",
+      "Confirm that intended Preview Firebase project/default database/Auth store, any Storage bucket and Cloudinary product environment are authorized for test use, and whether any other production workload depends on them.",
+      "If any production consumer exists, an authorized admin privately compares the two environments' project/default database/Auth tenant/bucket and Cloudinary product environment/parent account plus permissions/quotas. Report only same/different/not used/unknown and test authorization; never provide identifier values or credentials."
+    ],
+    "canProceedSafelyWithoutConsoleOrPhone": [
+      "Local source/configuration/documentation review without importing application initialization or reading credentials.",
+      "Existing offline unit/schema/image/dependency tests and mocked API/browser QA under inert process-only configuration, a loopback server and denied external traffic.",
+      "Existing synthetic local demo Rules emulator workflow with cached tools and credential/network guards, when separately needed; its passing evidence is already recorded and was not repeated here.",
+      "Local legacy static-site layout/navigation checks with external navigation/network blocked."
+    ],
+    "notSafeToTreatAsReadOnly": [
+      "Do not open an unmocked configured V2 Preview even for read-only UI QA: public pages poll GET content/services, server routes read Firestore, Auth may restore/refresh sessions, and remote images may access Storage/Cloudinary.",
+      "Do not execute the legacy Firebase read diagnostic, real login, saves, account actions, uploads or remote-image fetches before identity/test authorization and separate permission. Upload handling increments a Firestore quota before uploading.",
+      "Do not treat catalog-off, browser API mocks alone, separate Vercel projects, app names, folders, successful emulator tests or historical local identity checks as deployed resource-isolation proof."
+    ],
+    "classificationRule": "NOT USED BY PRODUCTION is supported for the inspected repository code only, not yet for actual production. If the owner confirms deployment binding and no other production consumers, use NOT USED BY PRODUCTION; do not relabel unused resources VERIFIED ISOLATED.",
+    "testsRun": false,
+    "applicationChanged": false,
+    "networkRequestsMade": false,
+    "settingsChanged": false,
+    "gitMutationPerformed": false,
+    "historicalScopeNote": "Earlier UNKNOWN conclusions describe the period before owner confirmation; launchResourceMatrix supersedes legacy-use uncertainty only."
+  },
+  "ownerConfirmation": {
+    "date": "2026-11-11",
+    "source": "Explicit owner statement in conversation",
+    "independentlyAuditedLive": false,
+    "oldWebsiteStatic": true,
+    "oldWebsiteUsesFirebase": false,
+    "oldWebsiteUsesCloudinary": false,
+    "existingFirebaseProjectBelongsToV2": true,
+    "replaceOldSiteWithV23": true,
+    "eventualLegacyRetirement": true,
+    "noAdditionalFirebaseProjects": true
+  },
+  "launchResourceMatrix": [
+    {
+      "resource": "Firebase project",
+      "legacyProductionUse": "NOT USED BY PRODUCTION",
+      "basis": "Owner confirmation, consistent with inspected static source",
+      "independentLiveVerification": false
+    },
+    {
+      "resource": "Firestore",
+      "legacyProductionUse": "NOT USED BY PRODUCTION",
+      "basis": "Owner confirmation, consistent with inspected static source",
+      "independentLiveVerification": false
+    },
+    {
+      "resource": "Authentication",
+      "legacyProductionUse": "NOT USED BY PRODUCTION",
+      "basis": "Owner confirmation, consistent with inspected static source",
+      "independentLiveVerification": false
+    },
+    {
+      "resource": "Firebase Storage",
+      "legacyProductionUse": "NOT USED BY PRODUCTION",
+      "basis": "Owner confirmation, consistent with inspected static source",
+      "independentLiveVerification": false
+    },
+    {
+      "resource": "Cloudinary",
+      "legacyProductionUse": "NOT USED BY PRODUCTION",
+      "basis": "Owner confirmation, consistent with inspected static source",
+      "independentLiveVerification": false
+    }
+  ],
+  "sharedResourcesBasis": "Legacy static website versus V2, based on owner-confirmed non-use. Not a Preview-versus-V2-Production isolation assertion."
 }

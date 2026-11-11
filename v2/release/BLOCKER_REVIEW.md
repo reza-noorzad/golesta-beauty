@@ -1,6 +1,6 @@
-# Phase 5B - release gate reconciliation (2026-11-11)
+# V2.3 launch decision and retained blocker history
 
-Current decision: **BLOCKED for release**; a reviewable checkpoint is separate from deployment approval. Java **21.0.13+9-LTS is VERIFIED**, not missing. Existing baseline Preview **9f81aeb is VERIFIED READY** but excludes local Phase 5B. Rules emulator pass is now **VERIFIED**: existing case passed 1/0, exit 0, in two isolated demo runs with 18 assertions; current source/config/lock and logs are hash-bound. Residual findings: **30 all / 12 production**, no risk acceptance. Current Vercel root/Git and backend isolation: **REQUIRES OWNER CONFIRMATION**.
+Current decision: **NO-GO for domain cutover; code ready for an approved checkpoint/Preview.** Owner confirmation resolves legacy Firebase/Cloudinary sharing. Current gates: runtime configuration/deployed policies, real candidate/admin verification, explicit scoped dependency decision and authorized cutover/rollback. GO_LIVE_PLAN.md is authoritative; earlier sections below are historical snapshots.
 
 Preserved evidence: navigation Edge **33/0**; final Windows WebKit **42/0** (33 desktop + 9 iPhone profile); focused Edge **3/0** after minimal gallery focus fix; offline dependency **5/0**; mocked admin/upload **22/0**; latest typecheck/lint/build passed, **26 static pages**. These are saved results, not newly repeated suites or physical Safari/live integration proof.
 
@@ -175,3 +175,21 @@ At that dependency-review checkpoint, Java/emulator, Vercel root/Git and resourc
 Evidence and exact reproduction: VERIFICATION_RESULTS.json / PREVIEW_READINESS.md. The new runner corrects a first-run log-redirection defect: the old ignored root firestore-debug.log was overwritten and could not be recovered; corrected run redirected and preserved root bytes. This exception remains explicit; app/source/tests/lock and unrelated tracked/untracked files are preserved. Safe checkpoint list now 19 files, 15 held; no staging.
 
 Independent release gates remain: residual dependency release decision BLOCKED, actual Vercel settings and Firebase/Cloudinary isolation REQUIRES OWNER CONFIRMATION, physical/live integration QA and undeployed local Preview BLOCKED. No commit/push/deploy or live rules changes.
+
+## Offline backend-isolation evidence update - 2026-11-11
+
+Reviewed complete local origin/main static tree (28 files/five HTML pages) and V2 initialization/configuration. No direct Firebase/Firestore/Auth/Storage/Cloudinary use in the legacy snapshot; Google review redirect and production-alias Website link do not introduce a custom backend. Ignored V2-style API backup is not production-tree evidence. However deployed binding/other resource consumers are unavailable, so all five actual resource relationships remain **UNKNOWN**, not VERIFIED ISOLATED or VERIFIED SHARED. Unconditional NOT USED BY PRODUCTION needs confirmation that this static snapshot represents the entire relevant production scope.
+
+New code facts: server validates client/server project-field equality; default Firestore/Auth have no test tenancy; Storage client configured with no active app bucket I/O found, current uploads use Cloudinary. Image URL shapes permit other buckets/clouds; stored asset targets/IAM/quotas remain unchecked. Local environment presence/historical match cannot identify remote resources. No credential file/resource value or live API was accessed.
+
+Minimum confirmations and exact safe-QA boundaries are in RESOURCE_ISOLATION.json offlineReview and the appended PREVIEW_READINESS.md section. Only static/mocked/demo-local QA with inert configuration and denied external traffic is appropriate now; ordinary Preview GET/page/image/auth activity may access live backends. No Firebase Console or owner phone required for this review. No new tests, code changes, staging or publishing; local checkpoint `3dd1c9ac01d24fcbde54b7929e381bb3e7307098` remains intact, public catalog false. Prior log exception remains unchanged and disclosed. STAGING_PLAN remains the committed precommit snapshot.
+
+## Final launch preparation completion
+
+Owner confirms old static Production uses no Firebase or Cloudinary and existing Firebase is for V2. This is owner evidence consistent with source, not an independent live audit. No new project or assertion of separate V2 Preview/Production data/credentials.
+
+The saved launch checks are confirmed: 3/0 focused legacy-link tests after 0/3 reproduction, 10/0 inert HTTP smoke, TypeScript/build and targeted lint PASS; source/artifact hashes match. No repeated suites on resume. Legacy review queries do not reach Google; scan/thanks compatibility is retained.
+
+Saved dependency findings remain 30 all/12 production. Affected gRPC server and UUID buffer paths were not found in reviewed application use; dev advisories concern hostile tooling inputs. These are reachability observations, not risk acceptance. DEPENDENCY_TRIAGE.json now explicitly requires a scoped release decision or supported remediation.
+
+GO_LIVE_PLAN.md separates actual configuration/admin/deployment/cutover gates from limitations and specifies the exact Preview, staged Production, both-domain move, rollback and later retirement sequence. No provider/settings/domain changes or Git publishing performed. Prior log exception remains disclosed; current logs preserved.

@@ -1,11 +1,11 @@
 {
-  "phase": "5B Firebase Rules emulator verification",
+  "phase": "V2.3 final go-live preparation",
   "date": "2026-11-11",
   "branch": "development/golesta-v2",
   "head": "9f81aebfa5dd6cebb798bf4888a3834976d7201a",
   "remoteHead": "9f81aebfa5dd6cebb798bf4888a3834976d7201a",
   "checkpoint": "Working-tree recommendation only. No staging, commit, push, deploy or release.",
-  "evidencePolicy": "Fresh Rules runs below are bound to source/config/lock/runner and cached emulator hashes. Other app/browser/build results remain prior saved evidence; no unrelated suites repeated. The same Rules case passed in two runs, not two distinct tests.",
+  "evidencePolicy": "Prior QA and Rules runs retained. Recorded launch build/HTTP checks are source/artifact-bound and reverified on resume without repeating suites. Owner confirmations are separate from technical runtime verification.",
   "checks": [
     {
       "check": "Navigation/public/services Edge",
@@ -180,14 +180,16 @@
       "evidence": "Connector omits current configured Git/root settings. Required root v2. Authorized Vercel admin can confirm read-only without Firebase Console or salon phone."
     },
     {
-      "gate": "Firebase/Firestore/Auth isolation",
-      "status": "REQUIRES OWNER CONFIRMATION",
-      "evidence": "Actual Production/Preview project/default database/Auth store/domain assignments not reliably compared. Authorized account admin must privately confirm isolated test assignment."
+      "gate": "Legacy Firebase/Firestore/Auth non-use",
+      "status": "VERIFIED",
+      "evidence": "Explicit owner confirmation, consistent with static source; not an independent live audit. V2 runtime configuration remains unverified; Preview and future Production may share resources.",
+      "evidenceType": "owner confirmation"
     },
     {
-      "gate": "Cloudinary isolation",
-      "status": "REQUIRES OWNER CONFIRMATION",
-      "evidence": "Product environment and parent/billing account boundaries unknown. Folder golesta-v2 is not isolation. Authorized Cloudinary admin confirmation needed."
+      "gate": "Legacy Cloudinary non-use",
+      "status": "VERIFIED",
+      "evidence": "Explicit owner confirmation, consistent with static source; not an independent live audit. V2 runtime configuration remains unverified; Preview and future Production may share resources.",
+      "evidenceType": "owner confirmation"
     },
     {
       "gate": "Credential validity and live integration QA",
@@ -196,8 +198,8 @@
     },
     {
       "gate": "Physical iPhone/Safari and Android QA",
-      "status": "BLOCKED",
-      "evidence": "Windows engine/viewport tests do not establish physical-device behavior. Use any authorized suitable test device and isolated target; not necessarily owner's personal phone."
+      "status": "REQUIRES OWNER CONFIRMATION",
+      "evidence": "Documented limitation, not an automatic launch blocker or request for owner's phone; existing WebKit/Edge results retained."
     },
     {
       "gate": "Public catalog disabled",
@@ -213,6 +215,11 @@
       "gate": "Safe checkpoint recommendation",
       "status": "VERIFIED",
       "evidence": "19 explicit file recommendations, 15 held paths; 196/196 protected hashes match the 203-file task-start snapshot, 7 authorized existing report/helper edits plus 1 new runner. No index changes. One ignored historical emulator log was overwritten in the first run; incident disclosed."
+    },
+    {
+      "gate": "Legacy QR cutover compatibility",
+      "status": "VERIFIED",
+      "evidence": "Recorded 3/0 focused HTTP regressions and 10/0 inert smoke; same source/artifact hashes confirmed on resume."
     }
   ],
   "initialFailures": {
@@ -779,5 +786,121 @@
       "targetedHelperLintExitCode": 0,
       "runnerSyntaxExitCode": 0
     }
+  },
+  "launchPreparation": {
+    "date": "2026-11-11",
+    "assessment": "CODE READY FOR APPROVED CHECKPOINT; NO-GO FOR DOMAIN CUTOVER",
+    "ownerConfirmation": {
+      "source": "Explicit owner statement",
+      "independentlyAuditedLive": false,
+      "legacyStatic": true,
+      "legacyFirebaseOrCloudinaryUse": false,
+      "existingFirebaseBelongsToV2": true,
+      "newProjectsForbidden": true
+    },
+    "criticalBlockers": [
+      "Verify BOTH environment targets/root/runtime, existing credentials and deployed policies privately",
+      "Approved-SHA Preview/staged-Production, published content and existing-admin/integration verification",
+      "Explicit scoped dependency release decision",
+      "Explicit release/domain approval and recorded rollback state"
+    ],
+    "legacyFix": {
+      "before": {
+        "passed": 0,
+        "failed": 3,
+        "exitCode": 1
+      },
+      "after": {
+        "passed": 3,
+        "failed": 0,
+        "exitCode": 0
+      },
+      "reviewDestinationPreserved": true,
+      "externalQueryForwarding": false,
+      "paths": [
+        "/scan",
+        "/review",
+        "/thanks.html"
+      ]
+    },
+    "validation": {
+      "legacyHttp": {
+        "passed": 3,
+        "failed": 0
+      },
+      "inertHttpSmoke": {
+        "passed": 10,
+        "failed": 0
+      },
+      "build": {
+        "exitCode": 0,
+        "includesTypeScript": true,
+        "staticPages": 27,
+        "isolatedCopy": true,
+        "validationOnlyTurbopackRoot": true
+      },
+      "targetedLintExitCode": 0,
+      "sourcesAndArtifactsReverifiedOnResume": true,
+      "suitesRepeatedOnResume": false,
+      "credentialFilesRead": false,
+      "liveProviderUsed": false,
+      "initialSmokeHarnessNote": "Initial contact assertion required www only; existing valid apex link caused that script to exit 1 after all 10 HTTP checks passed. Corrected to accept the intended apex/www pair; no source edit or HTTP rerun."
+    },
+    "sourceFiles": [
+      {
+        "path": "v2/next.config.ts",
+        "sha256": "fa503fe1071b8701b8a1e77d1cc27dbf558e754d222d606a65373335fd2f9be5"
+      },
+      {
+        "path": "v2/src/app/review/route.ts",
+        "sha256": "f80e1b3dcda8dfab5fe8748fec9f93dad4673493d8de295a14812c0d181c7ce7"
+      },
+      {
+        "path": "v2/tests/legacy-links.spec.ts",
+        "sha256": "260f392ae503ef257d56b630c3ce906f3a877f595dc81bfd1d253e7fadef1016"
+      }
+    ],
+    "artifacts": [
+      {
+        "path": ".backups/go-live-validation-AJeVs9/legacy-before.log",
+        "sha256": "ed34bc8aff0a444c57d532ae0392ba379076167805a72480de739c50dba3ea66",
+        "includedInCheckpoint": false
+      },
+      {
+        "path": ".backups/go-live-validation-AJeVs9/legacy-after.log",
+        "sha256": "41b1ccc9fb9571afe8c12ae05242eb18949e2501805d534c38a7aafcbaed7ea3",
+        "includedInCheckpoint": false
+      },
+      {
+        "path": ".backups/go-live-validation-AJeVs9/build.log",
+        "sha256": "8240b9a99d9fa608865125f9d039590b8692fb6efa6feef4fb7e69cd84825362",
+        "includedInCheckpoint": false
+      },
+      {
+        "path": ".backups/go-live-validation-AJeVs9/lint.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "includedInCheckpoint": false
+      },
+      {
+        "path": ".backups/go-live-validation-AJeVs9/public-smoke.json",
+        "sha256": "884b2658439ffe8daaaba91114427e5a5edba29d89caa198e6c7493805bce75e",
+        "includedInCheckpoint": false
+      },
+      {
+        "path": ".backups/go-live-validation-AJeVs9/public-smoke-final.json",
+        "sha256": "1f9529d3f7e04f5ccec82230fdfa66caaf7d651d18896d85dd578a0a2cf89e40",
+        "includedInCheckpoint": false
+      }
+    ],
+    "plan": "v2/release/GO_LIVE_PLAN.md",
+    "committed": false,
+    "pushed": false,
+    "deployed": false,
+    "limitations": [
+      "No assertion of separate Preview/future V2 Production data or credentials",
+      "Live credentials/deployed policies/admin/integration/domain checks pending",
+      "Physical-device matrix not an automatic blocker requiring owner's phone",
+      "Historical log exception preserved"
+    ]
   }
 }

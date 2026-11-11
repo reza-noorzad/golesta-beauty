@@ -1236,5 +1236,16 @@
       "v2/release/BLOCKER_REVIEW.md",
       "v2/release/PREVIEW_READINESS.md"
     ]
+  },
+  "launchDecision": {
+    "date": "2026-11-11",
+    "status": "REQUIRES_EXPLICIT_SCOPED_RELEASE_DECISION",
+    "riskAccepted": false,
+    "newAuditRun": false,
+    "dependencyGraphChanged": false,
+    "runtimeGrpc": "Affected gRPC server auth/error paths not found in app; vulnerable Firebase client copy, Admin copy separately patched. Severity retained; explicit deferral/acceptance or supported parent fix.",
+    "runtimeUuid": "Affected buffer APIs not found in inspected callers; v4/crypto.randomUUID used. Not blanket exploitability clearance; scoped decision required.",
+    "developmentTooling": "OTEL/glob/minimatch may exhaust tooling/CI on hostile inputs; no public app path found. Controlled inputs and upstream tracking; not silently dismissed.",
+    "constraints": "Use existing advisory/range/parent review. No unsupported override, downgrade, forced major upgrade or automatic acceptance."
   }
 }

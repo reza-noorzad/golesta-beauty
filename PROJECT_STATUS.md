@@ -8,16 +8,15 @@ Updated: 2026-11-11 (Europe/Berlin)
 - Permanent development branch: `development/golesta-v2` (verified).
 - Current specification: master development prompt v2.3; Phases 1–4B-2 and the Phase 5A implementation/checkpoint are recorded; release gates remain open. Phase 5B local navigation, dependency review and Playwright WebKit QA are complete below; Preview release approval remains BLOCKED.
 - Package version: `0.1.0` (unchanged; no release or tag created).
-- Current local HEAD / remote branch tip: `9f81aebfa5dd6cebb798bf4888a3834976d7201a` - both verified by local Git and read-only git ls-remote; no fetch or Git mutation.
-- Baseline Preview build at 9f81aeb: READY in deployment metadata. Local Phase 5B remains uncommitted/not deployed; no fully verified live integration release established.
+- Current local HEAD: `3dd1c9ac01d24fcbde54b7929e381bb3e7307098` - completed LOCAL Phase 5B checkpoint; last recorded pushed checkpoint remains `9f81aeb`. No remote query/fetch/push in this review.
+- Historical baseline Preview build at 9f81aeb: READY in earlier metadata. Phase 5B is committed locally at 3dd1c9a, not pushed/deployed; no fully verified live integration release established.
 - Production reference from brief: Vercel `golesta-beauty-web`, `www.golestabeauty.com`.
 - Development reference: Vercel `golesta-beauty`; Next.js/Node 24, Preview variable names and observed deployment repository/development branch confirmed read-only. Current project Git/root settings and backend isolation remain unverified; no settings/deployments changed.
 - Do not change `main`, push, deploy, delete Firestore data, commit secrets, or modify production. Preserve QR links and business data.
 
 ## Current phase
 
-Phase 5B — Windows Playwright WebKit QA completed: one minimal gallery focus fix; 42 WebKit and 3 focused Edge checks pass, as do final typecheck/lint/build. Navigation changes and dependency-security fixes/reports are preserved. This is browser-engine/device-profile emulation, not physical iPhone or Safari testing.
-Release assessment: BLOCKED by residual dependencies, settings/isolation confirmation and physical/live integration QA. Existing local Rules emulator test is now VERIFIED (1/0, exit 0, 18 assertions). Java 21 is now VERIFIED; 9f81aeb baseline Preview is VERIFIED READY but excludes local Phase 5B. Read-only metadata only; no credentials retrieved or live integration, staging, commit, push, deployment/Production action.
+Final go-live preparation completed after the interruption. Redirect fixes and saved validation are intact; owner confirmation resolves old-site sharing. Code is ready for an approved checkpoint/Preview, but NO-GO for domain cutover until runtime/deployed-policy/admin checks, scoped dependency decision and explicit cutover approval. Concrete sequence: v2/release/GO_LIVE_PLAN.md. No commit/push/deploy, provider mutation or domain/settings changes.
 
 **Reading this record:** phase-specific entries are historical snapshots. Old HEAD 581b1c2, Java-unavailable and not-started phase statements describe their original checkpoints; latest Phase 5B reconciliation below and PREVIEW_READINESS.md are authoritative.
 
@@ -798,3 +797,58 @@ Helper syntax and targeted ESLint: **PASS**, exit 0. Existing successful app typ
 Recommended next action: review this evidence/19-file checkpoint; obtain authorized admins' resource/settings confirmation and residual dependency decision before release. No need for Firebase Console or owner's phone for repeating the isolated demo verification.
 
 Final Rules-task preservation/review: **196/196 protected eligible-file SHA-256 match** the 203-file starting snapshot; 7 authorized existing reports/helper edits plus 1 new runner, 0 missing eligible files. Existing app/source/tests/rules/config/lock and all held files are byte-identical. The ignored historical log overwrite is explicitly excluded from this claim. Fresh credential-free audit: **0 findings / 204 eligible paths / 119 build files**, 0 audit credential-read or private-key-parse attempts; no emulator listeners on checked ports. Manifest: **19 recommended / 15 held**. Helper syntax/targeted lint and git diff whitespace checks passed; no staging/Git publishing/live-resource action.
+
+## Read-only backend isolation review - 2026-11-11
+
+Current local checkpoint: `3dd1c9ac01d24fcbde54b7929e381bb3e7307098`, branch `development/golesta-v2`. New evidence is local-code-only. No network, Vercel/environment API, live provider call, Firebase Console, credentials/private identifier read or owner phone used. The local origin/main reference was not fetched; it is not a verified currently deployed revision.
+
+Reviewed the complete locally stored legacy main tree: **28 files, five HTML pages**, images/README only; no backend/API/dependency/deployment configuration, external script sources, Firebase/Firestore/Auth/Storage/Cloudinary integrations or fetch/XHR calls. Working legacy HTML matches that snapshot ignoring line endings. Review navigation is a Google review redirect; the scan Website link matches the Production alias, not Preview. This establishes **no direct service use in that source**, not the current deployed inventory. The ignored older API backup imports V2-style helper code and is not in the production tree.
+
+| Resource | Actual deployed classification | Source evidence / remaining gap |
+| --- | --- | --- |
+| Firebase project | **UNKNOWN** | No direct Firebase initialization/configuration in the reviewed static main snapshot. Actual deployed Production/Preview project assignments, credentials/IAM scope and any other production consumers are unavailable. Code equality validation is not a deployed identity comparison. |
+| Firestore | **UNKNOWN** | No Firestore SDK/REST calls or backend routes in the reviewed static source. Deployed project/default-database relationship and existing-data purpose are unverified. If project is shared, this code targets the same default database; collection prefixes do not isolate it. |
+| Authentication | **UNKNOWN** | No Firebase Auth code/login/account storage in the reviewed static source; external Google review navigation is not Firebase Authentication. Actual project/user-store assignment and other production users are unverified. Separate app names or Vercel projects do not isolate users in a shared Firebase project. |
+| Firebase Storage | **UNKNOWN** | Reviewed legacy images are repository assets; no Firebase Storage SDK/REST or hosted-image references found. Configured bucket identity/ownership/IAM, other consumers and stored image URL targets cannot be established offline. Initializing a Storage client is not evidence of a used or isolated bucket. |
+| Cloudinary | **UNKNOWN** | No Cloudinary SDK, upload endpoint or hosted image reference in reviewed static source. Actual Preview/Production product environment and parent/billing account assignments, credentials' scope and stored asset origins are unavailable. A folder is not isolation; distinct clouds would not prove separate parent accounts. |
+
+V2 client/server project equality is checked by code, not confirmed runtime metadata. Default Firestore/Auth would be shared if the project were shared. Storage is configured but no active app bucket operations were found; current uploads use Cloudinary. Existing image URL shapes can reference other buckets/clouds, so configuration separation alone would not prove every asset origin isolated. No stored records were inspected.
+
+### Local configuration evidence
+
+Local environment file presence, tracked key names and earlier reports provide no paired authoritative Production/Preview inventory. No .env/credential file or provider resource-identifier value was read, printed, exported or added. Earlier local project-ID equality is historical and cannot establish remote assignments. Current local Vercel link metadata is absent. The prior Vercel observations remain historical, not new checks.
+
+### Safe QA now
+
+- Local source/configuration/documentation review without importing application initialization or reading credentials.
+- Existing offline unit/schema/image/dependency tests and mocked API/browser QA under inert process-only configuration, a loopback server and denied external traffic.
+- Existing synthetic local demo Rules emulator workflow with cached tools and credential/network guards, when separately needed; its passing evidence is already recorded and was not repeated here.
+- Local legacy static-site layout/navigation checks with external navigation/network blocked.
+
+- Do not open an unmocked configured V2 Preview even for read-only UI QA: public pages poll GET content/services, server routes read Firestore, Auth may restore/refresh sessions, and remote images may access Storage/Cloudinary.
+- Do not execute the legacy Firebase read diagnostic, real login, saves, account actions, uploads or remote-image fetches before identity/test authorization and separate permission. Upload handling increments a Firestore quota before uploading.
+- Do not treat catalog-off, browser API mocks alone, separate Vercel projects, app names, folders, successful emulator tests or historical local identity checks as deployed resource-isolation proof.
+
+### Minimum later confirmations (no Console/phone required now)
+
+1. Confirm that the currently served Production site is the reviewed static root/main snapshot, with no injected scripts, platform rewrites/API integrations or additional production application using these resources. A yes/no source/deployment-scope confirmation can establish NOT USED BY PRODUCTION without supplying identifiers.
+2. Confirm that intended Preview Firebase project/default database/Auth store, any Storage bucket and Cloudinary product environment are authorized for test use, and whether any other production workload depends on them.
+3. If any production consumer exists, an authorized admin privately compares the two environments' project/default database/Auth tenant/bucket and Cloudinary product environment/parent account plus permissions/quotas. Report only same/different/not used/unknown and test authorization; never provide identifier values or credentials.
+
+No isolation gate is cleared by this review. Resource classifications remain **UNKNOWN** for actual deployment relationships; **NOT USED BY PRODUCTION** is conditional on confirming the static deployed scope/no other consumers. No new test suite, build, server, provider request or emulator run was necessary for documentation-only analysis. Existing test evidence remains unchanged.
+
+Preservation: the LOCAL checkpoint `3dd1c9ac01d24fcbde54b7929e381bb3e7307098` and all 15 held paths/logs remain intact. Only PROJECT_STATUS.md, RESOURCE_ISOLATION.json, PREVIEW_READINESS.md and BLOCKER_REVIEW.md updated in this review. No app/source/dependency/configuration/rule changes; public catalog remains false. Committed STAGING_PLAN.json remains a historical precommit manifest for 3dd1c9a, not an allowlist/authorization for a new commit.
+
+## Final go-live preparation - interrupted documentation completed
+
+The declined large command was not assumed executed. GO_LIVE_PLAN.md was created and release records updated in small focused edits.
+
+Owner evidence: old Production is static and uses no Firebase/Cloudinary; existing Firebase belongs to V2. This resolves legacy sharing but is not a live technical audit, credential check or claim that Preview and future V2 Production have separate databases/credentials. Create no additional provider projects.
+
+Redirect code and prior results reverified by source/artifact hashes: legacy tests **3 passed/0 failed** after **0 passed/3 failed** reproduction; inert HTTP smoke **10 passed/0 failed**; production build with TypeScript and targeted lint **PASS**, **27 static pages**. No passing suite repeated on resume. Review uses the unchanged legacy Google target and drops incoming query data; scan reaches links, thanks reaches contact without claiming an order.
+
+Remaining critical gates: verify BOTH Vercel variable targets/root/runtime and deployed policies privately; verify approved-SHA Preview/staged Production, actual content and existing administrator/integration; explicit scoped dependency release decision; authorize the recorded-rollback two-domain cutover. Device/performance coverage and historical log exception are documented limitations; catalog/commerce stays paused. No automatic dependency acceptance.
+
+Exact future Preview/admin/staged Production, apex/www move, rollback and legacy-retirement steps plus the proposed ten-file checkpoint: [GO_LIVE_PLAN.md](v2/release/GO_LIVE_PLAN.md). STAGING_PLAN.json is the already-committed historical manifest, not an allowlist for these new edits.
+
+No new source changes on resume; completed next.config.ts, static review route and legacy-link tests preserved. Local HEAD remains 3dd1c9a. No commit, push, deployment, deletion, live provider mutation, account change or Vercel/domain setting change; PUBLIC_CATALOG_ENABLED=false.

@@ -1,5 +1,11 @@
 import type { NextConfig } from "next";
 const nextConfig:NextConfig={
+  async redirects(){return [
+    {source:"/scan",destination:"/links.html",permanent:false},
+    {source:"/scan/index.html",destination:"/links.html",permanent:false},
+    {source:"/review/index.html",destination:"/review",permanent:false},
+    {source:"/thanks.html",destination:"/#kontakt",permanent:false},
+  ];},
   async headers(){return [{source:"/:path*",headers:[
     {key:"Content-Security-Policy",value:"frame-ancestors 'none'; object-src 'none'; base-uri 'self'"},
     {key:"X-Frame-Options",value:"DENY"},
