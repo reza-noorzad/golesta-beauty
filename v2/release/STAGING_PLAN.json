@@ -1,118 +1,24 @@
 {
   "branch": "development/golesta-v2",
-  "head": "581b1c2",
+  "head": "9f81aeb",
   "stagingPerformed": false,
   "application": [
-    "v2/eslint.config.mjs",
-    "v2/next.config.ts",
     "v2/package-lock.json",
-    "v2/package.json",
-    "v2/playwright.config.ts",
-    "v2/src/app/admin/admin.css",
-    "v2/src/app/admin/benutzer/page.tsx",
-    "v2/src/app/admin/bewertungen/page.tsx",
-    "v2/src/app/admin/error.tsx",
-    "v2/src/app/admin/layout.tsx",
-    "v2/src/app/admin/leistungen/page.tsx",
-    "v2/src/app/admin/loading.tsx",
-    "v2/src/app/admin/login/page.tsx",
-    "v2/src/app/admin/page.tsx",
-    "v2/src/app/api/admin/content/route.ts",
-    "v2/src/app/api/admin/reviews/route.ts",
-    "v2/src/app/api/admin/services/route.ts",
-    "v2/src/app/api/admin/session/route.ts",
-    "v2/src/app/api/admin/upload/route.ts",
-    "v2/src/app/api/admin/users/route.ts",
-    "v2/src/app/api/content/route.ts",
-    "v2/src/app/api/reviews/route.ts",
-    "v2/src/app/api/services/route.ts",
-    "v2/src/app/layout.tsx",
-    "v2/src/app/leistungen/layout.tsx",
-    "v2/src/app/leistungen/page.tsx",
+    "v2/playwright.public-webkit.config.ts",
     "v2/src/app/page.tsx",
-    "v2/src/app/produkte/[slug]/page.tsx",
-    "v2/src/app/produkte/page.tsx",
-    "v2/src/components/AnnouncementBanner.tsx",
-    "v2/src/components/ServicesAccordion.tsx",
-    "v2/src/components/ServicesGrid.tsx",
-    "v2/src/components/admin/AdminSession.tsx",
-    "v2/src/components/admin/AdminShell.tsx",
-    "v2/src/components/admin/ChoiceList.tsx",
-    "v2/src/components/admin/ContentEditor.tsx",
-    "v2/src/components/admin/FeaturedProducts.tsx",
-    "v2/src/components/admin/GalleryEditor.tsx",
-    "v2/src/components/admin/ImageUpload.tsx",
-    "v2/src/components/admin/MarketingEditor.tsx",
-    "v2/src/components/admin/OrderPosition.tsx",
-    "v2/src/components/admin/ProductForm.tsx",
-    "v2/src/components/admin/ProductsEditor.tsx",
-    "v2/src/components/admin/Reorderable.tsx",
-    "v2/src/components/admin/SettingsEditor.tsx",
-    "v2/src/components/admin/TeamEditor.tsx",
-    "v2/src/components/admin/UploadActivity.tsx",
-    "v2/src/components/admin/editor-types.tsx",
-    "v2/src/components/admin/ui.tsx",
-    "v2/src/components/admin/useUnsavedChanges.ts",
-    "v2/src/components/public/GalleryLightbox.tsx",
-    "v2/src/components/public/ProductCatalog.tsx",
-    "v2/src/components/public/ProductDetail.tsx",
     "v2/src/components/public/ProductsComingSoon.tsx",
-    "v2/src/components/public/PublicFooter.tsx",
-    "v2/src/components/public/PublicHeader.tsx",
-    "v2/src/components/public/PublicSite.tsx",
-    "v2/src/components/public/public.css",
-    "v2/src/lib/admin-api.ts",
-    "v2/src/lib/admin-session.ts",
-    "v2/src/lib/administration.ts",
-    "v2/src/lib/content-client.ts",
-    "v2/src/lib/content.ts",
-    "v2/src/lib/firebase.ts",
-    "v2/src/lib/pricing.ts",
-    "v2/src/lib/product-management.ts",
-    "v2/src/lib/public-config.ts",
-    "v2/src/lib/public-content.ts",
-    "v2/src/lib/request.ts",
-    "v2/src/lib/server/authorization.ts",
-    "v2/src/lib/server/firebase.ts",
-    "v2/src/lib/server/http.ts",
-    "v2/src/lib/services-store.ts",
-    "v2/src/lib/services.ts",
-    "v2/tsconfig.json"
+    "v2/src/components/public/PublicHeader.tsx"
   ],
   "tests": [
-    "v2/tests/admin-auth.spec.ts",
-    "v2/tests/admin-http-smoke.mjs",
-    "v2/tests/admin-routes.test.mts",
-    "v2/tests/admin-ui.spec.ts",
-    "v2/tests/administration.spec.ts",
-    "v2/tests/administration.test.ts",
-    "v2/tests/api-errors.test.ts",
-    "v2/tests/api-smoke.mjs",
-    "v2/tests/auth.test.ts",
-    "v2/tests/browser.spec.ts",
-    "v2/tests/content.test.ts",
-    "v2/tests/image.test.ts",
-    "v2/tests/pricing.test.ts",
-    "v2/tests/product-management.test.ts",
-    "v2/tests/products-gallery.spec.ts",
-    "v2/tests/public-routes.test.mts",
-    "v2/tests/public-site.spec.ts",
-    "v2/tests/public.test.ts",
-    "v2/tests/review-submission.test.mts",
-    "v2/tests/rules.test.mjs",
-    "v2/tests/security.spec.ts",
-    "v2/tests/services.spec.ts",
-    "v2/tests/support/admin-browser.ts",
-    "v2/tests/support/admin-fixture.ts",
-    "v2/tests/support/public-browser.ts",
-    "v2/tests/upload-route.test.mts"
+    "v2/tests/dependency-security.test.mjs",
+    "v2/tests/public-navigation.spec.ts",
+    "v2/tests/public-site.spec.ts"
   ],
   "scripts": [
     "v2/scripts/audit-release.mjs",
-    "v2/scripts/verify-firebase-read.ts"
+    "v2/scripts/verify-rules-local.mjs"
   ],
   "documentation": [
-    ".gitignore",
     "PROJECT_STATUS.md",
     "v2/release/BLOCKER_REVIEW.md",
     "v2/release/DEPENDENCY_AUDIT.json",
@@ -124,6 +30,7 @@
     "v2/release/VERIFICATION_RESULTS.json"
   ],
   "holdForSeparateReview": [
+    "tatus --short",
     "v2/INSTALL-FA.md",
     "v2/README-ADMIN.txt",
     "v2/README-FA.txt",
@@ -141,117 +48,218 @@
   ],
   "note": "Explicit allowlist only; do not git add ., force-add ignored files, or deploy the whole working tree. Review held historical docs, checksums and whitespace-only assets separately.",
   "sha256": {
-    ".gitignore": "0bee1ca58506b0ede90b99b0fc11ca18374b832bc7c530a62d191446cf0668a9",
-    "PROJECT_STATUS.md": "7cdfd5b32289a43ad2359070e8cccfc6013cd6c18100c281c1d78dd32e77609e",
-    "v2/eslint.config.mjs": "7553a787a62ec7f1682551802182aff61e8b270df979948395d4662861ac21ad",
-    "v2/next.config.ts": "ca388641aaf962a2dd2fa943a39ec9ad36ac0f0c92509503e5414002b1eb4d56",
-    "v2/package-lock.json": "eec92607f91361139993ecd8d8140384015ea8b6f9b721dbdee28d4a04f392c9",
-    "v2/package.json": "b8ffa073781de9e2b1114cc20f862ca6b67a1b5bd9cdaa2f868c440cab42d2ba",
-    "v2/playwright.config.ts": "21dd8691d15135413a08a663152ce9b0c19a3e9456ec53264301265762ab87cc",
-    "v2/release/BLOCKER_REVIEW.md": "9052ad4419926d0cab95b7210f96bcac68f7381b796035ba7676640f20643bd5",
-    "v2/release/DEPENDENCY_AUDIT.json": "f93cecf83406b243f16b170e5dd07f0ee9e674756c43edf9a84b3d9bab94a877",
-    "v2/release/DEPENDENCY_TRIAGE.json": "e62ab8176f1e99d24c50efa411101ac48870f9294a4f37883120a2529e5f38a9",
-    "v2/release/PREVIEW_READINESS.md": "5b2cfcfeb88cd4c8bc4eaffb7ae4c2fa2068116f15ddaa13c301bd6644ad568a",
-    "v2/release/RESOURCE_ISOLATION.json": "a1fe9bf1eba472de2d0c6054b490ee9659b417e3129f07e4cc6bb63d79ccb41f",
-    "v2/release/SECURITY_SCAN.json": "be6e4522ca68a126b1edfaa51258d41f9bf31e4d7a7af90ee38b582623eed566",
-    "v2/release/VERIFICATION_RESULTS.json": "19233d19db43d040908e17a28ea973ee3bf3b7b964f6c8321bc51a93feff7ae7",
-    "v2/scripts/audit-release.mjs": "5aa86c30a215af79e4b99977569bb1a8851e3ded6387d26085389c1aad136c83",
-    "v2/scripts/verify-firebase-read.ts": "44bbfa21dbcbc9ac2f9aa39266701379209d416e45d2e5c3316e93286c829de6",
-    "v2/src/app/admin/admin.css": "e766e9e9ea9b76b20c13a822a9e001c792fd1937a5b48cf3b344c824250095e7",
-    "v2/src/app/admin/benutzer/page.tsx": "3a201a43d2ef7211d7a520c3d41b46907b3f55b17679939b20f803d881df0b54",
-    "v2/src/app/admin/bewertungen/page.tsx": "7a1b39e391c448636faea7b323a91d58ae5b650f63902d5adc25dc2823d0f3b0",
-    "v2/src/app/admin/error.tsx": "30063b26486c44b8d0e0b068ba5783e5775717c45af29a0f190e56b8ca524483",
-    "v2/src/app/admin/layout.tsx": "410f05e0c995bb7f85e15ab3fe601393a57c3c004ebbb28d3ec74121f4341174",
-    "v2/src/app/admin/leistungen/page.tsx": "73bd3b16f33b26e533cd3e7c79f0a706af25836f4ef16cc2a9699eb0685372dd",
-    "v2/src/app/admin/loading.tsx": "9a421cd69641d562abd845693a33bd84c31c507a9381dc74d1a365fe3568169e",
-    "v2/src/app/admin/login/page.tsx": "b51a983041b630edd4b299a3d094788d7ea619c13ce557dea867db0d33f5b4ad",
-    "v2/src/app/admin/page.tsx": "5f31cdd1be4a0f2ae7ab296e9c42cbb996f650ed812b47e4e1ff6fc2f6ba1f41",
-    "v2/src/app/api/admin/content/route.ts": "8b39298ea4f50d1ad35a1a6699a6c74cdeafbdd8774663cb4e9ce23dc774fdaa",
-    "v2/src/app/api/admin/reviews/route.ts": "cbe025a6cb0f3e71e1ac09c74dabf0f435f67e65b47b5115b639b3e54f939917",
-    "v2/src/app/api/admin/services/route.ts": "8c23ec459de849ee9307e122768813be00a80b617650a3fc8498818044eea2d5",
-    "v2/src/app/api/admin/session/route.ts": "95080e25dff91543a526cfdd1cdd2bd9339467a847254cbd2632aa40f65c2f62",
-    "v2/src/app/api/admin/upload/route.ts": "f982447351713f3281758181274af519c316be75ac1e711907ad33702e382939",
-    "v2/src/app/api/admin/users/route.ts": "2deaf7947b19def9e599a7ab2c7c3d78a0b06f8d6229b3c98ad5303ba5a1ac00",
-    "v2/src/app/api/content/route.ts": "74953fdc72eeeab4ec297488cb2e1ceab7f4ddd604ee813f31a6e46fb7cb58be",
-    "v2/src/app/api/reviews/route.ts": "79d12a892985847a1058e209e00cbeb3b75790bde416d0d80ccfc325d2eb43bb",
-    "v2/src/app/api/services/route.ts": "add6cf2eb914dab168ca32904da9f2d6edd1ed5e3833716d3304076c85ed90d3",
-    "v2/src/app/layout.tsx": "5a3c897d5873363f5363143a4ec5c9d6504673ff28d6cc69d8486e32706c5f62",
-    "v2/src/app/leistungen/layout.tsx": "95a8295e416573f8055fcb6ec60f8ec38d0cf6dc09f40bcbb4b3323b7c885915",
-    "v2/src/app/leistungen/page.tsx": "6b5aa74913cae99c565c6580451bc9e5d56499c2c6e7ed0e0aa9d63a67f5a065",
-    "v2/src/app/page.tsx": "2e12cad123193b152afb76eab4f5ee7755aada94e5aa573a26eb65b27563a2cc",
-    "v2/src/app/produkte/[slug]/page.tsx": "a5a15fd3c7c138d84ad903ec38d79fa7e5e57172b8ec488a15515c8b7e1860d2",
-    "v2/src/app/produkte/page.tsx": "2b0ea1f02de45d18805572b1e91c7e2b1898391e0b2f53a8e1af423dc4360947",
-    "v2/src/components/AnnouncementBanner.tsx": "300da95edc2db39510370379cd2ff5dcec3150459a72aa301f8e066470104419",
-    "v2/src/components/ServicesAccordion.tsx": "44787277c1f5530813859d3e374dd78b5245df22ca0f9e115fa13990cdd98d6a",
-    "v2/src/components/ServicesGrid.tsx": "c389ec392af891e5f8d05536c2958d7b6b1396a1ddcd3090860c6ff112be6887",
-    "v2/src/components/admin/AdminSession.tsx": "be17f5b63eaba3d79e854e6bb38a5e17dbdf915f6b3c34ba597b168cbf4be62f",
-    "v2/src/components/admin/AdminShell.tsx": "52962307f5550504afd11ccbbe4f4a4d526fa4e315834529b11c2a5744eee51d",
-    "v2/src/components/admin/ChoiceList.tsx": "247b720406652f0ea3707bee96fce354bab3580663fa2a1d16144f076f3333c6",
-    "v2/src/components/admin/ContentEditor.tsx": "8c2709a621fb6ad01822e21808b284dfce5e0cc20ae05f7103acf3daf5f45ef3",
-    "v2/src/components/admin/FeaturedProducts.tsx": "9331010c04cebcc065f7ad6c893940ac11f1cafaaf3d5c822fffa4f3b7a54d68",
-    "v2/src/components/admin/GalleryEditor.tsx": "0670f85e5dae8e41e29756b95a888a4730b490891a06b758d9e5707608837479",
-    "v2/src/components/admin/ImageUpload.tsx": "acf16656229c073e97296027d5bf794e25d1f2788b03c79d93c11b6dc65df6da",
-    "v2/src/components/admin/MarketingEditor.tsx": "54b6cfdee811d92a784cecd17936ed6f44686f8a48737e693c72b7d51829f289",
-    "v2/src/components/admin/OrderPosition.tsx": "24c4831106d37f29143d0a3ca7e725f197c3ed31bb8fef6d33b7887b3e2d11b4",
-    "v2/src/components/admin/ProductForm.tsx": "09118f44426c27abd7d93f8d8a582bc9f2812887aa1c851fa5d4e2f93ce5cf66",
-    "v2/src/components/admin/ProductsEditor.tsx": "7bf7abf8185f41c16d16d065bae0afb85494d0e66a8cdc587e260e67482d0d82",
-    "v2/src/components/admin/Reorderable.tsx": "31bdda5a738086c5cd9bc66c4a3e41fd5fefe3155e7601dbc16745be170308d5",
-    "v2/src/components/admin/SettingsEditor.tsx": "f8da7e7c1d384533881d1200a57831527f63859334ff58d67a42aa24da517877",
-    "v2/src/components/admin/TeamEditor.tsx": "cfd94ea5253d63978a4b5227a965316f7b652cf535cc6391e3f9f6a624831547",
-    "v2/src/components/admin/UploadActivity.tsx": "e2aecd4a00a79a1dee327cdafa1d643f97de3d1e903619a768a3fcd7a309b663",
-    "v2/src/components/admin/editor-types.tsx": "8c557118544c91bdb08a62822f3dd4458a8432f29fcc34b77e7d9746c554bb8f",
-    "v2/src/components/admin/ui.tsx": "95ebfaac7a5c969a87a9d81c42179b90fc226d892accecc67380600a525a9048",
-    "v2/src/components/admin/useUnsavedChanges.ts": "91645a8828a46d647f878d41b08fb87b556c1cebeb542ddcf8e926f56e827f7f",
-    "v2/src/components/public/GalleryLightbox.tsx": "9acd87d55ed723af99e434113d0a3612d685154135ff6eb68a709576cf810f95",
-    "v2/src/components/public/ProductCatalog.tsx": "a724e2a63c5a8b458ecf532c1c002e862872b6bf78ef24d40c4c8252013c2a6f",
-    "v2/src/components/public/ProductDetail.tsx": "25029261323c03878e615cc5f9d8023e8e005e97843303bfa45c858bbd247922",
-    "v2/src/components/public/ProductsComingSoon.tsx": "c0f33104d5a6010afb56b729a5a3011193ac2634028dae442017def4a2e9f617",
-    "v2/src/components/public/PublicFooter.tsx": "94e1b27871363841885ed44ffd31876320f996bb67ecbf74ae2fe4b3e6588f4e",
-    "v2/src/components/public/PublicHeader.tsx": "dbe48adfd9b22d4cc8f702da42f0cc2ee6be1e92a5385c0a2836a0e3d894f17f",
-    "v2/src/components/public/PublicSite.tsx": "2cb35ae0da0a97f7a088dcc389a68959bd43aa1f15224523ea5a251e7fc290fa",
-    "v2/src/components/public/public.css": "25487a0ac55e35ebee4103c3935e495dce70bd3abd5c3d90d151f0e0e5a9d61a",
-    "v2/src/lib/admin-api.ts": "f8185341bcb48af015d444aafd2eb3dbf3b5a9f063d7efc7238d3f3095acc2b0",
-    "v2/src/lib/admin-session.ts": "8e73685ad3b015dbe15ecd965d35aebf62cc4854dc0ef6e5f3a6b84f52cdc58a",
-    "v2/src/lib/administration.ts": "a3a79e93454c53a2430177c8e556c596ab54343445a9013729e4ebfe276d985e",
-    "v2/src/lib/content-client.ts": "acc30a0ef69ee8994145be9dbd0b9378ed596ab5b9cdb59bb905246dc69947a1",
-    "v2/src/lib/content.ts": "87649bb837e1905f7466107abe028e98508072c395f4dea909e935b3074ba0ef",
-    "v2/src/lib/firebase.ts": "95c9cc3cc90ffaba3ddd043bc832f7f834ff5cfa97b811b1cca7cb06deb39d94",
-    "v2/src/lib/pricing.ts": "1e32ef5f38eeae769e30cf24e484b3e0cbe0f8e722be0e0650033fc3842cdc69",
-    "v2/src/lib/product-management.ts": "cdd62b44a86db6c75b0ba2429210eba6838771abca53731b70d33c036c33ac85",
-    "v2/src/lib/public-config.ts": "a4cdef139d2a74f62fab4c23e7f3c50178b942f2a5732cc871a2926ad085aac5",
-    "v2/src/lib/public-content.ts": "134908292bd808136f7e20b840a749d0ca218c7f8448960111e2ab8f903c933b",
-    "v2/src/lib/request.ts": "a591bb4cb577bbe8a8a94b9cff89562d76800f0f737c39aa218f11c5184bac55",
-    "v2/src/lib/server/authorization.ts": "1fd4ecf0bb427089f80bab86f4555102731695228194522c5aa27adc8fc908e2",
-    "v2/src/lib/server/firebase.ts": "c6e54f2699f728a1304bbf615b64e8cf4022e2bf41baad3e8b9091a284f4165f",
-    "v2/src/lib/server/http.ts": "4bba1ccd09127002d65afd99fa85d38ee99157999ace6c399084edda0a766359",
-    "v2/src/lib/services-store.ts": "076ecc1442c9696332b0dfe678a3026b6e06fbe7f3ab924419e96b112e915d10",
-    "v2/src/lib/services.ts": "671ef38652cd6fb703e098159391fedeb4b278e2b2afc30cc42f7b5b81a0f74c",
-    "v2/tests/admin-auth.spec.ts": "0e61e6bd6fd82f60f4b95e120717e5a79aacd0ec297db5edd05ad5e5374cbd98",
-    "v2/tests/admin-http-smoke.mjs": "7a574925cc1ee4bf0e7d3e9cee148248bc4d0071849215ae409e99818ca00412",
-    "v2/tests/admin-routes.test.mts": "2ac9ec5522c9f97a358667f513c1a2bd0d9a667df13e0430f025c76f9c2f3b55",
-    "v2/tests/admin-ui.spec.ts": "eeea12935459f045d6fd0364db0b6d033963de4436731d04bd9eabaab4162144",
-    "v2/tests/administration.spec.ts": "d87f186f7d7ae9dcd6a6380b5ceddfe08c7dcdcd8d0c453d29d674a1811f096b",
-    "v2/tests/administration.test.ts": "56df060f17085abf70d82e10157b7163b02db4f958b54692a116fc59cb8ebf59",
-    "v2/tests/api-errors.test.ts": "780b494992188844a44cf414976443a9c1062330a516c670089d04e43fcbd240",
-    "v2/tests/api-smoke.mjs": "019837d574ee7b006b532cd47f8581001049636d8cd107d94b68a3aeeff13813",
-    "v2/tests/auth.test.ts": "7b33ff369a813db4276a83e30da948cc2bbfea49a2bca4ca8cb6370ad69f8e8c",
-    "v2/tests/browser.spec.ts": "93731b9aaa7e9bda52b770e6e39f0a37b5644c3929c631ca360174142b3e2d0d",
-    "v2/tests/content.test.ts": "02e25b1c6e2f3ecb7ce0c69831bc7e93422c8fddae834fc6a0c85f2fda8a08d5",
-    "v2/tests/image.test.ts": "e8f786914986ed26de15129e8faa96c0eeb3b65574e851776e1d4c573dc4b407",
-    "v2/tests/pricing.test.ts": "babebd93bb1615eeb12e845089d869afaef2f852949e47bfeda021d20d37e2b6",
-    "v2/tests/product-management.test.ts": "a1fd62e0251cca9309ecf534586e9291f79ba8f3f494460311ef2058f2c3c8fa",
-    "v2/tests/products-gallery.spec.ts": "3ad402119c11ba6a1ac4aa241276aa2a6c777bf67f5fcb9df30cc3da51c68183",
-    "v2/tests/public-routes.test.mts": "daf042cd080bff0e1c0e234a462f1b98330312e4eafb1aaaaa1300a8419d732e",
-    "v2/tests/public-site.spec.ts": "69638b01a8c3d580fa30e258f03959d6ca077256f7f006c13b1d24051ff581ee",
-    "v2/tests/public.test.ts": "caa99a8af07a3b0c688bea6498d33ac22fddbe3ea67500b15f5db17968279ca0",
-    "v2/tests/review-submission.test.mts": "b04f734feb711cb4f0ae461d198a93874414eb417929829e12706c79f5892855",
-    "v2/tests/rules.test.mjs": "08b3eae45b29c68f41f0c5d56208b08dc000eabb1eb317bf0a75413812e2cb6e",
-    "v2/tests/security.spec.ts": "35767b4eb147d18fcd826b0f602faf85358f0a7881846438074729613b9397fd",
-    "v2/tests/services.spec.ts": "9fc83deebfe2f5ac779b252ba1f2f527069ef527a7531cd1bcb969ed8c649c55",
-    "v2/tests/support/admin-browser.ts": "2dc923ac2884f32de7a4207cae9dc971fdccacb2962b0efb4a19882bf7d74cd0",
-    "v2/tests/support/admin-fixture.ts": "06c37e4d7ac8011c6b18b75205db36f67af2b21f289bf2057b8e9134d69ddc72",
-    "v2/tests/support/public-browser.ts": "08f08a0c8e29de864ec8bbe75d35a1e6b5c53cafd5da73bea0b3ad0ab08f3b26",
-    "v2/tests/upload-route.test.mts": "c6d7f681935d6828d3ef53b89c9cdf67e349c31dfb6083bc75ba2398956dae46",
-    "v2/tsconfig.json": "bd5365e061c86be90fde159c1baac509f39b79d92e54a48333f1a4d2b781bbee"
-  }
+    "PROJECT_STATUS.md": "325c444ef73c0e8fee88259221a9d450147acaf3f6b2356063392cd91f311faa",
+    "v2/package-lock.json": "8e5e8a7d84f34c22120f23c93e4aa3ecc831255c7cce4826e791832adc0ba7ab",
+    "v2/playwright.public-webkit.config.ts": "0449c13a070eb0f29c1f624bc2508d671832d5215e43a25dd31dc3f3910cfb43",
+    "v2/release/BLOCKER_REVIEW.md": "02dc22f06003ec7a64831b4c3b9f2d6f97525e2a2a191b04c8e182e3c39c0bc9",
+    "v2/release/DEPENDENCY_AUDIT.json": "6c6ad9842b9ca32b9de730c57da00c8c71a6dc0f68120e3159b415e0df30204b",
+    "v2/release/DEPENDENCY_TRIAGE.json": "aa2cf1b1102ece12df5ae4310a806d5b06980ec510840b89fc3af0a5e0fd0339",
+    "v2/release/PREVIEW_READINESS.md": "ac257ada621ccaf6e7715fcece4a2d59a4f17bbb2e0f2f3c1a02caf6e80de543",
+    "v2/release/RESOURCE_ISOLATION.json": "574e28417632dbe3932d5d6e876ab8ef17edcf1e38706d9c9dee2a3d16c259c9",
+    "v2/release/SECURITY_SCAN.json": "77a025771af4ff2e486cd4fbf6fb3c40daeefc28f89126d03007cc7fc9b694cd",
+    "v2/release/VERIFICATION_RESULTS.json": "9e7c4f6a5e2f4d73d93024c811a5d0d0a0f95bd70ff81053e2ea197fdc0909ea",
+    "v2/scripts/audit-release.mjs": "b3816e3e9b33abe0c64bf983c9ab5acb4eba86b651114c1320702ce695fe36d6",
+    "v2/scripts/verify-rules-local.mjs": "745d8cb8178167fee16f5c0b1b6aa3d1f27f53059bceeb7f1811ac6de1f42b96",
+    "v2/src/app/page.tsx": "e5d69560a30ee51f5846fc80fbba9816cecf35311852b35ece39ec849bbb9b92",
+    "v2/src/components/public/ProductsComingSoon.tsx": "b76a8f567c172add9ced88211567fd8d20765eafb6f4c76821832c5f1c1296e9",
+    "v2/src/components/public/PublicHeader.tsx": "fd980155ca4280ac39d97bb202df7845bc791505e03a625091ff32358915a8e0",
+    "v2/tests/dependency-security.test.mjs": "52c288d46c3767c6e1d455b376dfaeb48cc1fb5d8f16c88ad2a208f24f9773ee",
+    "v2/tests/public-navigation.spec.ts": "72594a34ae6c82460d1e99835f9c64e110f70566f16759f7f55cfa672acd1513",
+    "v2/tests/public-site.spec.ts": "cc9386923a64cd6f94f0cb375f351680b6312e14a8b481877afa441f3f66dcad"
+  },
+  "recommendations": [
+    {
+      "path": "PROJECT_STATUS.md",
+      "action": "RECOMMEND",
+      "reason": "Current gates, historical/current distinction and checkpoint guidance",
+      "sha256": "325c444ef73c0e8fee88259221a9d450147acaf3f6b2356063392cd91f311faa"
+    },
+    {
+      "path": "v2/package-lock.json",
+      "action": "RECOMMEND",
+      "reason": "Supported XML parser/helper fix only",
+      "sha256": "8e5e8a7d84f34c22120f23c93e4aa3ecc831255c7cce4826e791832adc0ba7ab"
+    },
+    {
+      "path": "v2/playwright.public-webkit.config.ts",
+      "action": "RECOMMEND",
+      "reason": "Loopback-only desktop/iPhone-profile WebKit QA",
+      "sha256": "0449c13a070eb0f29c1f624bc2508d671832d5215e43a25dd31dc3f3910cfb43"
+    },
+    {
+      "path": "v2/release/BLOCKER_REVIEW.md",
+      "action": "RECOMMEND",
+      "reason": "Reconciled blockers with historical review retained",
+      "sha256": "02dc22f06003ec7a64831b4c3b9f2d6f97525e2a2a191b04c8e182e3c39c0bc9"
+    },
+    {
+      "path": "v2/release/DEPENDENCY_AUDIT.json",
+      "action": "RECOMMEND",
+      "reason": "Existing current all/production audits; unchanged in reconciliation",
+      "sha256": "6c6ad9842b9ca32b9de730c57da00c8c71a6dc0f68120e3159b415e0df30204b"
+    },
+    {
+      "path": "v2/release/DEPENDENCY_TRIAGE.json",
+      "action": "RECOMMEND",
+      "reason": "Existing usage/version/range triage; unchanged in reconciliation",
+      "sha256": "aa2cf1b1102ece12df5ae4310a806d5b06980ec510840b89fc3af0a5e0fd0339"
+    },
+    {
+      "path": "v2/release/PREVIEW_READINESS.md",
+      "action": "RECOMMEND",
+      "reason": "Authoritative matrix and exact checkpoint scope",
+      "sha256": "ac257ada621ccaf6e7715fcece4a2d59a4f17bbb2e0f2f3c1a02caf6e80de543"
+    },
+    {
+      "path": "v2/release/RESOURCE_ISOLATION.json",
+      "action": "RECOMMEND",
+      "reason": "Current metadata, unknown boundaries and historical provenance",
+      "sha256": "574e28417632dbe3932d5d6e876ab8ef17edcf1e38706d9c9dee2a3d16c259c9"
+    },
+    {
+      "path": "v2/release/SECURITY_SCAN.json",
+      "action": "RECOMMEND",
+      "reason": "Credential-free path/pattern/build review, no private-value comparison",
+      "sha256": "77a025771af4ff2e486cd4fbf6fb3c40daeefc28f89126d03007cc7fc9b694cd"
+    },
+    {
+      "path": "v2/release/STAGING_PLAN.json",
+      "action": "RECOMMEND",
+      "reason": "Exact recommendation, hashes and held paths; no staging",
+      "sha256": null
+    },
+    {
+      "path": "v2/release/VERIFICATION_RESULTS.json",
+      "action": "RECOMMEND",
+      "reason": "Current scoped QA, evidence hashes, gates and Phase 5A history",
+      "sha256": "9e7c4f6a5e2f4d73d93024c811a5d0d0a0f95bd70ff81053e2ea197fdc0909ea"
+    },
+    {
+      "path": "v2/scripts/audit-release.mjs",
+      "action": "RECOMMEND",
+      "reason": "Credential-free scan mode and current manifest generation",
+      "sha256": "b3816e3e9b33abe0c64bf983c9ab5acb4eba86b651114c1320702ce695fe36d6"
+    },
+    {
+      "path": "v2/scripts/verify-rules-local.mjs",
+      "action": "RECOMMEND",
+      "reason": "Guarded demo-only Rules execution and hash-bound emulator evidence",
+      "sha256": "745d8cb8178167fee16f5c0b1b6aa3d1f27f53059bceeb7f1811ac6de1f42b96"
+    },
+    {
+      "path": "v2/src/app/page.tsx",
+      "action": "RECOMMEND",
+      "reason": "Minimal gallery opener focus restoration",
+      "sha256": "e5d69560a30ee51f5846fc80fbba9816cecf35311852b35ece39ec849bbb9b92"
+    },
+    {
+      "path": "v2/src/components/public/ProductsComingSoon.tsx",
+      "action": "RECOMMEND",
+      "reason": "Preserve decorative g removal",
+      "sha256": "b76a8f567c172add9ced88211567fd8d20765eafb6f4c76821832c5f1c1296e9"
+    },
+    {
+      "path": "v2/src/components/public/PublicHeader.tsx",
+      "action": "RECOMMEND",
+      "reason": "Preserve desktop Startseite link",
+      "sha256": "fd980155ca4280ac39d97bb202df7845bc791505e03a625091ff32358915a8e0"
+    },
+    {
+      "path": "v2/tests/dependency-security.test.mjs",
+      "action": "RECOMMEND",
+      "reason": "Five offline dependency/SDK/XML regression cases",
+      "sha256": "52c288d46c3767c6e1d455b376dfaeb48cc1fb5d8f16c88ad2a208f24f9773ee"
+    },
+    {
+      "path": "v2/tests/public-navigation.spec.ts",
+      "action": "RECOMMEND",
+      "reason": "Twelve responsive/subpage navigation and header cases",
+      "sha256": "72594a34ae6c82460d1e99835f9c64e110f70566f16759f7f55cfa672acd1513"
+    },
+    {
+      "path": "v2/tests/public-site.spec.ts",
+      "action": "RECOMMEND",
+      "reason": "Touch/focus regression and safe test artifact paths",
+      "sha256": "cc9386923a64cd6f94f0cb375f351680b6312e14a8b481877afa441f3f66dcad"
+    }
+  ],
+  "held": [
+    {
+      "path": "tatus --short",
+      "action": "HOLD",
+      "reason": "Untracked terminal/status capture; unrelated to the application"
+    },
+    {
+      "path": "v2/INSTALL-FA.md",
+      "action": "HOLD",
+      "reason": "Inherited historical packaging/install/version documentation or checksum; needs separate editorial review"
+    },
+    {
+      "path": "v2/README-ADMIN.txt",
+      "action": "HOLD",
+      "reason": "Inherited historical packaging/install/version documentation or checksum; needs separate editorial review"
+    },
+    {
+      "path": "v2/README-FA.txt",
+      "action": "HOLD",
+      "reason": "Inherited historical packaging/install/version documentation or checksum; needs separate editorial review"
+    },
+    {
+      "path": "v2/README-FIREBASE-FA.md",
+      "action": "HOLD",
+      "reason": "Inherited historical packaging/install/version documentation or checksum; needs separate editorial review"
+    },
+    {
+      "path": "v2/README-V2.1-FA.md",
+      "action": "HOLD",
+      "reason": "Inherited historical packaging/install/version documentation or checksum; needs separate editorial review"
+    },
+    {
+      "path": "v2/README-V2.2-FA.md",
+      "action": "HOLD",
+      "reason": "Inherited historical packaging/install/version documentation or checksum; needs separate editorial review"
+    },
+    {
+      "path": "v2/README.md",
+      "action": "HOLD",
+      "reason": "Inherited historical packaging/install/version documentation or checksum; needs separate editorial review"
+    },
+    {
+      "path": "v2/SHA256SUMS.json",
+      "action": "HOLD",
+      "reason": "Inherited historical packaging/install/version documentation or checksum; needs separate editorial review"
+    },
+    {
+      "path": "v2/START-HERE.txt",
+      "action": "HOLD",
+      "reason": "Inherited historical packaging/install/version documentation or checksum; needs separate editorial review"
+    },
+    {
+      "path": "v2/TEST-REPORT.md",
+      "action": "HOLD",
+      "reason": "Inherited historical packaging/install/version documentation or checksum; needs separate editorial review"
+    },
+    {
+      "path": "v2/TEST-V2.1.md",
+      "action": "HOLD",
+      "reason": "Inherited historical packaging/install/version documentation or checksum; needs separate editorial review"
+    },
+    {
+      "path": "v2/TEST-V2.2.md",
+      "action": "HOLD",
+      "reason": "Inherited historical packaging/install/version documentation or checksum; needs separate editorial review"
+    },
+    {
+      "path": "v2/public/images/test.txt",
+      "action": "HOLD",
+      "reason": "Inherited status/whitespace-only asset or QR change; preserve separately"
+    },
+    {
+      "path": "v2/public/links.html",
+      "action": "HOLD",
+      "reason": "Inherited status/whitespace-only asset or QR change; preserve separately"
+    }
+  ],
+  "authorization": "Recommendation only. No staging, commit, push, deployment or release performed or authorized.",
+  "selfHashNote": "STAGING_PLAN.json is included in the recommendation but has no recursive self-hash."
 }

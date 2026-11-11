@@ -2,7 +2,6 @@ import Link from "next/link";
 import { PRODUCTS_COMING_SOON } from "@/lib/public-config";
 export default function ProductsComingSoon() {
   return <main className="public-coming-soon"><section className="public-coming-soon-inner">
-    <div className="public-coming-soon-emblem" aria-hidden="true">g</div>
     <p className="text-xs uppercase tracking-[0.25em]">Beauty & Pflege · Golesta Beauty</p>
     <h1>{PRODUCTS_COMING_SOON.title}</h1>
     <p>{PRODUCTS_COMING_SOON.description}</p>

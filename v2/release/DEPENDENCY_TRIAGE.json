@@ -1,25 +1,35 @@
 {
-  "note": "Dependency-tree presence is not proof of a reachable application exploit. Parent effects count separately in npm audit.",
+  "note": "Fresh npm registry audits before and after one compatible transitive update; installed source/call-site review and primary maintainer advisories. Package counts include propagated parents, not independent exploits.",
+  "date": "2026-11-11",
+  "phase": "5B dependency security review",
+  "branch": "development/golesta-v2",
+  "head": "9f81aeb",
   "before": {
     "all": {
-      "total": 34,
-      "high": 7,
-      "moderate": 27
+      "info": 0,
+      "low": 1,
+      "moderate": 25,
+      "high": 5,
+      "critical": 0,
+      "total": 31
     },
     "production": {
-      "total": 13,
-      "high": 5,
-      "moderate": 8
+      "info": 0,
+      "low": 1,
+      "moderate": 8,
+      "high": 4,
+      "critical": 0,
+      "total": 13
     }
   },
   "after": {
     "all": {
       "info": 0,
       "low": 0,
-      "moderate": 26,
+      "moderate": 25,
       "high": 5,
       "critical": 0,
-      "total": 31
+      "total": 30
     },
     "production": {
       "info": 0,
@@ -30,41 +40,46 @@
       "total": 12
     }
   },
+  "developmentOnly": {
+    "info": 0,
+    "low": 0,
+    "moderate": 17,
+    "high": 1,
+    "critical": 0,
+    "total": 18
+  },
   "fixed": [
     {
-      "package": "re2js",
-      "before": "2.8.6",
-      "after": "2.8.7",
-      "scope": "runtime Firebase client transitive"
+      "package": "fast-xml-parser",
+      "before": "5.11.2",
+      "after": "5.12.0",
+      "scope": "production transitive, Firebase Admin -> @google-cloud/storage",
+      "parent": "@google-cloud/storage@7.22.0",
+      "declaredRange": "^5.3.4",
+      "reason": "First maintainer-patched release for GHSA-474x-hrwr-fgx4; compatible minor within existing parent range.",
+      "advisory": "GHSA-474x-hrwr-fgx4",
+      "source": "https://github.com/NaturalIntelligence/fast-xml-parser/security/advisories/GHSA-474x-hrwr-fgx4"
     },
     {
-      "package": "body-parser",
-      "before": "1.20.8",
-      "after": "1.20.9",
-      "scope": "Firebase CLI development only"
-    },
-    {
-      "package": "body-parser",
-      "before": "2.3.0",
-      "after": "2.4.0",
-      "scope": "Firebase CLI MCP/Express development only"
-    },
-    {
-      "package": "fast-uri",
-      "before": "3.1.8",
-      "after": "3.1.9",
-      "scope": "Firebase CLI AJV development only"
+      "package": "is-unsafe",
+      "before": "2.0.2",
+      "after": "2.0.3",
+      "scope": "production transitive helper of fast-xml-parser",
+      "declaredRange": "^2.0.3",
+      "reason": "Required minimum dependency of the selected XML fix, not a separate advisory fix."
     }
   ],
   "remaining": [
     {
       "package": "@firebase/firestore",
       "severity": "high",
-      "scope": "production dependency tree; may also be used by tooling",
+      "scope": "production dependency tree; may also be used by development tooling",
       "versions": [
         {
           "path": "node_modules/@firebase/firestore",
-          "version": "4.18.0"
+          "version": "4.18.0",
+          "installedVersion": "4.18.0",
+          "dev": false
         }
       ],
       "via": [
@@ -75,16 +90,20 @@
         "name": "firebase",
         "version": "9.14.0",
         "isSemVerMajor": true
-      }
+      },
+      "assessments": [],
+      "propagatedOnly": true
     },
     {
       "package": "@firebase/firestore-compat",
       "severity": "high",
-      "scope": "production dependency tree; may also be used by tooling",
+      "scope": "production dependency tree; may also be used by development tooling",
       "versions": [
         {
           "path": "node_modules/@firebase/firestore-compat",
-          "version": "0.4.15"
+          "version": "0.4.15",
+          "installedVersion": "0.4.15",
+          "dev": false
         }
       ],
       "via": [
@@ -95,7 +114,9 @@
         "name": "firebase",
         "version": "9.14.0",
         "isSemVerMajor": true
-      }
+      },
+      "assessments": [],
+      "propagatedOnly": true
     },
     {
       "package": "@firebase/rules-unit-testing",
@@ -104,7 +125,9 @@
       "versions": [
         {
           "path": "node_modules/@firebase/rules-unit-testing",
-          "version": "6.0.0"
+          "version": "6.0.0",
+          "installedVersion": "6.0.0",
+          "dev": true
         }
       ],
       "via": [
@@ -115,16 +138,20 @@
         "name": "@firebase/rules-unit-testing",
         "version": "2.0.7",
         "isSemVerMajor": true
-      }
+      },
+      "assessments": [],
+      "propagatedOnly": true
     },
     {
       "package": "@google-cloud/firestore",
       "severity": "moderate",
-      "scope": "production dependency tree; may also be used by tooling",
+      "scope": "production dependency tree; may also be used by development tooling",
       "versions": [
         {
           "path": "node_modules/@google-cloud/firestore",
-          "version": "7.11.6"
+          "version": "7.11.6",
+          "installedVersion": "7.11.6",
+          "dev": false
         }
       ],
       "via": [
@@ -135,7 +162,9 @@
         "name": "firebase-admin",
         "version": "14.5.0",
         "isSemVerMajor": true
-      }
+      },
+      "assessments": [],
+      "propagatedOnly": true
     },
     {
       "package": "@google-cloud/pubsub",
@@ -144,7 +173,9 @@
       "versions": [
         {
           "path": "node_modules/@google-cloud/pubsub",
-          "version": "5.3.1"
+          "version": "5.3.1",
+          "installedVersion": "5.3.1",
+          "dev": true
         }
       ],
       "via": [
@@ -155,16 +186,20 @@
         "name": "firebase-tools",
         "version": "13.11.2",
         "isSemVerMajor": true
-      }
+      },
+      "assessments": [],
+      "propagatedOnly": true
     },
     {
       "package": "@google-cloud/storage",
       "severity": "moderate",
-      "scope": "production dependency tree; may also be used by tooling",
+      "scope": "production dependency tree; may also be used by development tooling",
       "versions": [
         {
           "path": "node_modules/@google-cloud/storage",
-          "version": "7.22.0"
+          "version": "7.22.0",
+          "installedVersion": "7.22.0",
+          "dev": false
         }
       ],
       "via": [
@@ -176,16 +211,20 @@
         "name": "firebase-admin",
         "version": "14.5.0",
         "isSemVerMajor": true
-      }
+      },
+      "assessments": [],
+      "propagatedOnly": true
     },
     {
       "package": "@grpc/grpc-js",
       "severity": "high",
-      "scope": "production dependency tree; may also be used by tooling",
+      "scope": "production dependency tree; may also be used by development tooling",
       "versions": [
         {
           "path": "node_modules/@grpc/grpc-js",
-          "version": "1.9.16"
+          "version": "1.9.16",
+          "installedVersion": "1.9.16",
+          "dev": false
         }
       ],
       "via": [
@@ -227,7 +266,12 @@
         "name": "firebase",
         "version": "9.14.0",
         "isSemVerMajor": true
-      }
+      },
+      "assessments": [
+        "GHSA-m9gg-hp2v-232j",
+        "GHSA-f596-whhp-79r4"
+      ],
+      "propagatedOnly": false
     },
     {
       "package": "@opentelemetry/core",
@@ -236,7 +280,9 @@
       "versions": [
         {
           "path": "node_modules/@opentelemetry/core",
-          "version": "1.30.1"
+          "version": "1.30.1",
+          "installedVersion": "1.30.1",
+          "dev": true
         }
       ],
       "via": [
@@ -262,7 +308,11 @@
         "name": "firebase-tools",
         "version": "13.11.2",
         "isSemVerMajor": true
-      }
+      },
+      "assessments": [
+        "GHSA-8988-4f7v-96qf"
+      ],
+      "propagatedOnly": false
     },
     {
       "package": "@typescript-eslint/eslint-plugin",
@@ -271,20 +321,19 @@
       "versions": [
         {
           "path": "node_modules/@typescript-eslint/eslint-plugin",
-          "version": "8.71.2"
+          "version": "8.71.2",
+          "installedVersion": "8.71.2",
+          "dev": true
         }
       ],
       "via": [
-        "@typescript-eslint/parser",
         "@typescript-eslint/type-utils",
         "@typescript-eslint/utils"
       ],
-      "range": ">=6.16.0",
-      "fixAvailable": {
-        "name": "eslint-config-next",
-        "version": "15.5.29",
-        "isSemVerMajor": true
-      }
+      "range": "6.16.0 - 8.72.2",
+      "fixAvailable": true,
+      "assessments": [],
+      "propagatedOnly": true
     },
     {
       "package": "@typescript-eslint/parser",
@@ -293,18 +342,18 @@
       "versions": [
         {
           "path": "node_modules/@typescript-eslint/parser",
-          "version": "8.71.2"
+          "version": "8.71.2",
+          "installedVersion": "8.71.2",
+          "dev": true
         }
       ],
       "via": [
         "@typescript-eslint/typescript-estree"
       ],
-      "range": ">=6.16.0",
-      "fixAvailable": {
-        "name": "eslint-config-next",
-        "version": "15.5.29",
-        "isSemVerMajor": true
-      }
+      "range": "6.16.0 - 8.72.2",
+      "fixAvailable": true,
+      "assessments": [],
+      "propagatedOnly": true
     },
     {
       "package": "@typescript-eslint/type-utils",
@@ -313,19 +362,19 @@
       "versions": [
         {
           "path": "node_modules/@typescript-eslint/type-utils",
-          "version": "8.71.2"
+          "version": "8.71.2",
+          "installedVersion": "8.71.2",
+          "dev": true
         }
       ],
       "via": [
         "@typescript-eslint/typescript-estree",
         "@typescript-eslint/utils"
       ],
-      "range": ">=6.16.0",
-      "fixAvailable": {
-        "name": "eslint-config-next",
-        "version": "15.5.29",
-        "isSemVerMajor": true
-      }
+      "range": "6.16.0 - 8.72.2",
+      "fixAvailable": true,
+      "assessments": [],
+      "propagatedOnly": true
     },
     {
       "package": "@typescript-eslint/typescript-estree",
@@ -334,18 +383,18 @@
       "versions": [
         {
           "path": "node_modules/@typescript-eslint/typescript-estree",
-          "version": "8.71.2"
+          "version": "8.71.2",
+          "installedVersion": "8.71.2",
+          "dev": true
         }
       ],
       "via": [
         "minimatch"
       ],
-      "range": ">=6.16.0",
-      "fixAvailable": {
-        "name": "eslint-config-next",
-        "version": "15.5.29",
-        "isSemVerMajor": true
-      }
+      "range": "6.16.0 - 8.72.2",
+      "fixAvailable": true,
+      "assessments": [],
+      "propagatedOnly": true
     },
     {
       "package": "@typescript-eslint/utils",
@@ -354,18 +403,18 @@
       "versions": [
         {
           "path": "node_modules/@typescript-eslint/utils",
-          "version": "8.71.2"
+          "version": "8.71.2",
+          "installedVersion": "8.71.2",
+          "dev": true
         }
       ],
       "via": [
         "@typescript-eslint/typescript-estree"
       ],
-      "range": ">=6.16.0",
-      "fixAvailable": {
-        "name": "eslint-config-next",
-        "version": "15.5.29",
-        "isSemVerMajor": true
-      }
+      "range": "6.16.0 - 8.72.2",
+      "fixAvailable": true,
+      "assessments": [],
+      "propagatedOnly": true
     },
     {
       "package": "archiver",
@@ -374,7 +423,9 @@
       "versions": [
         {
           "path": "node_modules/archiver",
-          "version": "7.0.1"
+          "version": "7.0.1",
+          "installedVersion": "7.0.1",
+          "dev": true
         }
       ],
       "via": [
@@ -382,7 +433,9 @@
         "zip-stream"
       ],
       "range": "7.0.0 - 7.0.1",
-      "fixAvailable": true
+      "fixAvailable": true,
+      "assessments": [],
+      "propagatedOnly": true
     },
     {
       "package": "archiver-utils",
@@ -391,34 +444,18 @@
       "versions": [
         {
           "path": "node_modules/archiver-utils",
-          "version": "5.0.2"
+          "version": "5.0.2",
+          "installedVersion": "5.0.2",
+          "dev": true
         }
       ],
       "via": [
         "glob"
       ],
       "range": ">=5.0.1",
-      "fixAvailable": true
-    },
-    {
-      "package": "eslint-config-next",
-      "severity": "moderate",
-      "scope": "development only",
-      "versions": [
-        {
-          "path": "node_modules/eslint-config-next",
-          "version": "16.4.1"
-        }
-      ],
-      "via": [
-        "typescript-eslint"
-      ],
-      "range": ">=15.6.0-canary.0",
-      "fixAvailable": {
-        "name": "eslint-config-next",
-        "version": "15.5.29",
-        "isSemVerMajor": true
-      }
+      "fixAvailable": true,
+      "assessments": [],
+      "propagatedOnly": true
     },
     {
       "package": "exegesis",
@@ -427,23 +464,29 @@
       "versions": [
         {
           "path": "node_modules/exegesis",
-          "version": "4.3.0"
+          "version": "4.3.0",
+          "installedVersion": "4.3.0",
+          "dev": true
         }
       ],
       "via": [
         "glob"
       ],
       "range": ">=4.1.2",
-      "fixAvailable": true
+      "fixAvailable": true,
+      "assessments": [],
+      "propagatedOnly": true
     },
     {
       "package": "firebase",
       "severity": "high",
-      "scope": "production dependency tree; may also be used by tooling",
+      "scope": "production dependency tree; may also be used by development tooling",
       "versions": [
         {
           "path": "node_modules/firebase",
-          "version": "13.0.0"
+          "version": "13.0.0",
+          "installedVersion": "13.0.0",
+          "dev": false
         }
       ],
       "via": [
@@ -455,16 +498,20 @@
         "name": "firebase",
         "version": "9.14.0",
         "isSemVerMajor": true
-      }
+      },
+      "assessments": [],
+      "propagatedOnly": true
     },
     {
       "package": "firebase-admin",
       "severity": "moderate",
-      "scope": "production dependency tree; may also be used by tooling",
+      "scope": "production dependency tree; may also be used by development tooling",
       "versions": [
         {
           "path": "node_modules/firebase-admin",
-          "version": "13.10.0"
+          "version": "13.10.0",
+          "installedVersion": "13.10.0",
+          "dev": false
         }
       ],
       "via": [
@@ -476,7 +523,9 @@
         "name": "firebase-admin",
         "version": "14.5.0",
         "isSemVerMajor": true
-      }
+      },
+      "assessments": [],
+      "propagatedOnly": true
     },
     {
       "package": "firebase-tools",
@@ -485,7 +534,9 @@
       "versions": [
         {
           "path": "node_modules/firebase-tools",
-          "version": "15.34.0"
+          "version": "15.34.0",
+          "installedVersion": "15.34.0",
+          "dev": true
         }
       ],
       "via": [
@@ -500,28 +551,38 @@
         "name": "firebase-tools",
         "version": "13.11.2",
         "isSemVerMajor": true
-      }
+      },
+      "assessments": [],
+      "propagatedOnly": true
     },
     {
       "package": "gaxios",
       "severity": "moderate",
-      "scope": "production dependency tree; may also be used by tooling",
+      "scope": "production dependency tree; may also be used by development tooling",
       "versions": [
         {
           "path": "node_modules/@google-cloud/sql/node_modules/gaxios",
-          "version": "7.1.3"
+          "version": "7.1.3",
+          "installedVersion": "7.1.3",
+          "dev": true
         },
         {
           "path": "node_modules/@google-cloud/storage/node_modules/gaxios",
-          "version": "6.7.1"
+          "version": "6.7.1",
+          "installedVersion": "6.7.1",
+          "dev": false
         },
         {
           "path": "node_modules/firebase-tools/node_modules/gaxios",
-          "version": "6.7.1"
+          "version": "6.7.1",
+          "installedVersion": "6.7.1",
+          "dev": true
         },
         {
           "path": "node_modules/google-gax/node_modules/gaxios",
-          "version": "6.7.1"
+          "version": "6.7.1",
+          "installedVersion": "6.7.1",
+          "dev": false
         }
       ],
       "via": [
@@ -533,7 +594,9 @@
         "name": "firebase-tools",
         "version": "13.11.2",
         "isSemVerMajor": true
-      }
+      },
+      "assessments": [],
+      "propagatedOnly": true
     },
     {
       "package": "gcp-metadata",
@@ -542,14 +605,18 @@
       "versions": [
         {
           "path": "node_modules/@google-cloud/sql/node_modules/gcp-metadata",
-          "version": "8.1.4"
+          "version": "8.1.4",
+          "installedVersion": "8.1.4",
+          "dev": true
         }
       ],
       "via": [
         "gaxios"
       ],
       "range": "8.1.3 - 8.1.4",
-      "fixAvailable": true
+      "fixAvailable": true,
+      "assessments": [],
+      "propagatedOnly": true
     },
     {
       "package": "glob",
@@ -558,7 +625,9 @@
       "versions": [
         {
           "path": "node_modules/glob",
-          "version": "10.5.0"
+          "version": "10.5.0",
+          "installedVersion": "10.5.0",
+          "dev": true
         }
       ],
       "via": [
@@ -585,24 +654,34 @@
         "name": "firebase-tools",
         "version": "13.11.2",
         "isSemVerMajor": true
-      }
+      },
+      "assessments": [
+        "GHSA-3g3m-2fjr-6pw4"
+      ],
+      "propagatedOnly": false
     },
     {
       "package": "google-gax",
       "severity": "moderate",
-      "scope": "production dependency tree; may also be used by tooling",
+      "scope": "production dependency tree; may also be used by development tooling",
       "versions": [
         {
           "path": "node_modules/@google-cloud/pubsub/node_modules/google-gax",
-          "version": "5.0.8"
+          "version": "5.0.8",
+          "installedVersion": "5.0.8",
+          "dev": true
         },
         {
           "path": "node_modules/@google-cloud/sql/node_modules/google-gax",
-          "version": "5.0.8"
+          "version": "5.0.8",
+          "installedVersion": "5.0.8",
+          "dev": true
         },
         {
           "path": "node_modules/google-gax",
-          "version": "4.6.1"
+          "version": "4.6.1",
+          "installedVersion": "4.6.1",
+          "dev": false
         }
       ],
       "via": [
@@ -615,7 +694,9 @@
         "name": "firebase-admin",
         "version": "14.5.0",
         "isSemVerMajor": true
-      }
+      },
+      "assessments": [],
+      "propagatedOnly": true
     },
     {
       "package": "minimatch",
@@ -624,11 +705,15 @@
       "versions": [
         {
           "path": "node_modules/@typescript-eslint/typescript-estree/node_modules/minimatch",
-          "version": "10.2.6"
+          "version": "10.2.6",
+          "installedVersion": "10.2.6",
+          "dev": true
         },
         {
           "path": "node_modules/glob/node_modules/minimatch",
-          "version": "9.0.9"
+          "version": "9.0.9",
+          "installedVersion": "9.0.9",
+          "dev": true
         }
       ],
       "via": [
@@ -654,16 +739,22 @@
         "name": "firebase-tools",
         "version": "13.11.2",
         "isSemVerMajor": true
-      }
+      },
+      "assessments": [
+        "GHSA-g3hv-75wg-m249"
+      ],
+      "propagatedOnly": false
     },
     {
       "package": "retry-request",
       "severity": "moderate",
-      "scope": "production dependency tree; may also be used by tooling",
+      "scope": "production dependency tree; may also be used by development tooling",
       "versions": [
         {
           "path": "node_modules/retry-request",
-          "version": "7.0.2"
+          "version": "7.0.2",
+          "installedVersion": "7.0.2",
+          "dev": false
         }
       ],
       "via": [
@@ -674,7 +765,9 @@
         "name": "firebase-admin",
         "version": "14.5.0",
         "isSemVerMajor": true
-      }
+      },
+      "assessments": [],
+      "propagatedOnly": true
     },
     {
       "package": "rimraf",
@@ -683,7 +776,9 @@
       "versions": [
         {
           "path": "node_modules/rimraf",
-          "version": "5.0.10"
+          "version": "5.0.10",
+          "installedVersion": "5.0.10",
+          "dev": true
         }
       ],
       "via": [
@@ -694,16 +789,20 @@
         "name": "firebase-tools",
         "version": "13.11.2",
         "isSemVerMajor": true
-      }
+      },
+      "assessments": [],
+      "propagatedOnly": true
     },
     {
       "package": "teeny-request",
       "severity": "moderate",
-      "scope": "production dependency tree; may also be used by tooling",
+      "scope": "production dependency tree; may also be used by development tooling",
       "versions": [
         {
           "path": "node_modules/teeny-request",
-          "version": "9.0.0"
+          "version": "9.0.0",
+          "installedVersion": "9.0.0",
+          "dev": false
         }
       ],
       "via": [
@@ -714,7 +813,9 @@
         "name": "firebase-admin",
         "version": "14.5.0",
         "isSemVerMajor": true
-      }
+      },
+      "assessments": [],
+      "propagatedOnly": true
     },
     {
       "package": "typescript-eslint",
@@ -723,7 +824,9 @@
       "versions": [
         {
           "path": "node_modules/typescript-eslint",
-          "version": "8.71.2"
+          "version": "8.71.2",
+          "installedVersion": "8.71.2",
+          "dev": true
         }
       ],
       "via": [
@@ -732,21 +835,21 @@
         "@typescript-eslint/typescript-estree",
         "@typescript-eslint/utils"
       ],
-      "range": "*",
-      "fixAvailable": {
-        "name": "eslint-config-next",
-        "version": "15.5.29",
-        "isSemVerMajor": true
-      }
+      "range": "<=8.72.2",
+      "fixAvailable": true,
+      "assessments": [],
+      "propagatedOnly": true
     },
     {
       "package": "uuid",
       "severity": "moderate",
-      "scope": "production dependency tree; may also be used by tooling",
+      "scope": "production dependency tree; may also be used by development tooling",
       "versions": [
         {
           "path": "node_modules/uuid",
-          "version": "9.0.1"
+          "version": "9.0.1",
+          "installedVersion": "9.0.1",
+          "dev": false
         }
       ],
       "via": [
@@ -773,7 +876,11 @@
         "name": "firebase-tools",
         "version": "13.11.2",
         "isSemVerMajor": true
-      }
+      },
+      "assessments": [
+        "GHSA-w5hq-g745-h8pq"
+      ],
+      "propagatedOnly": false
     },
     {
       "package": "zip-stream",
@@ -782,14 +889,352 @@
       "versions": [
         {
           "path": "node_modules/zip-stream",
-          "version": "6.0.1"
+          "version": "6.0.1",
+          "installedVersion": "6.0.1",
+          "dev": true
         }
       ],
       "via": [
         "archiver-utils"
       ],
       "range": "6.0.0 - 6.0.1",
-      "fixAvailable": true
+      "fixAvailable": true,
+      "assessments": [],
+      "propagatedOnly": true
     }
-  ]
+  ],
+  "advisoryAssessments": [
+    {
+      "id": "GHSA-m9gg-hp2v-232j",
+      "package": "@grpc/grpc-js",
+      "severity": "high",
+      "scope": "production",
+      "affectedRanges": [
+        "<1.13.6",
+        ">=1.14.0 <1.14.5"
+      ],
+      "maintainerPatchedVersions": [
+        "1.13.6",
+        "1.14.5"
+      ],
+      "installedAffected": [
+        "1.9.16"
+      ],
+      "conditions": "gRPC server uses getAuthContext for authentication while requireClientCertificate=false; certain xDS RBAC configurations also qualify.",
+      "usageEvidence": [
+        "No app gRPC server, bindAsync or getAuthContext call found in src/tests/scripts.",
+        "@firebase/firestore@4.18.0 is the vulnerable Node client parent; application HTTP admin auth uses bearer-token verification.",
+        "Firebase Admin google-gax resolves a separate already-patched @grpc/grpc-js@1.14.6."
+      ],
+      "exposure": "A matching application server/authentication path was not identified. Installed-package presence remains an audit finding; this is not a blanket exploitability clearance.",
+      "decision": "Defer. Installed Firestore and checked latest 4.19.1 pin ~1.9.0, excluding patched minors. Firebase 13.2.0 still selects that constraint. Do not downgrade Firebase to npm's suggested 9.14.0 or override the SDK's pin.",
+      "source": "https://github.com/grpc/grpc-node/security/advisories/GHSA-m9gg-hp2v-232j"
+    },
+    {
+      "id": "GHSA-f596-whhp-79r4",
+      "package": "@grpc/grpc-js",
+      "severity": "low",
+      "scope": "production",
+      "affectedRanges": [
+        "<1.13.6",
+        ">=1.14.0 <1.14.5"
+      ],
+      "maintainerPatchedVersions": [
+        "1.13.7",
+        "1.14.6"
+      ],
+      "installedAffected": [
+        "1.9.16"
+      ],
+      "conditions": "An application gRPC server method handler crashes and a sensitive error message is returned in its RPC status.",
+      "usageEvidence": [
+        "No application gRPC server or method handlers found. The same vulnerable Firestore client dependency is involved."
+      ],
+      "exposure": "No corresponding application server path identified; distinct low-severity advisory coexists with the high-severity finding on one package.",
+      "decision": "Defer supported Firestore parent remediation. Use 1.13.7/1.14.6 or a later maintainer-supported version when resolving both gRPC advisories; no forced pin replacement.",
+      "source": "https://github.com/grpc/grpc-node/security/advisories/GHSA-f596-whhp-79r4"
+    },
+    {
+      "id": "GHSA-w5hq-g745-h8pq",
+      "package": "uuid",
+      "severity": "moderate",
+      "cvssScore": 7.5,
+      "scope": "production",
+      "affectedRanges": [
+        "<11.1.1",
+        "12.0.0",
+        "13.0.0"
+      ],
+      "maintainerPatchedVersions": [
+        "11.1.1",
+        "12.0.1",
+        "13.0.1"
+      ],
+      "installedAffected": [
+        "9.0.1"
+      ],
+      "conditions": "v3/v5/v6 methods receive a caller-provided output buffer/offset without adequate bounds. API method numbers are not package major versions.",
+      "usageEvidence": [
+        "Inspected google-gax/build/src/util.js, teeny-request/build/src/index.js and all three affected gaxios@6.7.1 copies: UUID v4 without an output buffer.",
+        "App upload IDs and editor IDs use node:crypto/browser crypto.randomUUID; no direct uuid import or affected v3/v5/v6 use found."
+      ],
+      "exposure": "Affected buffer-writing behavior was not found in inspected callers. No application exploit demonstrated; broader uninspected use is not certified safe.",
+      "decision": "Defer. All current parents require ^9; latest checked same-major google-gax 4.6.1, gaxios 6.7.1, teeny-request 9.0.0, Storage 7.22.0 and Firestore 7.11.6 are already installed. Firebase Admin 13.10.0 is the latest checked v13. npm's Admin 14.5.0 proposal is a major change.",
+      "source": "https://github.com/uuidjs/uuid/security/advisories/GHSA-w5hq-g745-h8pq"
+    },
+    {
+      "id": "GHSA-8988-4f7v-96qf",
+      "package": "@opentelemetry/core",
+      "severity": "moderate",
+      "scope": "development only",
+      "affectedRanges": [
+        "<2.8.0"
+      ],
+      "maintainerPatchedVersions": [
+        "2.8.0"
+      ],
+      "installedAffected": [
+        "1.30.1"
+      ],
+      "conditions": "Oversized untrusted baggage reaches W3CBaggagePropagator.extract; raised/absent HTTP limits or non-HTTP transports increase exposure.",
+      "usageEvidence": [
+        "Only @google-cloud/pubsub@5.3.1 -> Firebase CLI development tree; no application baggage/propagator import or public request path found.",
+        "No Firebase CLI/messaging service was invoked during this review."
+      ],
+      "exposure": "No production application path identified. Development tooling processing hostile messages/headers can still be relevant; dev-only does not mean harmless.",
+      "decision": "Defer. Latest checked Pub/Sub v5 remains 5.3.1 and requires ^1.30.1. Fixed 2.8.0 crosses the parent's supported major; Firebase CLI 15.35.0 still depends on Pub/Sub ^5.2.0.",
+      "source": "https://github.com/open-telemetry/opentelemetry-js/security/advisories/GHSA-8988-4f7v-96qf"
+    },
+    {
+      "id": "GHSA-3g3m-2fjr-6pw4",
+      "package": "glob",
+      "severity": "moderate",
+      "scope": "development only",
+      "affectedRanges": [
+        ">=9.0.0 <=14.0.1"
+      ],
+      "maintainerPatchedVersions": [
+        "14.0.2"
+      ],
+      "installedAffected": [
+        "10.5.0"
+      ],
+      "conditions": "Glob traversal with AbortSignal rejects on cancellation but continues filesystem work after the deadline.",
+      "usageEvidence": [
+        "Firebase CLI, archive, exegesis and rimraf tooling depend on v10; no app glob import/website input path found."
+      ],
+      "exposure": "Local/CI tooling resource consumption remains possible under hostile/large filesystem workloads; no public HTTP traversal path identified.",
+      "decision": "Defer. Parents require ^10.x; checked Firebase CLI 15.35.0 still requires ^10.5.0. Fixed v14 is outside those ranges, so no forced major substitution.",
+      "source": "https://github.com/isaacs/node-glob/security/advisories/GHSA-3g3m-2fjr-6pw4"
+    },
+    {
+      "id": "GHSA-g3hv-75wg-m249",
+      "package": "minimatch",
+      "severity": "moderate",
+      "scope": "development only",
+      "npmAffectedRange": ">=7.0.0 <11.0.1",
+      "maintainerReproducedVersion": "10.2.6",
+      "maintainerPatchedVersions": [
+        "11.0.1"
+      ],
+      "installedAffected": [
+        "9.0.9",
+        "10.2.6"
+      ],
+      "conditions": "Attacker-controlled patterns cause globparts amplification with optimizationLevel>=2.",
+      "usageEvidence": [
+        "glob 10.5.0 sets optimizationLevel:2 and uses minimatch ^9.0.4; typescript-estree uses ^10.2.2.",
+        "No app minimatch import or public user-pattern endpoint found. Maintainer narrative demonstrates 10.2.6; npm also flags 9.0.9 via its broader range."
+      ],
+      "exposure": "Hostile glob patterns in build/lint/CLI workflows remain a concern. No deployed website request path identified; 9.0.9 exploitability was not independently reproduced.",
+      "decision": "Defer. Latest checked typescript-estree 8.72.2 still requires minimatch ^10.2.2; fixed 11.0.1 lies outside both v9/v10 constraints. No Next/eslint downgrade or unsupported override.",
+      "source": "https://github.com/isaacs/minimatch/security/advisories/GHSA-g3hv-75wg-m249"
+    },
+    {
+      "id": "GHSA-474x-hrwr-fgx4",
+      "package": "fast-xml-parser",
+      "severity": "low",
+      "scope": "production transitive",
+      "affectedRanges": [
+        "<=5.11.2"
+      ],
+      "maintainerPatchedVersions": [
+        "5.12.0"
+      ],
+      "previouslyInstalledAffected": [
+        "5.11.2"
+      ],
+      "nowInstalled": "5.12.0",
+      "conditions": "Non-default stopNodes plus a long sequence of unterminated tag fragments can cause quadratic CPU consumption.",
+      "usageEvidence": [
+        "Cloud Storage transfer-manager constructs new XMLParser() with defaults, no stopNodes.",
+        "App uploads use Cloudinary with Sharp; no TransferManager or direct XML parser API use found. getStorage is exposed by the server helper but does not enable this option."
+      ],
+      "exposure": "No matching non-default parsing path identified. Advisory removed by upgrading the vulnerable library within its supported range.",
+      "decision": "Applied compatible 5.12.0 minor and required is-unsafe 2.0.3 patch; ordinary XML/SDK import and bounded malformed-input regressions pass.",
+      "source": "https://github.com/NaturalIntelligence/fast-xml-parser/security/advisories/GHSA-474x-hrwr-fgx4"
+    }
+  ],
+  "parentReleaseChecks": [
+    {
+      "package": "firebase",
+      "checked": "13.2.0",
+      "finding": "Selects @firebase/firestore 4.19.1, still @grpc/grpc-js ~1.9.0; not installed."
+    },
+    {
+      "package": "firebase-admin",
+      "checkedLatestInMajor": "13.10.0",
+      "finding": "Already installed; 14.x would be a separate compatibility decision."
+    },
+    {
+      "package": "firebase-tools",
+      "checked": "15.35.0",
+      "finding": "Still glob ^10.5.0, Pub/Sub ^5.2.0 and gaxios ^6.7.0; no advisory-removing minor applied."
+    },
+    {
+      "package": "@typescript-eslint/typescript-estree",
+      "checked": "8.72.2",
+      "finding": "Still minimatch ^10.2.2; not installed."
+    },
+    {
+      "package": "@google-cloud/pubsub",
+      "checkedLatestInMajor": "5.3.1",
+      "finding": "Already installed; still core ^1.30.1."
+    },
+    {
+      "package": "google-gax",
+      "checkedLatestInMajor": "4.6.1",
+      "finding": "Already installed; uuid ^9.0.1."
+    },
+    {
+      "package": "gaxios",
+      "checkedLatestInMajor": "6.7.1",
+      "finding": "Already installed; uuid ^9.0.1."
+    },
+    {
+      "package": "teeny-request",
+      "checkedLatestInMajor": "9.0.0",
+      "finding": "Already installed; uuid ^9.0.0."
+    },
+    {
+      "package": "@google-cloud/storage",
+      "checkedLatestInMajor": "7.22.0",
+      "finding": "Already installed; XML ^5.3.4 accepts the safe fix."
+    },
+    {
+      "package": "@google-cloud/firestore",
+      "checkedLatestInMajor": "7.11.6",
+      "finding": "Already installed; Google client chain retains uuid v9."
+    }
+  ],
+  "validation": {
+    "dependencyTests": {
+      "command": "node --test tests/dependency-security.test.mjs",
+      "passed": 5,
+      "failed": 0,
+      "network": "none; SDK modules imported without creating apps"
+    },
+    "adminUploadTests": {
+      "command": "npm.cmd run test:admin-api",
+      "passed": 22,
+      "failed": 0,
+      "boundaries": "Firebase/Auth/Firestore and Cloudinary mocked"
+    },
+    "build": {
+      "command": "npm.cmd run build",
+      "exitCode": 0,
+      "typecheck": "passed within build",
+      "staticPages": 26,
+      "backendConfiguration": "inert process-only replacements"
+    },
+    "targetedLint": {
+      "command": "node node_modules/eslint/bin/eslint.js tests/dependency-security.test.mjs",
+      "exitCode": 0
+    },
+    "preservedNavigation": {
+      "passed": 33,
+      "failed": 0,
+      "rerun": false,
+      "reason": "Navigation source, CSS, fixture/test and client dependency graph unchanged by this server XML-only update; original Phase 5B evidence remains historical."
+    },
+    "installationNote": "npm hidden install manifest said 5.12.0/2.0.3 while on-disk files stayed 5.11.2/2.0.2. Moved only the two checked generated directories into an ignored root .backups directory, then reinstalled with --ignore-scripts; actual installed versions now match. No source/backup deletion.",
+    "skipped": "Unchanged full browser/unit/public-API/rules suites not repeated; no Firebase CLI service command, live backend, Vercel configuration, commit/push/deployment."
+  },
+  "previousPhase5A": {
+    "before": {
+      "all": {
+        "total": 34,
+        "high": 7,
+        "moderate": 27
+      },
+      "production": {
+        "total": 13,
+        "high": 5,
+        "moderate": 8
+      }
+    },
+    "after": {
+      "all": {
+        "info": 0,
+        "low": 0,
+        "moderate": 26,
+        "high": 5,
+        "critical": 0,
+        "total": 31
+      },
+      "production": {
+        "info": 0,
+        "low": 0,
+        "moderate": 8,
+        "high": 4,
+        "critical": 0,
+        "total": 12
+      }
+    },
+    "fixed": [
+      {
+        "package": "re2js",
+        "before": "2.8.6",
+        "after": "2.8.7",
+        "scope": "runtime Firebase client transitive"
+      },
+      {
+        "package": "body-parser",
+        "before": "1.20.8",
+        "after": "1.20.9",
+        "scope": "Firebase CLI development only"
+      },
+      {
+        "package": "body-parser",
+        "before": "2.3.0",
+        "after": "2.4.0",
+        "scope": "Firebase CLI MCP/Express development only"
+      },
+      {
+        "package": "fast-uri",
+        "before": "3.1.8",
+        "after": "3.1.9",
+        "scope": "Firebase CLI AJV development only"
+      }
+    ]
+  },
+  "sourcePolicy": "Primary maintainer advisories and read-only npm registry metadata; no third-party exploitability conclusions adopted.",
+  "decision": "Remaining advisories are not cleared or automatically risk-accepted. Supported upstream parent fixes or a separately reviewed compatibility/risk decision remain required.",
+  "preservation": {
+    "baselineFiles": 201,
+    "protectedFiles": 195,
+    "unchanged": 195,
+    "mismatches": [],
+    "newFiles": [
+      "v2/tests/dependency-security.test.mjs"
+    ],
+    "onlyAllowedExistingChanges": [
+      "PROJECT_STATUS.md",
+      "v2/package-lock.json",
+      "v2/release/DEPENDENCY_AUDIT.json",
+      "v2/release/DEPENDENCY_TRIAGE.json",
+      "v2/release/BLOCKER_REVIEW.md",
+      "v2/release/PREVIEW_READINESS.md"
+    ]
+  }
 }

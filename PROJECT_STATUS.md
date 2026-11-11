@@ -1,23 +1,25 @@
 # Golesta Beauty — Project status
 
-Updated: 2026-11-07 (Europe/Berlin)
+Updated: 2026-11-11 (Europe/Berlin)
 
 ## Identity and safeguards
 
 - Repository: `reza-noorzad/golesta-beauty`; local application: `v2/`.
 - Permanent development branch: `development/golesta-v2` (verified).
-- Current specification: master development prompt v2.3; Phases 1–4B-2 and Phase 5A local audit/release preparation completed. Preview release approval is BLOCKED by the documented gates; Phase 5B has not started.
+- Current specification: master development prompt v2.3; Phases 1–4B-2 and the Phase 5A implementation/checkpoint are recorded; release gates remain open. Phase 5B local navigation, dependency review and Playwright WebKit QA are complete below; Preview release approval remains BLOCKED.
 - Package version: `0.1.0` (unchanged; no release or tag created).
-- Current local HEAD / last known remote commit: `581b1c2` — Fix Firebase Admin compatibility on Vercel.
-- Last fully verified working commit: not established. No remote fetch performed.
+- Current local HEAD / remote branch tip: `9f81aebfa5dd6cebb798bf4888a3834976d7201a` - both verified by local Git and read-only git ls-remote; no fetch or Git mutation.
+- Baseline Preview build at 9f81aeb: READY in deployment metadata. Local Phase 5B remains uncommitted/not deployed; no fully verified live integration release established.
 - Production reference from brief: Vercel `golesta-beauty-web`, `www.golestabeauty.com`.
 - Development reference: Vercel `golesta-beauty`; Next.js/Node 24, Preview variable names and observed deployment repository/development branch confirmed read-only. Current project Git/root settings and backend isolation remain unverified; no settings/deployments changed.
 - Do not change `main`, push, deploy, delete Firestore data, commit secrets, or modify production. Preserve QR links and business data.
 
 ## Current phase
 
-Phase 5A — Focused blocker review completed: compatible dependency fixes applied, Java requirements documented and Preview/resource evidence clarified. Phases 1–4B-2 remain complete.
-Release assessment: BLOCKED. Remaining advisories need an upstream/compatibility decision; Java 21+ is unavailable; current Preview root/settings and backend resource isolation need owner verification. Stop before Phase 5B; no live release or production changes are authorized.
+Phase 5B — Windows Playwright WebKit QA completed: one minimal gallery focus fix; 42 WebKit and 3 focused Edge checks pass, as do final typecheck/lint/build. Navigation changes and dependency-security fixes/reports are preserved. This is browser-engine/device-profile emulation, not physical iPhone or Safari testing.
+Release assessment: BLOCKED by residual dependencies, settings/isolation confirmation and physical/live integration QA. Existing local Rules emulator test is now VERIFIED (1/0, exit 0, 18 assertions). Java 21 is now VERIFIED; 9f81aeb baseline Preview is VERIFIED READY but excludes local Phase 5B. Read-only metadata only; no credentials retrieved or live integration, staging, commit, push, deployment/Production action.
+
+**Reading this record:** phase-specific entries are historical snapshots. Old HEAD 581b1c2, Java-unavailable and not-started phase statements describe their original checkpoints; latest Phase 5B reconciliation below and PREVIEW_READINESS.md are authoritative.
 
 ## Phase 1 — completed implementation
 
@@ -587,4 +589,212 @@ Files changed in this review: `v2/package-lock.json`, root status, updated relea
 
 Local baseline from `v2/`: `npm.cmd run typecheck`, `npm.cmd run lint`, `npm.cmd test`, `npm.cmd run test:admin-api`, `npm.cmd run test:public-api`, `npm.cmd run build`. Start the local app with `npm.cmd run start -- --hostname 127.0.0.1 --port 3102`. In another PowerShell session set `GOLESTA_TEST_BASE_URL=http://127.0.0.1:3102`, `GOLESTA_TEST_BROWSER_CHANNEL=msedge`, then run `node node_modules/@playwright/test/cli.js test --workers=1 --reporter=line`. Stop the server afterwards.
 
-Reconcile source/secret/ignore/build scans and the allowlist with `node scripts/audit-release.mjs`; use `--dependencies` only when a fresh registry audit is needed. Reports contain paths/key names/counts, never secret values. Inspect results before any later authorized staging action.
+Reconcile source/pattern/ignore/build scans and the allowlist without credential retrieval with `node scripts/audit-release.mjs --no-credentials`; use `--dependencies` only when a fresh registry audit is needed. Reports contain paths/key names/counts, never secret values. Inspect results before any later authorized staging action.
+
+## Phase 5B — local public navigation regression checkpoint (2026-11-11)
+
+### Scope and preservation
+
+- Continued the existing `development/golesta-v2` branch at local HEAD `9f81aeb`, matching the latest pushed checkpoint supplied by the owner. No fetch, staging, commit, push, branch switch or deployment.
+- Preserved the two existing UI edits: desktop navigation still includes `Startseite`; the products-coming-soon decorative `g` remains removed.
+- Corrected only accidental UTF-8 mojibake introduced in those edited files: German menu open/close labels, the brand's accessible separator and the products caption separator. The final application diff relative to HEAD is exactly the two intended UI changes.
+- Added `v2/tests/public-navigation.spec.ts` (12 focused cases). Existing tests, README changes, QR/public files, untracked documents and the unusual untracked `tatus --short` file were retained.
+- Preservation SHA-256 check: all 19 protected baseline files match, including pre-existing modified/untracked files, QR/public text, public CSS, catalog flag, package manifest and lockfile.
+- No CSS defect was reproduced: no stylesheet/layout changes were made. Brand, navigation links, phone and WhatsApp remain separated, in bounds and readable at the requested widths, with the voucher published and unpublished.
+- `PUBLIC_CATALOG_ENABLED=false`, public catalog cards/reviews, original data/assets, package manifests and lockfile remain unchanged.
+
+### Verified navigation and responsive behavior
+
+- From both `/leistungen` and `/produkte`: the explicit desktop `Startseite` link is visible and navigates to `/` at 1024, 1280 and 1440px. The mobile menu does the same at 390px.
+- Mobile menu open/close German accessible labels, expanded state, Escape/focus return, and link-driven menu dismissal work. Mobile links also navigate to services and products.
+- Team, Galerie, published Gutschein and Kontakt navigate from each subpage to the correct homepage hash/section. Section targets are in the viewport below the sticky header. Unpublishing the mocked voucher removes both navigation copies; no voucher publication was changed in a backend.
+- Header geometry checks cover 390, 1024, 1280 and 1440px across homepage/services/products, banners on/off, vouchers published/unpublished, and compact/expanded states where the page permits scrolling. Assertions measure pairwise element overlap, horizontal document/header overflow, unwrapped desktop labels, visible contacts and >=44px contact targets.
+- Products remain in the coming-soon state, with no decorative emblem or standalone `g`. Existing services/search/prices, content refresh, image/gallery, catalog boundary and QR checks also pass.
+
+### Actual commands and results
+
+Commands ran from `v2/` against the local built app at `http://127.0.0.1:3117`.
+
+| Check | Final result |
+| --- | --- |
+| `npm.cmd run typecheck` | PASS, exit 0; Next type generation and TypeScript. |
+| `npm.cmd run lint` | PASS, exit 0; configured ESLint scope, 0 errors / 0 warnings. |
+| `npm.cmd run build` | PASS, exit 0; Next 16.4.1, 26/26 static pages and dynamic routes compiled. |
+| New navigation/layout Playwright cases | **12 passed / 0 failed**. |
+| Existing public-site Playwright cases | **18 passed / 0 failed**. |
+| Existing services/QR Playwright cases | **3 passed / 0 failed**. |
+| Combined relevant browser run | **33 passed / 0 failed**, 41.5 seconds, 1 worker, 0 retries. |
+| `git diff --check` | PASS. |
+
+Browser: installed headless Microsoft Edge **157.0.4341.42** (Chromium), Windows. Exact final browser command:
+
+```powershell
+$env:GOLESTA_TEST_BASE_URL = 'http://127.0.0.1:3117'
+$env:GOLESTA_TEST_BROWSER_CHANNEL = 'msedge'
+node node_modules/@playwright/test/cli.js test tests/public-navigation.spec.ts tests/public-site.spec.ts tests/services.spec.ts --workers=1 --reporter=line --output=test-results/phase5b-final-20261111
+```
+
+Evidence: ignored `v2/phase5b-public-final-20261111.log`, `v2/phase5b-build-20261111.log` and screenshots under `v2/test-results/phase5b-final-20261111/`. The new run used separate output directories; prior test artifacts were not cleaned.
+
+Initial failures are retained, not hidden:
+
+- First focused reproduction: **0 passed / 3 failed**. Two failures confirmed the corrupted German menu/caption text. The third was a test bug: role lookup excludes hidden mobile links, so it incorrectly expected two visible voucher links. The test now counts both DOM links explicitly.
+- Intermediate run after encoding fixes: **9 passed / 3 failed**. All three failures were a test assumption that a short products page must scroll the entire announcement away. Measurements showed correct normal-flow/sticky positioning at y=34px. The test now verifies the actual banner boundary and only requires compact mode when scrollY exceeds 64px. Collision/overflow/visibility assertions were retained. No application layout workaround was added.
+- Final production-build run: **33 passed / 0 failed**. Full historical unit/admin/API/emulator/audit suites were not rerun or relabelled as current results for this focused UI change.
+
+### Isolation, remaining gates and next step
+
+- Build and local servers used inert, process-only replacements for all Firebase/Auth/Cloudinary configuration names; credential files and persistent environment settings were not changed.
+- Browser content/services APIs were mocked; other API and external browser requests were blocked by the existing public fixture. Remote image optimization was replaced with a local fixture when applicable. No live Firebase/Auth/Firestore/Cloudinary resource was read, mutated or provisioned. Google Font build assets are unrelated to those backend services.
+- Temporary local servers were stopped after verification. No Vercel settings, production resources, security rules, dependency versions or catalog-release flags changed.
+- Physical iPhone Safari/Android, WebKit, touch-device behavior, live integrations and deployed performance remain unverified. Viewport emulation is not physical-device certification.
+- Earlier Phase 5A release gates remain open: residual dependency advisories/decision, Java 21+ and isolated emulator rules evidence, current Vercel root/Git settings confirmation, and authorized resource-isolation evidence. This local Phase 5B UI checkpoint does not clear Preview release approval.
+- Suggested next step: owner review of the preserved UI diff and regression evidence; then address the existing release gates in a separately authorized task. Refresh the staging manifest before any future approved commit. Do not commit, push, deploy, enable the catalog or access live integrations implicitly.
+
+## Phase 5B — dependency security review (2026-11-11)
+
+- Preserved the complete local checkpoint at `9f81aeb` on `development/golesta-v2`, including the Startseite/emblem edits and navigation test. No UI source or existing tests changed. The earlier **33 passed / 0 failed** Playwright result remains historical evidence and was not rerun.
+- Read the saved audit/triage/blocker/readiness evidence, performed fresh full and production npm registry audits before and after the change, checked installed versions/parent ranges/call sites, and read primary maintainer advisories. No Firebase/Auth/Firestore/Cloudinary or Vercel operation.
+- **Safe fix:** `fast-xml-parser 5.11.2 -> 5.12.0`, within Cloud Storage's existing ^5.3.4 range; required `is-unsafe 2.0.2 -> 2.0.3`. Exactly **two lock entries** changed. No package.json, SDK/framework version, override, business data or catalog-flag change.
+- npm's hidden install manifest was stale despite reporting success. Actual old files were verified; only those two generated directories were moved to an ignored root backup, then installed with `--ignore-scripts`. Physical versions now match the lockfile.
+- **Fresh all-dependency audit:** before **31 (5 high, 25 moderate, 1 low)**; after **30 (5 high, 25 moderate)**. **Production:** before **13 (4 high, 8 moderate, 1 low)**; after **12 (4 high, 8 moderate)**. **Development-only:** 18 (1 high, 17 moderate). **0 critical**, both final audits exit 1 for remaining findings.
+- Counts are affected packages including parents, not independent exploits: five remaining advisory-bearing libraries / six advisories. Compared with the older 5A report, npm newly reports the low XML issue and no longer reports the propagated eslint-config-next finding before any code change; this registry drift is not credited as a fix.
+- **Production findings:** gRPC 1.9.16 high + low (server certificate authentication/error-handler conditions, no matching app server path found), UUID 9.0.1 moderate (affected v3/v5/v6 output-buffer methods absent in inspected SDK callers, which use v4). Matching application exploitability is unproven, not formally cleared.
+- **Development findings:** OpenTelemetry core 1.30.1 moderate (inbound baggage limits), glob 10.5.0 moderate (continued traversal after abort), minimatch 9.0.9/10.2.6 moderate (hostile patterns with optimizationLevel>=2). No public app input path found; local/CI tooling exposure remains relevant.
+- Evaluated current supported-major SDK/tool releases and exact parent constraints. New Firebase 13.2.0/Firestore 4.19.1 still pin gRPC ~1.9.0; CLI 15.35.0 and typescript-estree 8.72.2 retain affected tooling majors. Existing Google SDK/gaxios/teeny versions are latest checked within current majors. No advisory-removing supported update for these remaining constraints was identified. No downgrade, major upgrade or unsupported override applied.
+- **New regressions:** **5/5 offline dependency tests**, **22/22 mocked admin/upload handler tests**, production build with TypeScript and **26/26** static pages, targeted lint for the new test and git whitespace check PASS. No regression failures. Build used inert process-only backend values; no live integration or account was initialized.
+- Updated `v2/release/DEPENDENCY_AUDIT.json`, `DEPENDENCY_TRIAGE.json`, `BLOCKER_REVIEW.md`, `PREVIEW_READINESS.md` and this status. Added `v2/tests/dependency-security.test.mjs`; lockfile is the only existing non-report file changed by this review. Prior reports/lock and old generated packages have ignored safety snapshots. Raw audit/test/build logs are ignored `phase5b-security-*` / `phase5b-dependency-*` files under v2.
+- **Preservation:** 195/195 protected baseline files match their SHA-256 hashes, including the navigation components, public CSS, new navigation test, untracked documents, assets/data, package manifest and existing tests. Only six intentionally updated existing files plus the new dependency test differ from the task-start checkpoint.
+- **Remaining gate:** release remains BLOCKED for unresolved advisories/upgrade-or-risk decision plus the unchanged Java/rules, Vercel root/Git and resource-isolation gates. No new remote verification, Java installation or emulator attempt. `PUBLIC_CATALOG_ENABLED=false`; no staging, commit, push, deployment or production change.
+- **Next:** owner review of the scoped exposure/constraint evidence; track supported parent fixes or separately approve a validated compatibility/risk plan. Refresh the staging manifest only before a later approved commit. This review is not blanket risk acceptance or release approval.
+
+## Phase 5B — Playwright WebKit compatibility QA (2026-11-11)
+
+### Availability and isolated setup
+
+- Verified `development/golesta-v2`, local HEAD `9f81aeb`; preserved the navigation and dependency-security checkpoint.
+- Actual host: **Windows 11 Pro**, kernel build **10.0.26200**. Existing **Playwright 1.64.1**, cached WebKit revision **2370**, engine-reported version **27.2**, launched successfully using an in-memory page. **No browser installation/download or application dependency change was needed.**
+- Added `v2/playwright.public-webkit.config.ts`, extending the existing configuration. It selects only the public navigation/site/services suites, one worker, zero retries, a desktop Safari device profile using WebKit, plus an iPhone 13 WebKit profile with touch/mobile settings for the 375/390/430px cases.
+- Configuration rejects non-loopback/non-HTTP targets and a supplied Chromium browser channel. Removed the navigation spec's forced Edge fallback; its existing explicit Edge environment option still works. Assertions/test cases remain preserved.
+- Build/local servers used inert process-only Firebase/Auth/Cloudinary values, never changed credential files, and listened only on 127.0.0.1:3117. Existing public fixtures mocked content/services APIs, blocked other API/external browser requests, and substituted local remote-image fixtures. No live provider resource was accessed, initialized or provisioned.
+- Every run used a separate artifact directory. Updated public screenshots to use `testInfo.outputPath`, avoiding overwriting earlier screenshots or another browser project's output.
+
+### Confirmed issue and minimal fix
+
+Initial WebKit run: **39 passed / 3 failed**. All failures were the same gallery focus-return regression: desktop WebKit at 375 and 1440px, and iPhone-profile WebKit at 375px. Header/layout/navigation assertions passed.
+
+An isolated DOM check confirmed that activating a thumbnail left `document.activeElement` on a prior DIV. The lightbox therefore remembered that DIV as its return target. Escape closed the dialog but left the original thumbnail unfocused, breaking keyboard continuation.
+
+The only application change is in `v2/src/app/page.tsx`: explicitly focus `event.currentTarget` with `preventScroll:true` before opening the selected image. The existing lightbox then captures/restores the correct opener. No gallery redesign, timeout workaround, stylesheet change, image/data update or dependency change.
+
+The retained regression now also reopens using Enter and closes through the close control, checking focus return again. iPhone-profile menu/gallery actions use Playwright touch taps; desktop actions retain clicks. Existing arrow navigation, Escape, expansion/collapse and image checks remain active.
+
+### Exact results
+
+| Check | Final result |
+| --- | --- |
+| Desktop-profile WebKit | **33 passed / 0 failed**. |
+| iPhone-profile WebKit | **9 passed / 0 failed**. |
+| Combined WebKit rerun | **42 passed / 0 failed**, 2.3 minutes, 1 worker, 0 retries. |
+| Focused Edge cross-check | **3 passed / 0 failed**, 5.7 seconds: gallery/anchors at 375 and 1440px plus mobile subpage home navigation at 390px. |
+| `npm.cmd run typecheck` | PASS, exit 0, after the final source/test changes. |
+| `npm.cmd run lint` | PASS, exit 0; no errors/warnings. |
+| `npm.cmd run build` | PASS, exit 0; Next 16.4.1, TypeScript and **26/26 static pages**. Rebuilt because application source changed. |
+| `git diff --check` | PASS. |
+
+Coverage: header and explicit Startseite links from services/products; mobile menu/Escape/focus; coming-soon content with no decorative g; services search/categories/prices; Team/Galerie/published Gutschein/Kontakt subpage anchors and unpublished-voucher removal; contacts; sticky/compact header; no overlaps or horizontal overflow; native lightbox opening, arrow keys, Escape, Enter reopening, close control and focus return; gallery expansion/images; catalog boundary/redirects and QR links.
+
+Desktop-profile widths include 320, 375, 390, 430, 768, 1024, 1280 and 1440px; the dedicated collision/overflow matrix covers 390/1024/1280/1440px with banners and voucher publication both on/off. iPhone-profile cases use 375/390/430px with emulated touch, scale and mobile user agent. Screenshots at 375px mobile and 1024px desktop were visually inspected.
+
+Final WebKit command (from v2, with the isolated local built server already running):
+
+```powershell
+Remove-Item Env:GOLESTA_TEST_BROWSER_CHANNEL -ErrorAction SilentlyContinue
+$env:GOLESTA_TEST_BASE_URL = 'http://127.0.0.1:3117'
+node node_modules/@playwright/test/cli.js test --config=playwright.public-webkit.config.ts --reporter=line --output=test-results/phase5b-webkit-final-20261111
+```
+
+Focused Chromium command used the existing config with `GOLESTA_TEST_BROWSER_CHANNEL=msedge`, the two public/navigation specs and `--grep 'public anchors|subpage navigation from /leistungen at 390px'`.
+
+Evidence is retained in ignored `v2/phase5b-webkit-initial-20261111.log`, `phase5b-webkit-final-20261111.log`, `phase5b-webkit-edge-crosscheck-20261111.log`, `phase5b-webkit-build-20261111.log`, and separate `v2/test-results/phase5b-webkit-*` directories. Initial failures/screenshots/traces were retained. All temporary local servers were stopped.
+
+### Preservation, files and limits
+
+- Files changed in this QA task: `PROJECT_STATUS.md`, new `v2/playwright.public-webkit.config.ts`, `v2/src/app/page.tsx`, `v2/tests/public-navigation.spec.ts`, `v2/tests/public-site.spec.ts`. The original `playwright.config.ts` is unchanged.
+- **198/198 protected baseline files match SHA-256**, including package.json/lockfile, all dependency-security reports/tests, public header/products changes, CSS, fixtures, original assets/data, pre-existing modified files and untracked documents. The existing 33 browser cases remain, with only browser portability/artifact safety and gallery/touch assertions improved. No unrelated cleanup/reset.
+- `fast-xml-parser 5.12.0` and `is-unsafe 2.0.3` remain installed; `PUBLIC_CATALOG_ENABLED=false`. Dependency audit/regression suites were not needlessly repeated because the dependency graph is unchanged.
+- **This is Playwright WebKit running on Windows, not the Apple Safari application, macOS Safari, an iOS simulator, or a physical iPhone test.** Device profiles/user agents/taps emulate browser conditions; they do not reproduce iOS browser chrome, actual VoiceOver/keyboard, native safe areas, OS integration, or physical touch/rendering/performance.
+- Physical iPhone/iPad Safari and real Android/device validation remain outstanding, alongside the existing dependency/risk, Java/rules, Vercel settings confirmation and resource-isolation release gates. No new audit/Java/Vercel/live integration check was performed.
+- No staging, commit, push, deployment, Firebase project creation, credential/remote data change, Vercel setting or production action. Release approval remains **BLOCKED** by the earlier independent gates.
+- Suggested next step: review the minimal gallery fix and WebKit evidence; then perform a separately authorized physical iPhone Safari rehearsal and address the remaining release gates before any approved Preview release.
+
+## Phase 5B - release gate reconciliation and safe checkpoint review (2026-11-11)
+
+Read all release reports and tracked/untracked changes. Preserve app/tests/lock/backup/inherited files; successful app suites not repeated. Dated Phase 5A evidence retained instead of claiming it as fresh.
+
+Fresh read-only findings: local and remote development/golesta-v2 both equal `9f81aebfa5dd6cebb798bf4888a3834976d7201a`. Java **Temurin OpenJDK 21.0.13+9-LTS** meets Firebase CLI minimum 21. Existing firestore-debug.log (2026-11-07, 28,954 bytes) shows emulator activity but does not attest a complete passing Rules run tied to current source.
+
+Vercel metadata: baseline Preview `dpl_CR31tTcfb2gr68uSu7KmK1pf1G3a` at `9f81aeb` is **READY**: https://golesta-beauty-i8fpl8mgp-reza-noorzads-projects.vercel.app. It excludes local Phase 5B. Current root/Git settings omitted by connector. Separate projects/historical key names are not isolation proof. No environment or credential endpoint queried.
+
+| Gate | Status | Evidence / next action |
+| --- | --- | --- |
+| Branch and pushed checkpoint | **VERIFIED** | Local HEAD and git ls-remote equal 9f81aebfa5dd6cebb798bf4888a3834976d7201a on development/golesta-v2. No fetch or Git mutation. |
+| Navigation and public UI | **VERIFIED** | Saved Edge 33/0: Startseite, mobile menu, subpage anchors, catalog-off and 390/1024/1280/1440px collision/overflow matrix. |
+| Windows WebKit and Edge regression | **VERIFIED** | Final WebKit 42/0 (33 desktop + 9 iPhone profile); focused Edge 3/0 after gallery focus fix. Emulation, not physical Safari. |
+| Typecheck, lint and local build | **VERIFIED** | Latest completed WebKit task: exit 0 for all, build 26/26 static pages. No app/test/lock changes in reconciliation; no suite repetition. |
+| Compatible dependency patch | **VERIFIED** | Only fast-xml-parser 5.11.2 -> 5.12.0 and is-unsafe 2.0.2 -> 2.0.3 lock entries; offline tests 5/0, mocked admin/upload 22/0. No direct dependency or override. |
+| Residual dependency release decision | **BLOCKED** | Saved current audits exit 1: all 30 (5 high/25 moderate), production 12 (4 high/8 moderate), dev-only 18 (1 high/17 moderate), 0 critical. Includes affected parents. Supported fixes or explicit scoped risk decision required; no acceptance implied. |
+| Java prerequisite | **VERIFIED** | Fresh java -version: Temurin OpenJDK 21.0.13+9-LTS meets Firebase CLI 15.34.0 minimum major 21. Installation no longer a blocker. |
+| Firebase Rules emulator pass | **BLOCKED** | Historical ENOENT predates available Java. Existing firestore-debug.log proves emulator activity, not a complete passing runner result tied to current rules. Capture a demo-golesta-v2 local result; no Console or owner phone needed. |
+| Existing pushed Preview build | **VERIFIED** | Read-only Vercel deployment dpl_CR31tTcfb2gr68uSu7KmK1pf1G3a is READY at 9f81aeb, source git, development/golesta-v2, target null (Preview). Baseline build only, not uncommitted Phase 5B or live integrations. |
+| Uncommitted Phase 5B Preview | **BLOCKED** | Current changes remain local and are not deployed. Separate approval required for an exact checkpoint/push/Preview; no publishing now. |
+| Current Vercel Git and root settings | **REQUIRES OWNER CONFIRMATION** | Connector omits current configured Git/root settings. Required root v2. Authorized Vercel admin can confirm read-only without Firebase Console or salon phone. |
+| Firebase/Firestore/Auth isolation | **REQUIRES OWNER CONFIRMATION** | Actual Production/Preview project/default database/Auth store/domain assignments not reliably compared. Authorized account admin must privately confirm isolated test assignment. |
+| Cloudinary isolation | **REQUIRES OWNER CONFIRMATION** | Product environment and parent/billing account boundaries unknown. Folder golesta-v2 is not isolation. Authorized Cloudinary admin confirmation needed. |
+| Credential validity and live integration QA | **BLOCKED** | No credentials retrieved/validated; old key-name metadata is historical. Auth/save/upload boundaries mocked. Requires isolation, authorized admin confirmation and separate permission; no live writes now. |
+| Physical iPhone/Safari and Android QA | **BLOCKED** | Windows engine/viewport tests do not establish physical-device behavior. Use any authorized suitable test device and isolated target; not necessarily owner's personal phone. |
+| Public catalog disabled | **VERIFIED** | src/lib/public-config.ts still exports PUBLIC_CATALOG_ENABLED=false; source unchanged. Keep disabled. |
+
+### Completed work and preserved test evidence
+
+Desktop Startseite, emblem removal, subpage anchors, mobile menu, responsive header collisions/overflow; minimal WebKit gallery opener focus fix; supported XML dependency patch and usage/range triage. Final scoped counts: **33/0 navigation Edge; 42/0 WebKit; 3/0 focused Edge; 5/0 offline dependency; 22/0 mocked admin/upload**. Runs overlap; do not sum as unique tests. Latest prior typecheck/lint/build passed, **26/26 static pages**. Initial failures/commands remain above. Physical Safari and live integrations are not verified.
+
+### Checkpoint and independent next actions
+
+The exact 18-file recommendation is in PREVIEW_READINESS.md and STAGING_PLAN.json with individual reasons/hashes. Other inherited README/install/version/test/checksum changes, whitespace-only public assets and stray terminal capture are held, preserved on disk. Backups/environments/credentials/generated outputs excluded. Manifest targets current 9f81aeb, replacing stale 581b1c2 allowlist containing already committed work.
+
+Existing release helper now supports `--no-credentials`: no .env/private-key read or parsing, no known-private-value comparison. Current path/pattern/build review is in SECURITY_SCAN.json; not a Git-history, credential-validity or rotation audit.
+
+Without Firebase Console/owner phone: local reviews, mocked QA, safe checkpoint preparation, available read-only Vercel metadata, and existing demo-only Rules emulator now Java is present. Later local command from v2: `npm.cmd run test:rules` (fixed demo-golesta-v2; no real projects). Authorized Vercel admin confirms current root/Git; authorized Firebase/Cloudinary admins confirm actual resources privately. Physical QA can use any authorized suitable device/isolated target. MFA belongs to the actual account holder if required, never bypassed.
+
+Next: review exact allowlist, capture a verifiable demo Rules result, obtain settings/isolation confirmations. Seek separate explicit approval before any checkpoint/publishing action. No staging, commit, push, deploy, release, project creation or Production action; PUBLIC_CATALOG_ENABLED=false.
+
+### Final reconciliation validation
+
+- Credential-free guard: **PASS**; 0 attempted credential-file reads / 0 private-key parses; 0 secret-path/pattern findings across **203 eligible paths and 119 generated public/build files**. All 8 environment paths and 11 ignore probes protected. No environment values, private keys, tokens or credential exports retrieved.
+- **10 synthetic detector cases passed / 0 failed**, in memory with no real credentials; scanner syntax and targeted ESLint PASS. Initial lint invocation from repository root failed to locate v2 config, corrected cwd PASS; no lint-code failure. These are helper checks, not repeated application tests.
+- **195/195 protected file SHA-256 hashes match** the 203-file starting snapshot. Only eight authorized reports/helper files changed in reconciliation; all app source/tests/lock, inherited and untracked files preserved. No files missing. Dependency audit/triage reports remain byte-identical to the completed dependency review.
+- Exact recommendation: **18 files**, with **15 held paths**. No staging, commit, push or deployment. Release gates remain as classified; see the full authoritative PREVIEW_READINESS.md matrix, including the VERIFIED scoped security/checkpoint review.
+
+## Phase 5B - Firebase Rules emulator verification (2026-11-11)
+
+Confirmed branch development/golesta-v2 / HEAD 9f81aeb and Java **Temurin 21.0.13+9-LTS**. Reviewed package script, firebase.json, Firestore/Storage rules, tests/rules.test.mjs and installed CLI/unit-testing internals before execution. Fixed project **demo-golesta-v2**, CLI **--only firestore,storage**, singleProjectMode true, local ports **8080/9199**. No Functions/Extensions/Auth service or real project needed; authentication identities are local mock tokens. CLI demo mode skips requireAuth. Cached **Firestore 1.22.0 / Storage Rules runtime 1.1.3** SHA-256 match installed metadata; no download required.
+
+Added `v2/scripts/verify-rules-local.mjs` for repeatable guarded execution: child environment allowlist excludes credentials, isolated CLI/npm config with usage false, Node sockets/DNS reject remote hosts, credential-file reads blocked, local ports checked before startup, input/JAR/output hashes captured. It runs the unchanged `npm.cmd run test:rules` from v2. Reproduce with `node scripts/verify-rules-local.mjs` from v2. This is not an OS-wide network sandbox or proof of deployed backend isolation.
+
+| Execution | Passed | Failed | Skipped | npm/runner exit |
+| --- | --- | --- | --- | --- |
+| First isolated run | 1 | 0 | 0 | 0 |
+| Rerun after runner log-preservation correction | 1 | 0 | 0 | 0 |
+
+Same **one existing Node test**, not two distinct cases; **18 allow/deny assertions** per run (2 expected allows, 16 denials). PERMISSION_DENIED console messages are expected negative checks. No test failures, SDK/rule/config/package changes or live rule deployment. Synthetic data exists only in local emulators; cleanup and CLI shutdown completed. No emulator listeners remained on checked ports.
+
+Final artifact: `v2/test-results/phase5b-rules-u9PP13/result.json` and `v2/test-results/phase5b-rules-u9PP13/test-output.log`. Source/config/lock/runner and cached-tool SHA-256 values bind this result in VERIFICATION_RESULTS.json. Guard reports observed only localhost/127.0.0.1, zero remote attempts; two nonexistent .npmrc probes blocked before reads. No real Firebase/Auth/Firestore/Storage connection, project creation or credentials retrieval required. No Console or owner phone used.
+
+**Preservation incident, disclosed:** first runner's createWriteStream redirect was bypassed by CLI graceful-fs, replacing the pre-existing ignored `v2/firestore-debug.log` (old 2026-11-07, 28,954 bytes). No historical copy was found to restore. Minimal runner fix also redirects open/openSync and backs up/restores an existing root log if needed; corrected rerun preserved root bytes without fallback and kept its fresh emulator log in its artifact directory. Original historical log loss remains a limitation. No app/test/config/lock/customer records changed.
+
+Helper syntax and targeted ESLint: **PASS**, exit 0. Existing successful app typecheck/build/browser/dependency suites not repeated because app/dependency graph unchanged. Rules gate changes **BLOCKED -> VERIFIED** only for existing emulator assertions. Residual dependencies, resource/settings confirmation and physical/live integration gates remain open. STAGING_PLAN refreshed to **19 recommended files / 15 held**, including the new local verification helper; no files staged. Public catalog remains false; no commit, push, deploy, Vercel setting or live rules changes.
+
+Recommended next action: review this evidence/19-file checkpoint; obtain authorized admins' resource/settings confirmation and residual dependency decision before release. No need for Firebase Console or owner's phone for repeating the isolated demo verification.
+
+Final Rules-task preservation/review: **196/196 protected eligible-file SHA-256 match** the 203-file starting snapshot; 7 authorized existing reports/helper edits plus 1 new runner, 0 missing eligible files. Existing app/source/tests/rules/config/lock and all held files are byte-identical. The ignored historical log overwrite is explicitly excluded from this claim. Fresh credential-free audit: **0 findings / 204 eligible paths / 119 build files**, 0 audit credential-read or private-key-parse attempts; no emulator listeners on checked ports. Manifest: **19 recommended / 15 held**. Helper syntax/targeted lint and git diff whitespace checks passed; no staging/Git publishing/live-resource action.

@@ -7,7 +7,7 @@ import { publicFixture } from "./support/public-browser";
 test.use({baseURL:process.env.GOLESTA_TEST_BASE_URL||"http://127.0.0.1:3000",launchOptions:{channel:process.env.GOLESTA_TEST_BROWSER_CHANNEL}});
 async function noOverflow(page:Page) {expect(await page.evaluate(() => document.documentElement.scrollWidth<=innerWidth)).toBe(true);}
 for(const width of [320,375,430,768,1024,1280,1440])for(const banner of [false,true]) {
-  test(`public sticky navigation and contact at ${width}px, banner ${banner}`,async ({page,baseURL}) => {
+  test(`public sticky navigation and contact at ${width}px, banner ${banner}`,async ({page,baseURL,isMobile},testInfo) => {
     await page.setViewportSize({width,height:800});
     const fixture=await publicFixture(page,baseURL!,banner);
     for(const path of ["/","/leistungen","/produkte"]) {
@@ -33,7 +33,7 @@ for(const width of [320,375,430,768,1024,1280,1440])for(const banner of [false,t
       if(width>=1024){await expect(header.getByRole("navigation",{name:"Hauptnavigation",exact:true})).toBeVisible();await expect(phone.locator("span")).toBeVisible();}
       else {
         const toggle=header.locator(".public-menu-toggle");
-        await toggle.click();await expect(toggle).toHaveAttribute("aria-expanded","true");
+        if(isMobile)await toggle.tap();else await toggle.click();await expect(toggle).toHaveAttribute("aria-expanded","true");
         await expect(header.getByRole("navigation",{name:"Mobile Navigation",exact:true})).toBeVisible();
         await page.keyboard.press("Escape");await expect(toggle).toBeFocused();await expect(toggle).toHaveAttribute("aria-expanded","false");
         for(const action of [phone,whatsapp,toggle])expect((await action.boundingBox())!.height).toBeGreaterThanOrEqual(44);
@@ -50,12 +50,12 @@ for(const width of [320,375,430,768,1024,1280,1440])for(const banner of [false,t
     await expect(page).toHaveURL(/\/produkte$/);
     await expect(page.getByRole("heading",{name:PRODUCTS_COMING_SOON.title,exact:true})).toBeVisible();
     await expect(page.getByText("CATALOG MUST STAY HIDDEN",{exact:true})).toHaveCount(0);
-    if((width===375||width===1440)&&!banner){await page.evaluate(() => window.scrollTo(0,0));await page.screenshot({path:`test-results/public-coming-soon-${width}.png`,fullPage:true});}
+    if((width===375||width===1440)&&!banner){await page.evaluate(() => window.scrollTo(0,0));await page.screenshot({path:testInfo.outputPath(`public-coming-soon-${width}.png`),fullPage:true});}
     expect(fixture.errors).toEqual([]);expect(fixture.imagesFailed).toEqual([]);
   });
 }
 for(const width of [375,1440]) {
-  test(`public anchors, configured contacts and images stay usable at ${width}px`,async ({page,baseURL}) => {
+  test(`public anchors, configured contacts and images stay usable at ${width}px`,async ({page,baseURL,isMobile}) => {
     await page.setViewportSize({width,height:800});const fixture=await publicFixture(page,baseURL!,true);
     await page.goto("/");
     const header=page.locator(".public-header");
@@ -82,11 +82,15 @@ for(const width of [375,1440]) {
     const invalidLinks=await page.locator('a[href^="/#"]').evaluateAll((links) => links.map((link) => link.getAttribute("href")!).filter((href) => !document.getElementById(href.slice(2))));
     expect(invalidLinks).toEqual([]);
     await page.locator("#galerie").scrollIntoViewIfNeeded();
-    const first=page.getByRole("button",{name:"Galeriebild 1 vergrößern",exact:true});await first.click();
+    const first=page.getByRole("button",{name:"Galeriebild 1 vergrößern",exact:true});if(isMobile)await first.tap();else await first.click();
     const dialog=page.getByRole("dialog",{name:"Galeriebild anzeigen",exact:true});await expect(dialog).toBeVisible();
     await expect(dialog.getByRole("button",{name:"Galerie schließen",exact:true})).toBeFocused();
     await page.keyboard.press("ArrowRight");await expect(dialog.locator("figcaption")).toHaveText("2 / 6");
     await page.keyboard.press("Escape");await expect(dialog).toHaveCount(0);await expect(first).toBeFocused();
+    // Restored focus must support keyboard reopening and pointer dismissal too.
+    await first.press("Enter");await expect(dialog).toBeVisible();
+    const close=dialog.getByRole("button",{name:"Galerie schließen",exact:true});if(isMobile)await close.tap();else await close.click();
+    await expect(dialog).toHaveCount(0);await expect(first).toBeFocused();
     await page.getByRole("button",{name:"Mehr Bilder ansehen",exact:true}).click();
     await expect(page.locator('#galerie button[aria-label$="vergrößern"]')).toHaveCount(18);
     await page.getByRole("button",{name:"Weniger anzeigen",exact:true}).click();

@@ -1,76 +1,31 @@
 {
-  "scope": "Read-only Vercel metadata and public HTML; no database/authentication/Cloudinary operations",
+  "date": "2026-11-11",
+  "scope": "Current read-only Vercel project/deployment metadata and local code review. No environment values/credentials retrieved; no live Firebase/Auth/Firestore/Cloudinary calls.",
   "preview": {
     "project": "golesta-beauty",
     "framework": "nextjs",
     "nodeVersion": "24.x",
     "observedDeployment": {
+      "id": "dpl_CR31tTcfb2gr68uSu7KmK1pf1G3a",
+      "url": "https://golesta-beauty-i8fpl8mgp-reza-noorzads-projects.vercel.app",
       "source": "git",
       "repository": "reza-noorzad/golesta-beauty",
       "branch": "development/golesta-v2",
-      "state": "READY"
+      "commit": "9f81aebfa5dd6cebb798bf4888a3834976d7201a",
+      "state": "READY",
+      "target": "Preview (API target null)",
+      "includesLocalPhase5B": false
     },
     "configuredRootDirectory": null,
+    "rootDirectoryMeaning": "Unknown: connector omits field; null is not evidence of a null setting",
     "requiredRootDirectory": "v2",
-    "environmentKeyNames": [
-      "CLOUDINARY_API_SECRET",
-      "CLOUDINARY_API_KEY",
-      "CLOUDINARY_CLOUD_NAME",
-      "FIREBASE_PRIVATE_KEY",
-      "FIREBASE_CLIENT_EMAIL",
-      "FIREBASE_PROJECT_ID",
-      "NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID",
-      "NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET",
-      "NEXT_PUBLIC_FIREBASE_APP_ID",
-      "NEXT_PUBLIC_FIREBASE_PROJECT_ID",
-      "NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN",
-      "NEXT_PUBLIC_FIREBASE_API_KEY"
-    ],
-    "serverProjectIdReadable": false,
-    "serverAndPublicProjectIdsMatch": null,
-    "publicAuthDomainMatchesPublicProjectId": true
+    "currentGitSettingsVerified": false,
+    "environmentValuesRetrieved": false,
+    "environmentNamesRequeried": false
   },
   "production": {
     "project": "golesta-beauty-web",
-    "framework": null,
-    "nodeVersion": "24.x",
-    "observedProductionDeployment": {
-      "source": "git",
-      "repository": "reza-noorzad/golesta-beauty",
-      "branch": "main",
-      "state": "READY"
-    },
-    "projectLevelEnvironmentEntries": 0,
-    "publicHtmlChecked": [
-      {
-        "path": "/",
-        "status": 200,
-        "firebaseMarkers": false,
-        "cloudinaryMarkers": false,
-        "externalScriptHosts": []
-      },
-      {
-        "path": "/review/",
-        "status": 200,
-        "firebaseMarkers": false,
-        "cloudinaryMarkers": false,
-        "externalScriptHosts": []
-      },
-      {
-        "path": "/scan/",
-        "status": 200,
-        "firebaseMarkers": false,
-        "cloudinaryMarkers": false,
-        "externalScriptHosts": []
-      },
-      {
-        "path": "/links.html",
-        "status": 200,
-        "firebaseMarkers": false,
-        "cloudinaryMarkers": false,
-        "externalScriptHosts": []
-      }
-    ]
+    "currentCheck": "Existence in project list only; no Production settings/deployment/data change."
   },
   "sharedResources": {
     "firebaseProject": null,
@@ -79,24 +34,131 @@
     "cloudinaryProductEnvironment": null,
     "cloudinaryParentAccount": null
   },
-  "conclusion": "UNKNOWN, not proven isolated and not proven shared. Separate Vercel projects, empty production env metadata and absent HTML references do not establish backend separation.",
+  "gates": {
+    "firebase": "REQUIRES OWNER CONFIRMATION",
+    "cloudinary": "REQUIRES OWNER CONFIRMATION",
+    "vercelRootAndGitSettings": "REQUIRES OWNER CONFIRMATION",
+    "liveIntegrationQA": "BLOCKED"
+  },
+  "conclusion": "UNKNOWN, neither proven isolated nor shared. Separate Vercel projects, READY build, old key names and absent HTML markers do not prove separation.",
   "configuredCode": {
     "firestoreDatabase": "(default)",
     "authentication": "Default Auth project/tenant; no separate test tenancy configured",
     "cloudinaryFolder": "golesta-v2"
   },
-  "limitations": [
-    "Connector does not expose configured root/Git project settings",
-    "Installed CLI cannot inspect these projects in its accessible scopes; no login/link changes attempted",
-    "Sensitive Preview FIREBASE_PROJECT_ID is not returned, so equality with public config is unverified",
-    "No Firebase/Cloudinary account inventory or production backend identifiers available",
-    "Public HTML inspection does not establish every backend/integration in use"
-  ],
   "manualChecks": [
     "Confirm root v2 and Git settings in the Preview project's dashboard",
     "Privately compare Preview and all actual production Firebase project IDs, (default) database and Auth project/tenant",
     "Privately compare Cloudinary cloud names/product environments and parent account/billing",
     "Check shared environment groups, integrations and deployment overrides, not only project-level variables",
     "Confirm the intended Preview resources contain only authorized isolated test data before any live mutation"
-  ]
+  ],
+  "historicalEvidence": {
+    "date": "2026-11-07",
+    "revalidated": false,
+    "note": "Prior report retained for provenance. Environment/HTML checks were not repeated and do not verify current credentials/isolation.",
+    "snapshot": {
+      "scope": "Read-only Vercel metadata and public HTML; no database/authentication/Cloudinary operations",
+      "preview": {
+        "project": "golesta-beauty",
+        "framework": "nextjs",
+        "nodeVersion": "24.x",
+        "observedDeployment": {
+          "source": "git",
+          "repository": "reza-noorzad/golesta-beauty",
+          "branch": "development/golesta-v2",
+          "state": "READY"
+        },
+        "configuredRootDirectory": null,
+        "requiredRootDirectory": "v2",
+        "environmentKeyNames": [
+          "CLOUDINARY_API_SECRET",
+          "CLOUDINARY_API_KEY",
+          "CLOUDINARY_CLOUD_NAME",
+          "FIREBASE_PRIVATE_KEY",
+          "FIREBASE_CLIENT_EMAIL",
+          "FIREBASE_PROJECT_ID",
+          "NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID",
+          "NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET",
+          "NEXT_PUBLIC_FIREBASE_APP_ID",
+          "NEXT_PUBLIC_FIREBASE_PROJECT_ID",
+          "NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN",
+          "NEXT_PUBLIC_FIREBASE_API_KEY"
+        ],
+        "serverProjectIdReadable": false,
+        "serverAndPublicProjectIdsMatch": null,
+        "publicAuthDomainMatchesPublicProjectId": true
+      },
+      "production": {
+        "project": "golesta-beauty-web",
+        "framework": null,
+        "nodeVersion": "24.x",
+        "observedProductionDeployment": {
+          "source": "git",
+          "repository": "reza-noorzad/golesta-beauty",
+          "branch": "main",
+          "state": "READY"
+        },
+        "projectLevelEnvironmentEntries": 0,
+        "publicHtmlChecked": [
+          {
+            "path": "/",
+            "status": 200,
+            "firebaseMarkers": false,
+            "cloudinaryMarkers": false,
+            "externalScriptHosts": []
+          },
+          {
+            "path": "/review/",
+            "status": 200,
+            "firebaseMarkers": false,
+            "cloudinaryMarkers": false,
+            "externalScriptHosts": []
+          },
+          {
+            "path": "/scan/",
+            "status": 200,
+            "firebaseMarkers": false,
+            "cloudinaryMarkers": false,
+            "externalScriptHosts": []
+          },
+          {
+            "path": "/links.html",
+            "status": 200,
+            "firebaseMarkers": false,
+            "cloudinaryMarkers": false,
+            "externalScriptHosts": []
+          }
+        ]
+      },
+      "sharedResources": {
+        "firebaseProject": null,
+        "firestoreDatabase": null,
+        "firebaseAuthentication": null,
+        "cloudinaryProductEnvironment": null,
+        "cloudinaryParentAccount": null
+      },
+      "conclusion": "UNKNOWN, not proven isolated and not proven shared. Separate Vercel projects, empty production env metadata and absent HTML references do not establish backend separation.",
+      "configuredCode": {
+        "firestoreDatabase": "(default)",
+        "authentication": "Default Auth project/tenant; no separate test tenancy configured",
+        "cloudinaryFolder": "golesta-v2"
+      },
+      "limitations": [
+        "Connector does not expose configured root/Git project settings",
+        "Installed CLI cannot inspect these projects in its accessible scopes; no login/link changes attempted",
+        "Sensitive Preview FIREBASE_PROJECT_ID is not returned, so equality with public config is unverified",
+        "No Firebase/Cloudinary account inventory or production backend identifiers available",
+        "Public HTML inspection does not establish every backend/integration in use"
+      ],
+      "manualChecks": [
+        "Confirm root v2 and Git settings in the Preview project's dashboard",
+        "Privately compare Preview and all actual production Firebase project IDs, (default) database and Auth project/tenant",
+        "Privately compare Cloudinary cloud names/product environments and parent account/billing",
+        "Check shared environment groups, integrations and deployment overrides, not only project-level variables",
+        "Confirm the intended Preview resources contain only authorized isolated test data before any live mutation"
+      ]
+    }
+  },
+  "ownership": "Authorized Firebase/Cloudinary/Vercel admins can confirm assignments privately. Owner's phone is not needed for local work; MFA/recovery belongs to the actual account holder when required."
 }

@@ -1,41 +1,783 @@
 {
-  "phase": "5A",
-  "date": "2026-11-07",
+  "phase": "5B Firebase Rules emulator verification",
+  "date": "2026-11-11",
   "branch": "development/golesta-v2",
-  "head": "581b1c2",
-  "checkpoint": "Uncommitted working tree; no staging, commit, push or deployment",
-  "evidence": "Actual tool results from the interrupted Phase 5A execution, reconciled with existing reports, manifest hashes, build timestamp and Playwright last-run artifact; completed suites were not repeated during documentation recovery.",
-  "buildArtifactModifiedAt": "2026-11-07T18:11:36.018Z",
-  "browserArtifactModifiedAt": "2026-11-07T18:14:47.388Z",
+  "head": "9f81aebfa5dd6cebb798bf4888a3834976d7201a",
+  "remoteHead": "9f81aebfa5dd6cebb798bf4888a3834976d7201a",
+  "checkpoint": "Working-tree recommendation only. No staging, commit, push, deploy or release.",
+  "evidencePolicy": "Fresh Rules runs below are bound to source/config/lock/runner and cached emulator hashes. Other app/browser/build results remain prior saved evidence; no unrelated suites repeated. The same Rules case passed in two runs, not two distinct tests.",
   "checks": [
-    {"command":"npm.cmd run typecheck","status":"passed","exitCode":0},
-    {"command":"npm.cmd run lint","status":"passed","exitCode":0},
-    {"command":"npm.cmd run build","status":"passed","exitCode":0,"staticPages":26},
-    {"command":"npm.cmd test","status":"passed","exitCode":0,"testsPassed":37,"testsFailed":0},
-    {"command":"npm.cmd run test:admin-api","status":"passed","exitCode":0,"testsPassed":22,"testsFailed":0},
-    {"command":"npm.cmd run test:public-api","status":"passed","exitCode":0,"testsPassed":7,"testsFailed":0},
-    {"command":"node node_modules/@playwright/test/cli.js test --workers=1 --reporter=line","status":"passed","exitCode":0,"testsPassed":89,"testsFailed":0,"browser":"Installed headless Microsoft Edge","retries":0,"durationReported":"1.6 minutes"},
-    {"command":"npm.cmd run test:rules","status":"blocked_before_tests","exitCode":1,"reason":"spawn java ENOENT; Java unavailable on PATH","testsExecuted":0},
-    {"command":"npm.cmd audit --json","status":"advisories_unresolved","exitCode":1,"affectedPackageFindings":34,"high":7,"moderate":27,"critical":0},
-    {"command":"npm.cmd audit --omit=dev --json","status":"advisories_unresolved","exitCode":1,"affectedPackageFindings":13,"high":5,"moderate":8,"critical":0},
-    {"command":"node scripts/audit-release.mjs","status":"passed","exitCode":0,"privateValueOrCredentialPatternFindings":0,"environmentFilesProtected":8,"buildFilesScanned":119}
+    {
+      "check": "Navigation/public/services Edge",
+      "passed": 33,
+      "failed": 0,
+      "evidence": "v2/phase5b-public-final-20261111.log",
+      "repeatedDuringReconciliation": false
+    },
+    {
+      "check": "Offline dependency tests",
+      "passed": 5,
+      "failed": 0,
+      "evidence": "Earlier tool result, PROJECT_STATUS.md and DEPENDENCY_TRIAGE.json",
+      "repeatedDuringReconciliation": false
+    },
+    {
+      "check": "Mocked admin/upload API",
+      "passed": 22,
+      "failed": 0,
+      "evidence": "v2/phase5b-dependency-api-20261111.log",
+      "repeatedDuringReconciliation": false
+    },
+    {
+      "check": "Desktop WebKit",
+      "passed": 33,
+      "failed": 0,
+      "evidence": "v2/phase5b-webkit-final-20261111.log",
+      "repeatedDuringReconciliation": false
+    },
+    {
+      "check": "iPhone-profile WebKit",
+      "passed": 9,
+      "failed": 0,
+      "evidence": "v2/phase5b-webkit-final-20261111.log",
+      "repeatedDuringReconciliation": false
+    },
+    {
+      "check": "Focused Edge cross-check",
+      "passed": 3,
+      "failed": 0,
+      "evidence": "v2/phase5b-webkit-edge-crosscheck-20261111.log",
+      "repeatedDuringReconciliation": false
+    },
+    {
+      "check": "Final app typecheck/lint/build",
+      "exitCode": 0,
+      "staticPages": 26,
+      "evidence": "Latest completed WebKit task results and v2/phase5b-webkit-build-20261111.log",
+      "repeatedDuringReconciliation": false
+    },
+    {
+      "check": "Existing Firestore/Storage Rules emulator test",
+      "performedNow": true,
+      "command": "npm.cmd run test:rules",
+      "invokedVia": "node scripts/verify-rules-local.mjs",
+      "passed": 1,
+      "failed": 0,
+      "skipped": 0,
+      "exitCode": 0,
+      "uniqueTests": 1,
+      "successfulRuns": 2,
+      "policyAssertions": 18,
+      "evidence": "v2/test-results/phase5b-rules-u9PP13/test-output.log"
+    }
   ],
-  "initialProductRegressionReproduction": {"testsFailedOnPriorBuild":2,"fixedAndPassedInFinalSuite":true},
-  "remoteServices": "Auth/Firebase/Cloudinary API and browser mutation boundaries mocked; no real write or upload verification",
-  "vercel": "Read-only project and environment metadata reviewed; settings and deployments untouched",
-  "physicalDevices": "Not verified",
-  "releaseReadiness": "BLOCKED pending dependency triage, demo rules execution and Preview Git/root/environment-isolation checks",
-  "blockerReview": {
-    "scope":"Focused Phase 5A follow-up; no Phase 5B",
-    "lockfileChanges":["re2js 2.8.6 -> 2.8.7","body-parser 1.20.8 -> 1.20.9","body-parser 2.3.0 -> 2.4.0","fast-uri 3.1.8 -> 3.1.9"],
-    "rootPackagesUnchanged":true,
-    "installedVersionsVerified":true,
-    "remainingAdvisories":{"all":{"total":31,"high":5,"moderate":26},"production":{"total":12,"high":4,"moderate":8}},
-    "regression":{"productionBuild":"PASS, includes TypeScript","unitTestsPassed":37,"apiTestsPassed":29,"focusedBrowserTestsPassed":12,"full89BrowserSuiteRepeated":false,"unchangedSourceEslintRepeated":false,"re2jsSyntheticLookbehindMatches":4000,"leafModuleLoads":"PASS","firebaseCliVersion":"15.34.0"},
-    "java":{"available":false,"minimumMajor":21,"rulesTestsExecuted":false},
-    "preview":{"repositoryAndBranchObservedInDeploymentMetadata":true,"rootDirectoryVerified":false,"backendResourceIsolationVerified":false,"settingsChanged":false},
-    "releaseAssessment":"BLOCKED",
-    "details":"BLOCKER_REVIEW.md, DEPENDENCY_TRIAGE.json and RESOURCE_ISOLATION.json"
+  "artifacts": [
+    {
+      "path": "v2/phase5b-public-final-20261111.log",
+      "sha256": "27a231d02ae3fa87b653eac175bac367fed06d48977bb8f4646fb30eb755b367",
+      "includedInCheckpoint": false
+    },
+    {
+      "path": "v2/phase5b-dependency-api-20261111.log",
+      "sha256": "f2cd54d779de639b4e5c0bb0232c25c04511da8e1fb6042eae3b68c014aa1c1f",
+      "includedInCheckpoint": false
+    },
+    {
+      "path": "v2/phase5b-dependency-build-20261111.log",
+      "sha256": "db36633b6afecd491198935ecd96029f3dc142a12022ad48708d48f3d4c413bf",
+      "includedInCheckpoint": false
+    },
+    {
+      "path": "v2/phase5b-webkit-build-20261111.log",
+      "sha256": "9eed310a7adc566af1842645ba915db9c0bd4147963b50f003b4579a2e78f3ad",
+      "includedInCheckpoint": false
+    },
+    {
+      "path": "v2/phase5b-webkit-final-20261111.log",
+      "sha256": "9ded26895fe9d1e712fc8cb78774de191456f0a7b2830748927ed8a2f064898e",
+      "includedInCheckpoint": false
+    },
+    {
+      "path": "v2/phase5b-webkit-edge-crosscheck-20261111.log",
+      "sha256": "0ed4205b27de854b94e74ec8971ce821a11b286ae14c16f4f232043e84c60d9d",
+      "includedInCheckpoint": false
+    },
+    {
+      "path": "v2/test-results/phase5b-rules-bOELLM/test-output.log",
+      "sha256": "6d7b7aa95691cae7ad52d9530786515b5954e91c1eedcab4887953199aa4976b",
+      "includedInCheckpoint": false
+    },
+    {
+      "path": "v2/test-results/phase5b-rules-bOELLM/result.json",
+      "sha256": "4d4b2e4dbb2f828b810b167f86674777b9b9a69df7c43123d1e9ee59f462f609",
+      "includedInCheckpoint": false
+    },
+    {
+      "path": "v2/test-results/phase5b-rules-u9PP13/test-output.log",
+      "sha256": "b3871ada75b99904223006baba16490a0c9a98dd447213a14764df2c45b8b6ba",
+      "includedInCheckpoint": false
+    },
+    {
+      "path": "v2/test-results/phase5b-rules-u9PP13/result.json",
+      "sha256": "64cbf3e8adaf0a39af2b423c793417d4a57b682d04ef1830e546035aca634bb8",
+      "includedInCheckpoint": false
+    }
+  ],
+  "gates": [
+    {
+      "gate": "Branch and pushed checkpoint",
+      "status": "VERIFIED",
+      "evidence": "Local HEAD and git ls-remote equal 9f81aebfa5dd6cebb798bf4888a3834976d7201a on development/golesta-v2. No fetch or Git mutation."
+    },
+    {
+      "gate": "Navigation and public UI",
+      "status": "VERIFIED",
+      "evidence": "Saved Edge 33/0: Startseite, mobile menu, subpage anchors, catalog-off and 390/1024/1280/1440px collision/overflow matrix."
+    },
+    {
+      "gate": "Windows WebKit and Edge regression",
+      "status": "VERIFIED",
+      "evidence": "Final WebKit 42/0 (33 desktop + 9 iPhone profile); focused Edge 3/0 after gallery focus fix. Emulation, not physical Safari."
+    },
+    {
+      "gate": "Typecheck, lint and local build",
+      "status": "VERIFIED",
+      "evidence": "Latest completed WebKit task: exit 0 for all, build 26/26 static pages. No app/test/lock changes in reconciliation; no suite repetition."
+    },
+    {
+      "gate": "Compatible dependency patch",
+      "status": "VERIFIED",
+      "evidence": "Only fast-xml-parser 5.11.2 -> 5.12.0 and is-unsafe 2.0.2 -> 2.0.3 lock entries; offline tests 5/0, mocked admin/upload 22/0. No direct dependency or override."
+    },
+    {
+      "gate": "Residual dependency release decision",
+      "status": "BLOCKED",
+      "evidence": "Saved current audits exit 1: all 30 (5 high/25 moderate), production 12 (4 high/8 moderate), dev-only 18 (1 high/17 moderate), 0 critical. Includes affected parents. Supported fixes or explicit scoped risk decision required; no acceptance implied."
+    },
+    {
+      "gate": "Java prerequisite",
+      "status": "VERIFIED",
+      "evidence": "Fresh java -version: Temurin OpenJDK 21.0.13+9-LTS meets Firebase CLI 15.34.0 minimum major 21. Installation no longer a blocker."
+    },
+    {
+      "gate": "Firebase Rules emulator pass",
+      "status": "VERIFIED",
+      "evidence": "Existing test passed 1/0, exit 0, in two isolated demo runs; 18 allow/deny assertions; Java 21.0.13 and cached Firestore 1.22.0/Storage runtime 1.1.3 verified. Source/config/lock and log hashes recorded. No real Firebase access."
+    },
+    {
+      "gate": "Existing pushed Preview build",
+      "status": "VERIFIED",
+      "evidence": "Read-only Vercel deployment dpl_CR31tTcfb2gr68uSu7KmK1pf1G3a is READY at 9f81aeb, source git, development/golesta-v2, target null (Preview). Baseline build only, not uncommitted Phase 5B or live integrations."
+    },
+    {
+      "gate": "Uncommitted Phase 5B Preview",
+      "status": "BLOCKED",
+      "evidence": "Current changes remain local and are not deployed. Separate approval required for an exact checkpoint/push/Preview; no publishing now."
+    },
+    {
+      "gate": "Current Vercel Git and root settings",
+      "status": "REQUIRES OWNER CONFIRMATION",
+      "evidence": "Connector omits current configured Git/root settings. Required root v2. Authorized Vercel admin can confirm read-only without Firebase Console or salon phone."
+    },
+    {
+      "gate": "Firebase/Firestore/Auth isolation",
+      "status": "REQUIRES OWNER CONFIRMATION",
+      "evidence": "Actual Production/Preview project/default database/Auth store/domain assignments not reliably compared. Authorized account admin must privately confirm isolated test assignment."
+    },
+    {
+      "gate": "Cloudinary isolation",
+      "status": "REQUIRES OWNER CONFIRMATION",
+      "evidence": "Product environment and parent/billing account boundaries unknown. Folder golesta-v2 is not isolation. Authorized Cloudinary admin confirmation needed."
+    },
+    {
+      "gate": "Credential validity and live integration QA",
+      "status": "BLOCKED",
+      "evidence": "No credentials retrieved/validated; old key-name metadata is historical. Auth/save/upload boundaries mocked. Requires isolation, authorized admin confirmation and separate permission; no live writes now."
+    },
+    {
+      "gate": "Physical iPhone/Safari and Android QA",
+      "status": "BLOCKED",
+      "evidence": "Windows engine/viewport tests do not establish physical-device behavior. Use any authorized suitable test device and isolated target; not necessarily owner's personal phone."
+    },
+    {
+      "gate": "Public catalog disabled",
+      "status": "VERIFIED",
+      "evidence": "src/lib/public-config.ts still exports PUBLIC_CATALOG_ENABLED=false; source unchanged. Keep disabled."
+    },
+    {
+      "gate": "Credential-free eligible-file review",
+      "status": "VERIFIED",
+      "evidence": "Fresh credential-free scan: 0 findings across 204 eligible paths and 119 build files; audit privacy guard observed 0 credential read/private-key parse attempts. Historical 10 synthetic detector checks retained, not repeated."
+    },
+    {
+      "gate": "Safe checkpoint recommendation",
+      "status": "VERIFIED",
+      "evidence": "19 explicit file recommendations, 15 held paths; 196/196 protected hashes match the 203-file task-start snapshot, 7 authorized existing report/helper edits plus 1 new runner. No index changes. One ignored historical emulator log was overwritten in the first run; incident disclosed."
+    }
+  ],
+  "initialFailures": {
+    "navigation": {
+      "first": {
+        "passed": 0,
+        "failed": 3
+      },
+      "intermediate": {
+        "passed": 9,
+        "failed": 3
+      },
+      "final": {
+        "passed": 33,
+        "failed": 0
+      },
+      "details": "Two encoding defects fixed; hidden-link/short-page test assumptions corrected. No layout fix needed."
+    },
+    "webkit": {
+      "initial": {
+        "passed": 39,
+        "failed": 3
+      },
+      "final": {
+        "passed": 42,
+        "failed": 0
+      },
+      "details": "Same gallery opener focus bug across three profiles; minimal preventScroll focus fix."
+    }
   },
-  "nextPhase": "Remain at Phase 5A gates; 5B only when requested and within separately authorized scope"
+  "java": {
+    "available": true,
+    "version": "Temurin OpenJDK 21.0.13+9-LTS",
+    "requiredMajor": 21,
+    "evidence": "Fresh java -version and installed Firebase CLI source inspection",
+    "installationPerformed": false,
+    "verifiedDuringRulesExecution": true
+  },
+  "rulesEvidence": {
+    "status": "VERIFIED",
+    "command": "npm.cmd run test:rules",
+    "safeReproduction": "node scripts/verify-rules-local.mjs",
+    "cwd": "v2",
+    "project": "demo-golesta-v2",
+    "uniqueNodeTests": 1,
+    "passedPerRun": 1,
+    "failedPerRun": 0,
+    "skippedPerRun": 0,
+    "exitCodePerRun": 0,
+    "runs": [
+      {
+        "command": "npm.cmd run test:rules",
+        "cwd": "v2",
+        "project": "demo-golesta-v2",
+        "startedAt": "2026-11-11T11:51:29.209Z",
+        "finishedAt": "2026-11-11T11:51:35.063Z",
+        "exitCode": 0,
+        "tests": 1,
+        "passed": 1,
+        "failed": 0,
+        "skipped": 0,
+        "javaVersion": "21.0.13",
+        "jars": [
+          {
+            "name": "firestore",
+            "version": "1.22.0",
+            "sha256": "9b6498b7f62714d67f48f59b3818883cd682dbcd46b9f59511de81c97bb5166c"
+          },
+          {
+            "name": "storage",
+            "version": "1.1.3",
+            "sha256": "0cd52db6f6271d62078f805220706377c849220b73bd68aa27078d977df9c900"
+          }
+        ],
+        "inputSha256": {
+          "package.json": "b8ffa073781de9e2b1114cc20f862ca6b67a1b5bd9cdaa2f868c440cab42d2ba",
+          "package-lock.json": "8e5e8a7d84f34c22120f23c93e4aa3ecc831255c7cce4826e791832adc0ba7ab",
+          "firebase.json": "8ce9fdf75c8351b05dfd8c82ac11fffa21ab53fd8b4e2007b2af5ffb7775ae8d",
+          "firestore.rules": "e2c5df20f09f8515f6bb3c2de16ba281a7b0e1c72cd4a1174b9a9febeb2d2665",
+          "storage.rules": "f3fecca22734c1758824ea942febada30bf8dede9927a7a80dbd5929b8573287",
+          "tests/rules.test.mjs": "08b3eae45b29c68f41f0c5d56208b08dc000eabb1eb317bf0a75413812e2cb6e",
+          "scripts/verify-rules-local.mjs": "c02467c33e27458ad667f378bec42e7147683c7c61117f684616a35e8903f150"
+        },
+        "isolation": {
+          "inheritedCredentials": false,
+          "normalCliConfigUsed": false,
+          "externalConnectionsBlockedInNode": true,
+          "cachedJarsVerified": true,
+          "noDownloadsRequired": true,
+          "guards": [
+            {
+              "pid": 17012,
+              "localConnections": {},
+              "blockedRemote": 0,
+              "blockedCredentialReads": 1
+            },
+            {
+              "pid": 23236,
+              "localConnections": {
+                "127.0.0.1": 9,
+                "localhost": 2
+              },
+              "blockedRemote": 0,
+              "blockedCredentialReads": 0
+            },
+            {
+              "pid": 2356,
+              "localConnections": {
+                "127.0.0.1": 5
+              },
+              "blockedRemote": 0,
+              "blockedCredentialReads": 0
+            },
+            {
+              "pid": 8016,
+              "localConnections": {},
+              "blockedRemote": 0,
+              "blockedCredentialReads": 1
+            }
+          ],
+          "limitations": "Node CLI/SDK sockets and DNS are guarded; Java runs the checksum-verified local emulator JARs. This is not an OS-wide network sandbox or deployed resource-isolation proof."
+        },
+        "artifact": "v2/test-results/phase5b-rules-bOELLM",
+        "logSha256": "6d7b7aa95691cae7ad52d9530786515b5954e91c1eedcab4887953199aa4976b"
+      },
+      {
+        "command": "npm.cmd run test:rules",
+        "cwd": "v2",
+        "project": "demo-golesta-v2",
+        "startedAt": "2026-11-11T11:54:06.083Z",
+        "finishedAt": "2026-11-11T11:54:10.928Z",
+        "exitCode": 0,
+        "tests": 1,
+        "passed": 1,
+        "failed": 0,
+        "skipped": 0,
+        "javaVersion": "21.0.13",
+        "jars": [
+          {
+            "name": "firestore",
+            "version": "1.22.0",
+            "sha256": "9b6498b7f62714d67f48f59b3818883cd682dbcd46b9f59511de81c97bb5166c"
+          },
+          {
+            "name": "storage",
+            "version": "1.1.3",
+            "sha256": "0cd52db6f6271d62078f805220706377c849220b73bd68aa27078d977df9c900"
+          }
+        ],
+        "inputSha256": {
+          "package.json": "b8ffa073781de9e2b1114cc20f862ca6b67a1b5bd9cdaa2f868c440cab42d2ba",
+          "package-lock.json": "8e5e8a7d84f34c22120f23c93e4aa3ecc831255c7cce4826e791832adc0ba7ab",
+          "firebase.json": "8ce9fdf75c8351b05dfd8c82ac11fffa21ab53fd8b4e2007b2af5ffb7775ae8d",
+          "firestore.rules": "e2c5df20f09f8515f6bb3c2de16ba281a7b0e1c72cd4a1174b9a9febeb2d2665",
+          "storage.rules": "f3fecca22734c1758824ea942febada30bf8dede9927a7a80dbd5929b8573287",
+          "tests/rules.test.mjs": "08b3eae45b29c68f41f0c5d56208b08dc000eabb1eb317bf0a75413812e2cb6e",
+          "scripts/verify-rules-local.mjs": "745d8cb8178167fee16f5c0b1b6aa3d1f27f53059bceeb7f1811ac6de1f42b96"
+        },
+        "logPreservation": {
+          "previousLogExisted": true,
+          "fallbackRestoreNeeded": false,
+          "rootBytesPreserved": true
+        },
+        "isolation": {
+          "inheritedCredentials": false,
+          "normalCliConfigUsed": false,
+          "externalConnectionsBlockedInNode": true,
+          "cachedJarsVerified": true,
+          "noDownloadsRequired": true,
+          "guards": [
+            {
+              "pid": 11536,
+              "localConnections": {},
+              "blockedRemote": 0,
+              "blockedCredentialReads": 1,
+              "blockedCredentialPaths": [
+                {
+                  "name": ".npmrc",
+                  "exists": false
+                }
+              ]
+            },
+            {
+              "pid": 2548,
+              "localConnections": {},
+              "blockedRemote": 0,
+              "blockedCredentialReads": 1,
+              "blockedCredentialPaths": [
+                {
+                  "name": ".npmrc",
+                  "exists": false
+                }
+              ]
+            },
+            {
+              "pid": 25992,
+              "localConnections": {
+                "127.0.0.1": 5
+              },
+              "blockedRemote": 0,
+              "blockedCredentialReads": 0,
+              "blockedCredentialPaths": []
+            },
+            {
+              "pid": 9588,
+              "localConnections": {
+                "127.0.0.1": 8,
+                "localhost": 2
+              },
+              "blockedRemote": 0,
+              "blockedCredentialReads": 0,
+              "blockedCredentialPaths": []
+            }
+          ],
+          "limitations": "Node CLI/SDK sockets and DNS are guarded; Java runs the checksum-verified local emulator JARs. This is not an OS-wide network sandbox or deployed resource-isolation proof."
+        },
+        "artifact": "v2/test-results/phase5b-rules-u9PP13",
+        "logSha256": "b3871ada75b99904223006baba16490a0c9a98dd447213a14764df2c45b8b6ba"
+      }
+    ],
+    "assertions": {
+      "total": 18,
+      "expectedAllowed": 2,
+      "expectedDenied": 16,
+      "detail": "Public services get; own-admin get; other-admin get denied; private reads and direct private/admin/service writes plus Storage uploads denied for unauthenticated, manager and other identities."
+    },
+    "actualEmulators": true,
+    "mockedRemoteProviders": false,
+    "syntheticDataOnly": true,
+    "auth": "Rules-unit-testing local mock identities, not real Firebase Authentication; no Auth emulator needed.",
+    "configuration": "Existing firebase.json unchanged: Firestore 8080, Storage 9199, singleProjectMode true; CLI starts only firestore,storage. Built-in localhost binding; observed Firestore endpoint 127.0.0.1:8080 and websocket 127.0.0.1:9150.",
+    "isolation": {
+      "realProjectNeeded": false,
+      "realCredentialsNeeded": false,
+      "realServicesConnected": false,
+      "projectCreated": false,
+      "normalCliStoreRead": false,
+      "inheritedCredentials": false,
+      "localHostsObserved": [
+        "127.0.0.1",
+        "localhost"
+      ],
+      "blockedRemoteAttempts": 0,
+      "blockedCredentialProbes": 2,
+      "probeDetails": "Both were nonexistent .npmrc probes blocked before reading; no credential contents read.",
+      "jarDownloadNeeded": false,
+      "scopeLimit": "Node socket/DNS guards, clean child environment and checksum-verified local Java emulators; not an OS-wide network sandbox or proof of deployed resource separation."
+    },
+    "expectedOutput": "tests 1; pass 1; fail 0; skipped 0; Script exited successfully (code 0). PERMISSION_DENIED messages are expected negative assertions, not failed tests.",
+    "inputSha256": {
+      "package.json": "b8ffa073781de9e2b1114cc20f862ca6b67a1b5bd9cdaa2f868c440cab42d2ba",
+      "package-lock.json": "8e5e8a7d84f34c22120f23c93e4aa3ecc831255c7cce4826e791832adc0ba7ab",
+      "firebase.json": "8ce9fdf75c8351b05dfd8c82ac11fffa21ab53fd8b4e2007b2af5ffb7775ae8d",
+      "firestore.rules": "e2c5df20f09f8515f6bb3c2de16ba281a7b0e1c72cd4a1174b9a9febeb2d2665",
+      "storage.rules": "f3fecca22734c1758824ea942febada30bf8dede9927a7a80dbd5929b8573287",
+      "tests/rules.test.mjs": "08b3eae45b29c68f41f0c5d56208b08dc000eabb1eb317bf0a75413812e2cb6e",
+      "scripts/verify-rules-local.mjs": "745d8cb8178167fee16f5c0b1b6aa3d1f27f53059bceeb7f1811ac6de1f42b96"
+    },
+    "logPreservationIncident": {
+      "file": "v2/firestore-debug.log",
+      "ignored": true,
+      "occurredDuringFirstRun": true,
+      "description": "Initial runner intercepted createWriteStream, but Firebase CLI's graceful-fs wrapper bypassed it and replaced the pre-existing ignored historical log. Original 2026-11-07 log was 28,954 bytes; no historical copy was found to restore. This is an acknowledged preservation exception, not an application/database change.",
+      "correction": "Runner now intercepts open/openSync as well and backs up the existing root log with restoration fallback. Corrected rerun wrote its fresh log under its artifact directory and preserved root bytes without fallback.",
+      "oldOriginalRecovered": false,
+      "finalRunRootBytesPreserved": true
+    },
+    "limitations": [
+      "Existing one-case suite, not exhaustive rules-policy coverage",
+      "No live rules deployed or inspected; no production-resource isolation claim",
+      "Historical ignored log loss remains disclosed; preserved source/app/test/lock files are unaffected"
+    ],
+    "previousUnverifiedEvidence": {
+      "log": "v2/firestore-debug.log",
+      "modifiedAt": "2026-11-07T20:37:22.715Z",
+      "bytes": 28954,
+      "containsEmulatorActivity": true,
+      "completePassingRunnerEvidence": false,
+      "currentRulesBoundToPassingEvidence": false,
+      "testsRunDuringReconciliation": false,
+      "conclusion": "Emulator activity is not a Rules pass. Prior ENOENT is historical; Java now available."
+    }
+  },
+  "preview": {
+    "url": "https://golesta-beauty-i8fpl8mgp-reza-noorzads-projects.vercel.app",
+    "id": "dpl_CR31tTcfb2gr68uSu7KmK1pf1G3a",
+    "state": "READY",
+    "commit": "9f81aebfa5dd6cebb798bf4888a3834976d7201a",
+    "branch": "development/golesta-v2",
+    "source": "git",
+    "target": "Preview (API target null)",
+    "includesUncommittedPhase5B": false,
+    "settingsChanged": false,
+    "liveIntegrationVerified": false
+  },
+  "localReview": {
+    "credentialFreeScan": {
+      "status": "VERIFIED",
+      "command": "node scripts/audit-release.mjs --no-credentials",
+      "exitCode": 0,
+      "eligibleFiles": 203,
+      "buildFiles": 119,
+      "findings": 0,
+      "credentialReadAttempts": 0,
+      "keyParseAttempts": 0,
+      "environmentPathsIgnored": 8,
+      "ignoreProbes": 11,
+      "guard": "In-process fs.readFileSync and crypto.createPrivateKey interceptors blocked credential operations; zero attempts observed."
+    },
+    "syntheticDetectorCheck": {
+      "passed": 10,
+      "failed": 0,
+      "realCredentialsUsed": false,
+      "scope": "Synthetic private-key/GitHub/AWS/fine-grained/OpenAI/JWT/Cloudinary patterns plus three negative cases; in-memory, no fixture files created."
+    },
+    "scannerSyntaxCheck": {
+      "exitCode": 0
+    },
+    "scannerTargetedLint": {
+      "command": "node node_modules/eslint/bin/eslint.js scripts/audit-release.mjs",
+      "cwd": "v2",
+      "exitCode": 0,
+      "initialInvocation": "First invocation from repository root could not locate v2 ESLint config (exit 1); corrected cwd succeeded. No source lint finding."
+    },
+    "preservation": {
+      "baselineFiles": 203,
+      "protectedFiles": 195,
+      "protectedHashesMatched": 195,
+      "missingFiles": 0,
+      "authorizedEdits": [
+        "PROJECT_STATUS.md",
+        "v2/scripts/audit-release.mjs",
+        "v2/release/BLOCKER_REVIEW.md",
+        "v2/release/PREVIEW_READINESS.md",
+        "v2/release/RESOURCE_ISOLATION.json",
+        "v2/release/SECURITY_SCAN.json",
+        "v2/release/STAGING_PLAN.json",
+        "v2/release/VERIFICATION_RESULTS.json"
+      ],
+      "allAppLockTestAndHeldFileBytesUnchanged": true
+    },
+    "recommendations": 18,
+    "heldFiles": 15,
+    "credentialsRetrieved": false,
+    "knownPrivateValueComparison": false,
+    "historyScan": false,
+    "applicationTestsRepeated": false,
+    "indexChanged": false,
+    "applicationFilesChanged": false,
+    "limitations": "Pattern checks cannot prove absence of all secrets. Existing tests/logs are preserved local evidence, not a fresh full-suite or physical/live integration attestation.",
+    "note": "Historical release-gate reconciliation review before this Rules task. For current counts, scan, recommendations and the ignored-log exception see rulesTaskReview and rulesEvidence."
+  },
+  "canProceedWithoutFirebaseConsoleOrOwnerPhone": [
+    "Local code/docs/security/dependency review",
+    "Mocked public/admin/browser QA",
+    "Existing demo-golesta-v2 Rules emulator suite with available Java 21",
+    "Safe file-by-file checkpoint preparation; actual staging/commit/push requires approval",
+    "Available read-only Vercel metadata; current root/Git settings need authorized Vercel admin, not Firebase Console",
+    "Physical QA using another authorized suitable iPhone/Android and an isolated target, not necessarily owner's phone"
+  ],
+  "requiresAuthorizedAdministrator": [
+    "Actual Firebase project/default database/Auth store/domain assignments",
+    "Cloudinary product environment/parent account ownership and isolation",
+    "Private credential validity/test-resource authorization without exporting secrets"
+  ],
+  "releaseReadiness": "BLOCKED",
+  "historicalPhase5A": {
+    "note": "Historical 2026-11-07 snapshot: old HEAD/Java/audit claims are not current. Phase 5A was later pushed at 9f81aeb.",
+    "snapshot": {
+      "phase": "5A",
+      "date": "2026-11-07",
+      "branch": "development/golesta-v2",
+      "head": "581b1c2",
+      "checkpoint": "Uncommitted working tree; no staging, commit, push or deployment",
+      "evidence": "Actual tool results from the interrupted Phase 5A execution, reconciled with existing reports, manifest hashes, build timestamp and Playwright last-run artifact; completed suites were not repeated during documentation recovery.",
+      "buildArtifactModifiedAt": "2026-11-07T18:11:36.018Z",
+      "browserArtifactModifiedAt": "2026-11-07T18:14:47.388Z",
+      "checks": [
+        {
+          "command": "npm.cmd run typecheck",
+          "status": "passed",
+          "exitCode": 0
+        },
+        {
+          "command": "npm.cmd run lint",
+          "status": "passed",
+          "exitCode": 0
+        },
+        {
+          "command": "npm.cmd run build",
+          "status": "passed",
+          "exitCode": 0,
+          "staticPages": 26
+        },
+        {
+          "command": "npm.cmd test",
+          "status": "passed",
+          "exitCode": 0,
+          "testsPassed": 37,
+          "testsFailed": 0
+        },
+        {
+          "command": "npm.cmd run test:admin-api",
+          "status": "passed",
+          "exitCode": 0,
+          "testsPassed": 22,
+          "testsFailed": 0
+        },
+        {
+          "command": "npm.cmd run test:public-api",
+          "status": "passed",
+          "exitCode": 0,
+          "testsPassed": 7,
+          "testsFailed": 0
+        },
+        {
+          "command": "node node_modules/@playwright/test/cli.js test --workers=1 --reporter=line",
+          "status": "passed",
+          "exitCode": 0,
+          "testsPassed": 89,
+          "testsFailed": 0,
+          "browser": "Installed headless Microsoft Edge",
+          "retries": 0,
+          "durationReported": "1.6 minutes"
+        },
+        {
+          "command": "npm.cmd run test:rules",
+          "status": "blocked_before_tests",
+          "exitCode": 1,
+          "reason": "spawn java ENOENT; Java unavailable on PATH",
+          "testsExecuted": 0
+        },
+        {
+          "command": "npm.cmd audit --json",
+          "status": "advisories_unresolved",
+          "exitCode": 1,
+          "affectedPackageFindings": 34,
+          "high": 7,
+          "moderate": 27,
+          "critical": 0
+        },
+        {
+          "command": "npm.cmd audit --omit=dev --json",
+          "status": "advisories_unresolved",
+          "exitCode": 1,
+          "affectedPackageFindings": 13,
+          "high": 5,
+          "moderate": 8,
+          "critical": 0
+        },
+        {
+          "command": "node scripts/audit-release.mjs",
+          "status": "passed",
+          "exitCode": 0,
+          "privateValueOrCredentialPatternFindings": 0,
+          "environmentFilesProtected": 8,
+          "buildFilesScanned": 119
+        }
+      ],
+      "initialProductRegressionReproduction": {
+        "testsFailedOnPriorBuild": 2,
+        "fixedAndPassedInFinalSuite": true
+      },
+      "remoteServices": "Auth/Firebase/Cloudinary API and browser mutation boundaries mocked; no real write or upload verification",
+      "vercel": "Read-only project and environment metadata reviewed; settings and deployments untouched",
+      "physicalDevices": "Not verified",
+      "releaseReadiness": "BLOCKED pending dependency triage, demo rules execution and Preview Git/root/environment-isolation checks",
+      "blockerReview": {
+        "scope": "Focused Phase 5A follow-up; no Phase 5B",
+        "lockfileChanges": [
+          "re2js 2.8.6 -> 2.8.7",
+          "body-parser 1.20.8 -> 1.20.9",
+          "body-parser 2.3.0 -> 2.4.0",
+          "fast-uri 3.1.8 -> 3.1.9"
+        ],
+        "rootPackagesUnchanged": true,
+        "installedVersionsVerified": true,
+        "remainingAdvisories": {
+          "all": {
+            "total": 31,
+            "high": 5,
+            "moderate": 26
+          },
+          "production": {
+            "total": 12,
+            "high": 4,
+            "moderate": 8
+          }
+        },
+        "regression": {
+          "productionBuild": "PASS, includes TypeScript",
+          "unitTestsPassed": 37,
+          "apiTestsPassed": 29,
+          "focusedBrowserTestsPassed": 12,
+          "full89BrowserSuiteRepeated": false,
+          "unchangedSourceEslintRepeated": false,
+          "re2jsSyntheticLookbehindMatches": 4000,
+          "leafModuleLoads": "PASS",
+          "firebaseCliVersion": "15.34.0"
+        },
+        "java": {
+          "available": false,
+          "minimumMajor": 21,
+          "rulesTestsExecuted": false
+        },
+        "preview": {
+          "repositoryAndBranchObservedInDeploymentMetadata": true,
+          "rootDirectoryVerified": false,
+          "backendResourceIsolationVerified": false,
+          "settingsChanged": false
+        },
+        "releaseAssessment": "BLOCKED",
+        "details": "BLOCKER_REVIEW.md, DEPENDENCY_TRIAGE.json and RESOURCE_ISOLATION.json"
+      },
+      "nextPhase": "Remain at Phase 5A gates; 5B only when requested and within separately authorized scope"
+    }
+  },
+  "rulesTaskReview": {
+    "applicationFilesChanged": false,
+    "existingRulesTestChanged": false,
+    "firebaseConfigOrRuleFilesChanged": false,
+    "packageOrLockChanged": false,
+    "newFile": "v2/scripts/verify-rules-local.mjs",
+    "runnerSyntax": "PASS",
+    "runnerTargetedEslint": "PASS",
+    "unrelatedAppSuitesRepeated": false,
+    "guardReview": "Final guards: only loopback hosts observed, zero blocked remote attempts, two blocked nonexistent .npmrc probes; no secrets read.",
+    "historicalLogException": {
+      "file": "v2/firestore-debug.log",
+      "ignored": true,
+      "occurredDuringFirstRun": true,
+      "description": "Initial runner intercepted createWriteStream, but Firebase CLI's graceful-fs wrapper bypassed it and replaced the pre-existing ignored historical log. Original 2026-11-07 log was 28,954 bytes; no historical copy was found to restore. This is an acknowledged preservation exception, not an application/database change.",
+      "correction": "Runner now intercepts open/openSync as well and backs up the existing root log with restoration fallback. Corrected rerun wrote its fresh log under its artifact directory and preserved root bytes without fallback.",
+      "oldOriginalRecovered": false,
+      "finalRunRootBytesPreserved": true
+    },
+    "commitPushDeployPerformed": false,
+    "remainingReleaseReadiness": "BLOCKED",
+    "finalReview": {
+      "securityScan": {
+        "exitCode": 0,
+        "eligiblePaths": 204,
+        "buildFiles": 119,
+        "findings": 0,
+        "environmentPathsIgnored": 8,
+        "credentialReadAttempts": 0,
+        "keyParseAttempts": 0
+      },
+      "preservation": {
+        "taskStartEligibleFiles": 203,
+        "protectedHashesMatched": 196,
+        "authorizedExistingFilesChanged": 7,
+        "newHelperFiles": 1,
+        "missingEligibleFiles": 0,
+        "appTestsLockConfigRulesAndHeldFilesUnchanged": true,
+        "scope": "Git-eligible files; ignored historical emulator log exception remains explicit."
+      },
+      "staging": {
+        "recommended": 19,
+        "held": 15,
+        "performed": false
+      },
+      "portsAfterShutdown": "No listeners on 8080,9199,4400,4500,9150",
+      "targetedHelperLintExitCode": 0,
+      "runnerSyntaxExitCode": 0
+    }
+  }
 }

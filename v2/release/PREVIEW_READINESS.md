@@ -1,17 +1,19 @@
-# Golesta Beauty V2.3 — Phase 5A readiness
+# Golesta Beauty V2.3 — Preview readiness (Phase 5B update)
 
-Assessment: **BLOCKED for Preview release approval**. Current findings and exact owner actions are in [BLOCKER_REVIEW.md](BLOCKER_REVIEW.md); the gates below include that focused follow-up. Local code review, regression testing, secret-file checks and release preparation are complete. This assessment does not mean the local application tests failed. No Phase 5B action is authorized or performed by this report.
+Assessment: **BLOCKED for release; completed local Phase 5B work is eligible for a separately approved checkpoint review.** Navigation, dependency and Windows WebKit/Edge work is complete within the recorded scope. Current dependency evidence is in [BLOCKER_REVIEW.md](BLOCKER_REVIEW.md) and the refreshed JSON reports. No live integrations, Vercel settings, commit/push/deployment or production changes were performed.
 
-## Evidence recovered after interruption
+## Historical Phase 5A evidence recovered after interruption
+
+This recovery narrative records the earlier 2026-11-07 state, not today's working-tree/test execution.
 
 Phase 5A had already run before the usage interruption, although PROJECT_STATUS.md still ended at 4B-2. Existing security/dependency reports, source edits, manifest hashes, build artifacts and Playwright's passed last-run file confirm that work. The earlier tool results recorded 37 unit, 29 API and 89 browser tests passing, as well as TypeScript, ESLint and the production build. Source hashes were reconciled with STAGING_PLAN.json; no application files had changed since that manifest. Completed test suites were not repeated merely because the documentation was unfinished.
 
 ## Release gates
 
-1. **Dependencies:** npm audit exits 1. After compatible RE2JS/body-parser/fast-uri fixes, the all-dependency tree has 31 affected-package findings (5 high, 26 moderate); omit-dev has 12 (4 high, 8 moderate). Totals include propagated parents, not distinct independent exploits. See DEPENDENCY_AUDIT.json and DEPENDENCY_TRIAGE.json. No major upgrades, downgrades, forced fixes or overrides were applied. Review each real usage path and select supported compatible updates or a documented mitigation before approving release.
-2. **Rules execution:** static review confirms deny-by-default Firestore/Storage rules, restricted own-admin lookup, public service get-only access and server-only writes. The demo rules command was attempted but stopped before tests with `spawn java ENOENT`. Install/configure Java 21+ for the existing Firebase CLI and run the isolated demo suite. Rules have not been live-deployed or proven by an emulator in this phase.
-3. **Preview linkage:** connected deployment metadata confirms Preview source `reza-noorzad/golesta-beauty` / `development/golesta-v2` and production source `main`. Current project Git settings and Root Directory remain unexposed. Confirm root `v2` and current settings in a read-only dashboard review before any deployment. Do not assume an existing READY deployment contains this uncommitted work.
-4. **Environment isolation:** Preview variable names/targets exist; only non-secret resource identifiers were read in the focused follow-up. The sensitive server project ID remains unreadable and production backend identifiers are unavailable, so isolation is still unknown. Verify Firebase public/server IDs match the intended isolated test project, credentials are valid, Firebase authorized domains allow Preview, and Cloudinary points to an authorized test account/folder before authenticated write/upload/account QA. Do not use salon production data as a fixture.
+1. **Dependencies:** fresh npm audits still exit 1. After the new compatible fast-xml-parser 5.12.0 / required is-unsafe 2.0.3 fix, all dependencies have **30 affected-package findings (5 high, 25 moderate)**; production has **12 (4 high, 8 moderate)**; no critical findings. Development-only difference: **18 (1 high, 17 moderate)**. These include propagated parents, not independent exploits. Remaining five underlying packages/six advisories were assessed against actual usage and supported parent ranges. No compatible advisory-removing parent fix was identified in the checked releases. No major upgrade, downgrade, override or blanket risk acceptance. Prior Phase 5A compatible fixes remain preserved.
+2. **Rules execution - VERIFIED:** existing local test passed **1/0**, skipped 0, exit **0**, in two demo-only runs; 18 policy assertions (2 allow / 16 deny). Java 21 and cached emulators verified. Source/config/lock and log hashes are recorded in VERIFICATION_RESULTS.json. No real Firebase service or credentials required.
+3. **Preview linkage:** current read-only metadata verifies READY baseline Preview at `9f81aeb`, branch `development/golesta-v2`. It excludes local Phase 5B. Current configured Git/root settings are unexposed and need authorized Vercel admin confirmation.
+4. **Environment isolation - REQUIRES OWNER CONFIRMATION:** old key-name/identifier evidence is historical, not requeried. Actual Firebase/default Firestore/Auth and Cloudinary product environment/parent account assignments remain unknown. No credentials/environment values retrieved. Authorized account admin confirms isolated test assignment before separately approved live integration QA.
 
 The gRPC high advisory concerns server-side authentication using `getAuthContext` with particular TLS client-certificate settings. This application does not define a gRPC server or use that method; reachability was not demonstrated. The vulnerable 1.9.16 copy comes from the browser Firebase SDK's Node dependency tree; Firebase Admin's google-gax resolves 1.14.6. This is a scoped finding, not proof every Firebase request is exploitable. RE2JS was patched from 2.8.6 to 2.8.7; older UUID/tooling chains remain in the audit. Do not treat a passing application test suite as resolution of these advisories. Primary source: [gRPC maintainer advisory](https://github.com/grpc/grpc-node/security/advisories/GHSA-m9gg-hp2v-232j).
 
@@ -29,16 +31,16 @@ The gRPC high advisory concerns server-side authentication using `getAuthContext
 | Package install/build | Existing npm lockfile, `npm ci`, `npm run build`; framework defaults unless deliberately reviewed |
 | Output | Next.js framework default; do not override to a legacy static folder |
 | Deployment protection | SSO protection enabled for `all_except_custom_domains`, observed; preserve it |
-| Existing deployment | API reports an older READY deployment; not this checkpoint, not an integration test |
+| Existing deployment | READY `9f81aeb` / `dpl_CR31tTcfb2gr68uSu7KmK1pf1G3a`; pushed baseline only, excludes local Phase 5B; not integration proof |
 
 Vercel supports Node 24 and permits package engines to select its major version; see [official runtime documentation](https://vercel.com/docs/functions/runtimes/node-js/node-js-versions). Installed Next 16.4.1 requires Node >=20.9, Firebase Admin 13.10.0 requires >=18. All application API handlers use the Node runtime. `jwks-rsa@3.2.2` resolves its own `jose@4.15.9`; the separate root `jose@6.2.12` belongs to another dependency chain. No local ESM external-module error reproduced. Local import/build success is not Vercel serverless validation.
 
-Project-level metadata lists these 12 keys targeted to Preview. No branch-specific overrides were returned for `development/golesta-v2`; shared Preview keys still apply. No values were printed, pulled or changed:
+Historical 2026-11-07 project-level metadata listed these 12 Preview keys; not requeried in reconciliation. No branch-specific overrides were returned for `development/golesta-v2`; shared Preview keys still apply. No values were printed, pulled or changed:
 
 - Public browser configuration: `NEXT_PUBLIC_FIREBASE_API_KEY`, `NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN`, `NEXT_PUBLIC_FIREBASE_PROJECT_ID`, `NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET`, `NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID`, `NEXT_PUBLIC_FIREBASE_APP_ID`.
 - Server only: `FIREBASE_PROJECT_ID`, `FIREBASE_CLIENT_EMAIL`, `FIREBASE_PRIVATE_KEY`, `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET`.
 
-The private key and Cloudinary API key/secret are marked sensitive in existing Vercel metadata. Other fields use existing encrypted/sensitive types. Public Firebase configuration is intentionally available to the browser; server credentials must never receive a NEXT_PUBLIC prefix. The local key parses and local Firebase project IDs match, but no new live authentication/read/write check was performed.
+The private key and Cloudinary API key/secret are marked sensitive in existing Vercel metadata. Other fields use existing encrypted/sensitive types. Public Firebase configuration is intentionally available to the browser; server credentials must never receive a NEXT_PUBLIC prefix. The prior Phase 5A report recorded local key-parse/project-ID checks; not repeated or treated as current credential/isolation proof. Credential files were not read in this review.
 
 ## Security review and fixes
 
@@ -48,7 +50,7 @@ The private key and Cloudinary API key/secret are marked sensitive in existing V
 - Fixed malformed/cross-scheme review Origin handling: reject as 403 before backend access. Previously malformed Origin could yield 500 and host-only comparison did not enforce full origin.
 - Added CSP framing/object/base protections, X-Frame-Options DENY, nosniff and strict-origin-when-cross-origin referrers across Next responses. This deliberately limited CSP is not a complete script-source/nonce policy or a claim to eliminate every XSS risk.
 - React text escaping and URL/image validation remain the primary content boundaries. Browser tests confirm markup in team/announcement text stays literal, private paths return 404 and anonymous admin APIs return no-store JSON 401.
-- Extended ignore protection for credential filename variants, capitalized backup folders and archives. All eight local environment files, including three real backup `.env.local` copies, are ignored. Known-private-value and credential-pattern scans found no matches in eligible files or final client/static output. This is not a full Git-history or credential-rotation audit; forced staging always bypasses ignore rules and must not be used.
+- Extended ignore protection for credential filename variants, capitalized backup folders and archives. All eight local environment files, including three real backup `.env.local` copies, are ignored. Historical Phase 5A scans found no known-private-value/pattern matches. Current scan uses --no-credentials: eligible-file/path/build patterns only, no environment reads, private-key parsing or private-value comparison. This is not a full Git-history or credential-rotation audit; forced staging always bypasses ignore rules and must not be used.
 - Product keyboard regressions were reproduced against the earlier build: renaming a searched product removed its form; manually typing a hyphen dropped it. The selected editor now remains visible until explicit filter/search changes, and manual link typing preserves an intermediate trailing separator while final schema validation still applies.
 
 ## Verification and limits
@@ -61,6 +63,93 @@ Remote API/auth/upload changes in browser and API suites are isolated mocks. No 
 
 STAGING_PLAN.json is the file-by-file allowlist for a later reviewed V2.3 commit. It contains application/config, tests, scripts and documentation groups plus SHA-256 checksums. It also lists historical documentation/checksums and whitespace-only QR/test-text changes to hold for separate review. No file was staged by the audit.
 
-Ignored backups, duplicate `v2/v2`, reference/source exports, environment files, credential files, dependencies, generated builds, test artifacts and logs are excluded. Never run `git add .`, force-add ignored paths or upload the entire local working tree as a deployment. The allowlist itself does not grant permission to stage, commit, push or deploy. Regenerate after deliberate changes with `node scripts/audit-release.mjs`; inspect both its findings and the index before approving any later commit.
+Ignored backups, duplicate `v2/v2`, reference/source exports, environment files, credential files, dependencies, generated builds, test artifacts and logs are excluded. Never run `git add .`, force-add ignored paths or upload the entire local working tree as a deployment. The allowlist itself does not grant permission to stage, commit, push or deploy. Regenerate after deliberate changes with `node scripts/audit-release.mjs --no-credentials`; inspect both its findings and the index before approving any later commit.
 
-Phase 5B must first clear or explicitly accept the release gates, verify isolated integrations and actual Preview settings, then follow the user's separately authorized scope. Production project `golesta-beauty-web`, business data, existing images and QR links must remain protected. Preserve the permanent branch and the complete uncommitted checkpoint.
+Completed local Phase 5B may be checkpointed separately from release readiness after approval. Release still requires the unresolved gates and explicit authorization; no blanket risk acceptance. Production project `golesta-beauty-web`, business data, existing images and QR links must remain protected. Preserve the permanent branch and the complete uncommitted checkpoint.
+
+
+## Phase 5B dependency verification (2026-11-11)
+
+Exactly two lockfile entries changed; package.json, SDK/framework versions, all UI source and PUBLIC_CATALOG_ENABLED=false remain unchanged. Installed files were checked rather than trusting npm's stale hidden install manifest.
+
+New evidence: **5 offline dependency tests + 22 mocked admin/upload tests passed, 0 failed**; production build including TypeScript passed with 26 static pages; targeted test lint passed. The unchanged Phase 5B **33/33 browser** result is preserved and deliberately not rerun. Live resources were not accessed; build backend settings were inert, process-only values.
+
+The XML advisory is removed. gRPC server-specific and UUID buffer-specific application paths were not found in the reviewed code, but the official findings remain and no release risk acceptance is implied. Development tooling remains relevant to hostile local/CI inputs. Full conditions, checked parent releases and primary references are in the triage and blocker review. Java and the existing Rules emulator test are now VERIFIED. Settings/isolation, dependency release decision and physical/live integration QA remain outstanding.
+
+## Authoritative Phase 5B reconciliation - 2026-11-11
+
+This matrix supersedes historical Java/HEAD/phase statements. Successful app suites were not repeated. No credentials retrieved; no live integration, settings, staging, commit, push or deployment action.
+
+| Gate | Status | Evidence / next action |
+| --- | --- | --- |
+| Branch and pushed checkpoint | **VERIFIED** | Local HEAD and git ls-remote equal 9f81aebfa5dd6cebb798bf4888a3834976d7201a on development/golesta-v2. No fetch or Git mutation. |
+| Navigation and public UI | **VERIFIED** | Saved Edge 33/0: Startseite, mobile menu, subpage anchors, catalog-off and 390/1024/1280/1440px collision/overflow matrix. |
+| Windows WebKit and Edge regression | **VERIFIED** | Final WebKit 42/0 (33 desktop + 9 iPhone profile); focused Edge 3/0 after gallery focus fix. Emulation, not physical Safari. |
+| Typecheck, lint and local build | **VERIFIED** | Latest completed WebKit task: exit 0 for all, build 26/26 static pages. No app/test/lock changes in reconciliation; no suite repetition. |
+| Compatible dependency patch | **VERIFIED** | Only fast-xml-parser 5.11.2 -> 5.12.0 and is-unsafe 2.0.2 -> 2.0.3 lock entries; offline tests 5/0, mocked admin/upload 22/0. No direct dependency or override. |
+| Residual dependency release decision | **BLOCKED** | Saved current audits exit 1: all 30 (5 high/25 moderate), production 12 (4 high/8 moderate), dev-only 18 (1 high/17 moderate), 0 critical. Includes affected parents. Supported fixes or explicit scoped risk decision required; no acceptance implied. |
+| Java prerequisite | **VERIFIED** | Fresh java -version: Temurin OpenJDK 21.0.13+9-LTS meets Firebase CLI 15.34.0 minimum major 21. Installation no longer a blocker. |
+| Firebase Rules emulator pass | **VERIFIED** | Existing case: **1 passed / 0 failed**, exit 0, in two demo-only runs; 18 assertions. Clean CLI config/environment; local emulators and mock identities only. See verification JSON. |
+| Existing pushed Preview build | **VERIFIED** | Read-only Vercel deployment dpl_CR31tTcfb2gr68uSu7KmK1pf1G3a is READY at 9f81aeb, source git, development/golesta-v2, target null (Preview). Baseline build only, not uncommitted Phase 5B or live integrations. |
+| Uncommitted Phase 5B Preview | **BLOCKED** | Current changes remain local and are not deployed. Separate approval required for an exact checkpoint/push/Preview; no publishing now. |
+| Current Vercel Git and root settings | **REQUIRES OWNER CONFIRMATION** | Connector omits current configured Git/root settings. Required root v2. Authorized Vercel admin can confirm read-only without Firebase Console or salon phone. |
+| Firebase/Firestore/Auth isolation | **REQUIRES OWNER CONFIRMATION** | Actual Production/Preview project/default database/Auth store/domain assignments not reliably compared. Authorized account admin must privately confirm isolated test assignment. |
+| Cloudinary isolation | **REQUIRES OWNER CONFIRMATION** | Product environment and parent/billing account boundaries unknown. Folder golesta-v2 is not isolation. Authorized Cloudinary admin confirmation needed. |
+| Credential validity and live integration QA | **BLOCKED** | No credentials retrieved/validated; old key-name metadata is historical. Auth/save/upload boundaries mocked. Requires isolation, authorized admin confirmation and separate permission; no live writes now. |
+| Physical iPhone/Safari and Android QA | **BLOCKED** | Windows engine/viewport tests do not establish physical-device behavior. Use any authorized suitable test device and isolated target; not necessarily owner's personal phone. |
+| Public catalog disabled | **VERIFIED** | src/lib/public-config.ts still exports PUBLIC_CATALOG_ENABLED=false; source unchanged. Keep disabled. |
+| Credential-free eligible-file review | **VERIFIED** | Fresh scan: 0 findings / 204 eligible paths / 119 build files; 0 credential read or private-key parse attempts by audit guard. Prior 10 synthetic detector cases retained. No private-value/history audit. |
+| Safe checkpoint recommendation | **VERIFIED** | Exact 19-file recommendation including the isolated Rules runner; 15 held paths. App/test/lock bytes preserved, no staging. Historical ignored-log exception disclosed below. |
+
+Existing baseline Preview: https://golesta-beauty-i8fpl8mgp-reza-noorzads-projects.vercel.app (metadata READY at 9f81aeb; no HTTP/runtime/integration assertion in reconciliation).
+
+### Work possible without Firebase Console or the owner's phone
+
+- Local code/docs/security/dependency review.
+- Mocked public/admin/browser QA.
+- Existing demo-golesta-v2 Rules emulator suite with available Java 21.
+- Safe file-by-file checkpoint preparation; actual staging/commit/push requires approval.
+- Available read-only Vercel metadata; current root/Git settings need authorized Vercel admin, not Firebase Console.
+- Physical QA using another authorized suitable iPhone/Android and an isolated target, not necessarily owner's phone.
+
+The tested safe reproduction from v2 is `node scripts/verify-rules-local.mjs`, which invokes `npm.cmd run test:rules` under the isolated environment; retain its fixed demo-golesta-v2 and local ports 8080/9199, never substitute a real project. No Firebase project creation is needed. Current Vercel root/Git confirmation is a Vercel-admin task, not a Firebase Console task. Actual Firebase/Cloudinary resource inventory needs an authorized account administrator; do not bypass MFA or export credentials.
+
+### Exact next checkpoint recommendation (19 files)
+
+| Recommend for next reviewed checkpoint | Reason |
+| --- | --- |
+| `PROJECT_STATUS.md` | Current gates, historical/current distinction and checkpoint guidance |
+| `v2/package-lock.json` | Supported XML parser/helper fix only |
+| `v2/playwright.public-webkit.config.ts` | Loopback-only desktop/iPhone-profile WebKit QA |
+| `v2/src/app/page.tsx` | Minimal gallery opener focus restoration |
+| `v2/src/components/public/PublicHeader.tsx` | Preserve desktop Startseite link |
+| `v2/src/components/public/ProductsComingSoon.tsx` | Preserve decorative g removal |
+| `v2/tests/dependency-security.test.mjs` | Five offline dependency/SDK/XML regression cases |
+| `v2/tests/public-navigation.spec.ts` | Twelve responsive/subpage navigation and header cases |
+| `v2/tests/public-site.spec.ts` | Touch/focus regression and safe test artifact paths |
+| `v2/scripts/audit-release.mjs` | Credential-free scan mode and current manifest generation |
+| `v2/scripts/verify-rules-local.mjs` | Reproducible demo-only npm Rules run, credential/network guards and evidence capture |
+| `v2/release/BLOCKER_REVIEW.md` | Reconciled blockers with historical review retained |
+| `v2/release/DEPENDENCY_AUDIT.json` | Existing current all/production audits; unchanged in reconciliation |
+| `v2/release/DEPENDENCY_TRIAGE.json` | Existing usage/version/range triage; unchanged in reconciliation |
+| `v2/release/PREVIEW_READINESS.md` | Authoritative matrix and exact checkpoint scope |
+| `v2/release/RESOURCE_ISOLATION.json` | Current metadata, unknown boundaries and historical provenance |
+| `v2/release/SECURITY_SCAN.json` | Credential-free path/pattern/build review, no private-value comparison |
+| `v2/release/STAGING_PLAN.json` | Exact recommendation, hashes and held paths; no staging |
+| `v2/release/VERIFICATION_RESULTS.json` | Current scoped QA, evidence hashes, gates and Phase 5A history |
+
+Hold every other current changed/untracked path in STAGING_PLAN.json: inherited README/install/version/test/checksum documents, whitespace-only public assets and stray `tatus --short` terminal capture. Preserve all files on disk. Ignored backups/build/test artifacts/environments/credentials are excluded. The manifest provides per-file reasons and SHA-256 values, excluding its recursive self-hash. Review the explicit list and index before later authorized staging; never `git add .`. No staging/publishing authorized now.
+
+Earlier reconciliation validation (historical): scanner syntax/targeted lint, guarded scan and 10 synthetic detector cases passed; 195 protected hashes matched that task's snapshot. Its first lint invocation used the wrong cwd and was corrected. No Rules tests were run during that earlier reconciliation; the fresh Rules evidence below supersedes the old gate.
+
+## Firebase Rules verification - 2026-11-11
+
+Fresh result: **1 passed / 0 failed / 0 skipped, exit 0**, twice for the same existing Node test; **18 policy assertions** per run. Expected PERMISSION_DENIED diagnostics are successful negative assertions. Firestore **1.22.0**, Storage Rules runtime **1.1.3**, Java **21.0.13**; cached JAR SHA-256 values match installed CLI metadata. firebase.json, rule files, existing test, package.json and lockfile unchanged.
+
+Reproduce from v2 with `node scripts/verify-rules-local.mjs`. This invokes the exact `npm.cmd run test:rules` under an environment allowlist, fresh CLI/npm config with usage disabled, and Node loopback/credential-file guards. It verifies the fixed demo project, ports and cached tools before launch. No real project, account, Firebase Console, phone, credentials or downloads needed. Final evidence: `v2/test-results/phase5b-rules-u9PP13/result.json` and `v2/test-results/phase5b-rules-u9PP13/test-output.log` (ignored local artifacts; hashes retained in verification JSON). Guards saw local hosts only, zero remote attempts, and blocked two nonexistent .npmrc probes before reading. Emulators shut down after execution.
+
+**Preservation exception:** the first runner's createWriteStream interception was bypassed by graceful-fs, replacing the ignored historical `v2/firestore-debug.log` from 2026-11-07. No historical copy was found to restore. The runner now redirects open/openSync too, backs up the existing root log, and has restoration fallback; the corrected run preserved root bytes without fallback. Original log loss is not hidden or presented as preserved evidence. No tracked source, customer data or live resource was affected.
+
+This verifies the existing emulator assertions, not exhaustive policy coverage, live rules deployment or Production/Preview backend isolation. Node networking is guarded; this is not an OS-wide network sandbox. No build/typecheck/browser repetition needed for this standalone Node helper/doc change; helper syntax/targeted lint passed. Release remains BLOCKED by the independent gates. Next: authorized Vercel/Firebase/Cloudinary admins confirm settings/resources privately and review residual dependency risks; await explicit checkpoint approval.
+
+Final Rules-task review: refreshed credential-free scan **0 findings / 204 eligible paths / 119 build files**, audit guard **0 credential read/key-parse attempts**. **196/196 protected eligible-file hashes match** the 203-file task-start snapshot; only 7 existing reports/helper files changed plus the new runner. The ignored historical log incident is outside that protected-file claim and remains disclosed. Helper syntax/targeted lint and diff whitespace checks pass; no emulator listeners remain on checked ports. Exact manifest: **19 recommended / 15 held**, nothing staged.

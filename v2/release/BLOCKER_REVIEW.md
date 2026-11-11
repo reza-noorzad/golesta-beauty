@@ -1,4 +1,19 @@
-# Phase 5A — focused blocker review
+# Phase 5B - release gate reconciliation (2026-11-11)
+
+Current decision: **BLOCKED for release**; a reviewable checkpoint is separate from deployment approval. Java **21.0.13+9-LTS is VERIFIED**, not missing. Existing baseline Preview **9f81aeb is VERIFIED READY** but excludes local Phase 5B. Rules emulator pass is now **VERIFIED**: existing case passed 1/0, exit 0, in two isolated demo runs with 18 assertions; current source/config/lock and logs are hash-bound. Residual findings: **30 all / 12 production**, no risk acceptance. Current Vercel root/Git and backend isolation: **REQUIRES OWNER CONFIRMATION**.
+
+Preserved evidence: navigation Edge **33/0**; final Windows WebKit **42/0** (33 desktop + 9 iPhone profile); focused Edge **3/0** after minimal gallery focus fix; offline dependency **5/0**; mocked admin/upload **22/0**; latest typecheck/lint/build passed, **26 static pages**. These are saved results, not newly repeated suites or physical Safari/live integration proof.
+
+Fresh credential-free review: **0 findings** across **204 eligible paths / 119 build files**. Guard observed **0 credential reads / 0 private-key parses**. Earlier **10 synthetic detector cases passed, 0 failed** remain historical; current helper syntax and targeted lint pass. All **196 protected eligible-file hashes** match this task's starting snapshot, with **7 existing report/helper edits plus 1 new runner**. The ignored historical log exception is disclosed below. Exact recommendation: **19 files**, **15 held paths**, nothing staged. This does not prove absence of every secret or audit Git history/credential validity.
+
+See [PREVIEW_READINESS.md](PREVIEW_READINESS.md) for the current matrix, file-by-file checkpoint list and owner-independent actions; JSON reports bind the local evidence. Available Java enabled the completed local demo Rules test without Firebase Console/owner phone or a new project. An authorized account admin must confirm actual resource assignments privately; separate Vercel projects are not isolation proof. No credentials retrieved, live resource calls/writes, settings changes, staging, commit, push or deployment.
+
+## Historical Phase 5A - focused blocker review (2026-11-07)
+
+The following Phase 5A sections preserve their original evidence, including the then-missing Java prerequisite and no-Phase-5B scope. Current Java, HEAD, phase and release gates are superseded above.
+
+
+> Current 2026-11-11 Phase 5B dependency update is appended below: 30 all / 12 production affected packages remain. The Phase 5A sections retain historical evidence.
 
 Assessment: **BLOCKED**. Compatible dependency fixes are applied and tested. Rules execution still requires Java 21+, and actual backend isolation/current Preview root settings remain unverified. No Phase 5B, commit, push, deployment, service-setting change or business-data mutation occurred.
 
@@ -98,3 +113,65 @@ If both environments use the same Firebase project, this implementation would sh
 6. Install/configure Java 21+ and run the demo rules command. Review the remaining dependency call-site/upgrade risks before release approval. Retain BLOCKED until those gates are resolved or explicitly accepted on evidence.
 
 Only package-lock.json and release/status reports changed in this focused review. No source/UI changes, full-suite repetition, dependency-major upgrades, new branches, staging, commits, pushes, deployments, production configuration changes, customer writes or Phase 5B work occurred.
+
+## Phase 5B — dependency review, 2026-11-11
+
+This is the current dependency assessment; the Phase 5A sections above retain historical evidence. Branch remains `development/golesta-v2`, local HEAD `9f81aeb`. No live backend, Vercel, Git publishing or production operations were performed.
+
+### Fresh audit outcome
+
+| Scope | Before this fix | After this fix |
+| --- | --- | --- |
+| All dependencies | **31: 5 high, 25 moderate, 1 low** | **30: 5 high, 25 moderate** |
+| Production (`--omit=dev`) | **13: 4 high, 8 moderate, 1 low** | **12: 4 high, 8 moderate** |
+| Development-only difference | 18: 1 high, 17 moderate | 18: 1 high, 17 moderate |
+| Critical | 0 | 0 |
+
+Both final audits exit **1**, because findings remain. Counts include affected parents; they are not counts of independent exploits. The remaining 30 package findings trace to **five advisory-bearing packages / six advisories**. The extra development high is a propagated rules-testing/Firebase finding, not another independently identified high-severity defect.
+
+Before changing dependencies, fresh registry results added the low XML advisory and stopped reporting the propagated `eslint-config-next` finding. This changed the prior Phase 5A count distribution; it is not a fix or dependency change credited to this task. Full before/after JSON, installed versions, ranges and primary advisory assessments are recorded in DEPENDENCY_AUDIT.json and DEPENDENCY_TRIAGE.json.
+
+### One compatible fix applied
+
+- `fast-xml-parser 5.11.2 -> 5.12.0`, a compatible minor inside `@google-cloud/storage@7.22.0`'s existing `^5.3.4` range. Its required helper `is-unsafe 2.0.2 -> 2.0.3` is the only other changed lock entry. Package.json, all SDK/framework versions and all other lock entries remain unchanged; no override or new direct dependency.
+- [Maintainer advisory GHSA-474x-hrwr-fgx4](https://github.com/NaturalIntelligence/fast-xml-parser/security/advisories/GHSA-474x-hrwr-fgx4): the CPU issue needs non-default `stopNodes` and malformed tag fragments. Cloud Storage's inspected TransferManager uses a default parser; the app uploads images through Cloudinary/Sharp and has no direct XML/TransferManager endpoint. That specific application exposure was not demonstrated. The supported library fix nevertheless removes the advisory.
+- The [5.12.0 changelog](https://raw.githubusercontent.com/NaturalIntelligence/fast-xml-parser/v5.12.0/CHANGELOG.md) and registry metadata were checked before selecting the release. A candidate 5.11.3 metadata lookup returned 404; no such package was installed.
+- npm's hidden install manifest initially claimed the new versions while the physical files stayed old. Only the two checked generated directories were moved into ignored `.backups/phase5b-dependency-20261111/`, then reinstalled with lifecycle scripts disabled. Actual installed versions now match the reviewed lockfile. Original source, prior backups and navigation work were not removed.
+
+### Remaining advisories and actual usage
+
+| Package / severity | Reviewed exposure | Compatible-update decision |
+| --- | --- | --- |
+| `@grpc/grpc-js 1.9.16`, **high + low**, production tree | High requires server certificate authentication via getAuthContext with permissive client-certificate settings; low concerns crashing gRPC server handlers disclosing errors. No matching app server/handler path found. This copy belongs to the Firebase client Node tree; Admin/google-gax separately uses patched 1.14.6. | Installed Firestore 4.18.0 and checked latest 4.19.1 still pin ~1.9.0. Firebase 13.2.0 retains that constraint. Combined maintainer fixes are available in 1.13.7/1.14.6, outside the pin. No Firebase downgrade or unsupported override. |
+| `uuid 9.0.1`, **moderate**, production tree | Advisory affects v3/v5/v6 output-buffer bounds. Inspected google-gax, teeny-request and three affected gaxios copies use v4 without an output buffer; app IDs use crypto.randomUUID. No matching application call found. | Fixed 11.1.1+ crosses all parents' ^9 constraints. Latest checked Google SDK/gaxios/teeny versions within current majors are already installed. Admin 13.10.0 is latest checked v13; npm's 14.5.0 suggestion is a separate major-risk decision. |
+| `@opentelemetry/core 1.30.1`, **moderate**, development only | Oversized inbound baggage extraction; no app propagator/public request path identified. Present through Pub/Sub used by Firebase CLI. Hostile tooling input remains relevant. | Latest Pub/Sub v5 is still 5.3.1 with core ^1.30.1. Fixed core 2.8.0 is outside that range; CLI 15.35.0 still selects Pub/Sub v5. |
+| `glob 10.5.0`, **moderate**, development only | Cancellation may fail to stop filesystem traversal. Used by CLI/archive/tooling, with no app traversal endpoint found. Local/CI resource exhaustion remains possible under hostile workloads. | Fixed >=14.0.2 is outside ^10 consumers, including checked CLI 15.35.0. No forced major substitution. |
+| `minimatch 9.0.9 / 10.2.6`, **moderate**, development only | Pattern amplification at optimizationLevel>=2; glob sets level 2. No public pattern endpoint found. Maintainer reproduction is 10.2.6; npm also flags 9.0.9 under >=7 <11.0.1. v9 exploitability was not independently reproduced. | Fixed 11.0.1 is outside ^9/^10 constraints; checked typescript-estree 8.72.2 still uses ^10.2.2. No Next/eslint downgrade. |
+
+Primary sources: [gRPC high](https://github.com/grpc/grpc-node/security/advisories/GHSA-m9gg-hp2v-232j), [gRPC low](https://github.com/grpc/grpc-node/security/advisories/GHSA-f596-whhp-79r4), [UUID](https://github.com/uuidjs/uuid/security/advisories/GHSA-w5hq-g745-h8pq), [OpenTelemetry](https://github.com/open-telemetry/opentelemetry-js/security/advisories/GHSA-8988-4f7v-96qf), [glob](https://github.com/isaacs/node-glob/security/advisories/GHSA-3g3m-2fjr-6pw4), [minimatch](https://github.com/isaacs/minimatch/security/advisories/GHSA-g3hv-75wg-m249). Findings retain their audit severity; lack of a demonstrated application path is neither automatic risk acceptance nor removal of the advisory.
+
+### Regressions and preserved work
+
+| Check | Actual new result |
+| --- | --- |
+| `node --test tests/dependency-security.test.mjs` | **5 passed / 0 failed**: installed lock match, SDK imports without app initialization, multipart XML, UTF-8/CRLF and a bounded malformed-stop-node subprocess (about 48ms, 2s deadline). |
+| `npm.cmd run test:admin-api` | **22 passed / 0 failed**, Firebase/Auth/Firestore/Cloudinary boundaries mocked; no environment files loaded by these tests. |
+| `npm.cmd run build` | PASS, including TypeScript and **26/26** static pages; inert process-only backend configuration. |
+| Targeted ESLint for the new dependency test | PASS. |
+| Phase 5B navigation browser suite | **33 passed / 0 failed remains prior evidence**, preserved, deliberately not rerun. No UI/client dependency changes justify repetition. |
+
+No full unit/browser/public-API/rules/audit-release suite was repeated without a relevant change. No Firebase CLI service command was run. Catalog stays false. Safe rollback is to restore only the two reviewed lock entries from the ignored lock snapshot and re-resolve/install those generated dependencies, then repeat relevant checks; do not reset the user's tree or copy stale hidden install metadata.
+
+### Decision and next actions
+
+**Preview release approval remains BLOCKED.** The high finding has no matching server path in the review, but official findings remain. Await supported parent fixes, or separately review a deliberate SDK migration/explicit scoped risk decision; do not run npm audit fix --force. Treat development/CI inputs as potentially hostile while tooling advisories remain.
+
+At that dependency-review checkpoint, Java/emulator, Vercel root/Git and resource-isolation gates were not rechecked. The reconciliation above supersedes missing-Java/old-Preview claims. No new project, credential change, catalog activation, commit, push, deployment or live resource access. The staging manifest must be refreshed and reviewed before any later approved commit.
+
+## Firebase Rules gate update - 2026-11-11
+
+**VERIFIED:** `npm.cmd run test:rules` invoked via new `scripts/verify-rules-local.mjs` from v2: **1 passed / 0 failed / 0 skipped, exit 0**, twice for the same case, 18 assertions per run. Java 21.0.13; cached Firestore 1.22.0 and Storage rules runtime 1.1.3 match installed metadata hashes. Only demo-golesta-v2/local emulators and mock identities; clean environment/CLI config, Node loopback guards, no credentials/project creation/live service use. Two nonexistent .npmrc probes were blocked before read; no remote attempts observed. All emulators shut down. No existing rules/config/tests/package changes, no unrelated test suite repeated.
+
+Evidence and exact reproduction: VERIFICATION_RESULTS.json / PREVIEW_READINESS.md. The new runner corrects a first-run log-redirection defect: the old ignored root firestore-debug.log was overwritten and could not be recovered; corrected run redirected and preserved root bytes. This exception remains explicit; app/source/tests/lock and unrelated tracked/untracked files are preserved. Safe checkpoint list now 19 files, 15 held; no staging.
+
+Independent release gates remain: residual dependency release decision BLOCKED, actual Vercel settings and Firebase/Cloudinary isolation REQUIRES OWNER CONFIRMATION, physical/live integration QA and undeployed local Preview BLOCKED. No commit/push/deploy or live rules changes.

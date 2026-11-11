@@ -239,7 +239,11 @@ export default function Home() {
                 <button
                   key={shownGallery[index].id}
                   type="button"
-                  onClick={() => setActiveImageId(shownGallery[index].id)}
+                  onClick={(event) => {
+                    // WebKit pointer activation may leave focus on the prior element.
+                    event.currentTarget.focus({ preventScroll: true });
+                    setActiveImageId(shownGallery[index].id);
+                  }}
                   aria-label={`Galeriebild ${index + 1} vergrößern`}
                   className="group overflow-hidden rounded-xl bg-[#e8ddd0] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#a98348]"
                 >

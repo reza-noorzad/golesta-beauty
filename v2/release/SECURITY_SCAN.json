@@ -1,175 +1,65 @@
 {
-  "scope": "Current index + tracked/unignored files and client/static build output; not a history or remote rotation audit",
+  "mode": "credential-free",
+  "credentialsRead": false,
+  "knownPrivateValueComparison": false,
+  "scope": "Working-tree tracked/unignored files and client/static build output; no separate index-blob, Git-history or remote rotation audit",
   "valuesRedacted": true,
-  "candidateFilesScanned": 199,
+  "candidateFilesScanned": 204,
   "buildFilesScanned": 119,
   "findings": [],
   "environmentFiles": [
     {
       "path": "v2/.env.local",
       "ignored": true,
-      "keyNames": [
-        "NEXT_PUBLIC_FIREBASE_API_KEY",
-        "NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN",
-        "NEXT_PUBLIC_FIREBASE_PROJECT_ID",
-        "NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET",
-        "NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID",
-        "NEXT_PUBLIC_FIREBASE_APP_ID",
-        "FIREBASE_PROJECT_ID",
-        "FIREBASE_CLIENT_EMAIL",
-        "FIREBASE_PRIVATE_KEY",
-        "CLOUDINARY_CLOUD_NAME",
-        "CLOUDINARY_API_KEY",
-        "CLOUDINARY_API_SECRET"
-      ]
+      "contentsRead": false,
+      "keyNames": null
     },
     {
       "path": "v2/.env.local.example",
       "ignored": true,
-      "keyNames": [
-        "NEXT_PUBLIC_FIREBASE_API_KEY",
-        "NEXT_PUBLIC_FIREBASE_PROJECT_ID",
-        "NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID",
-        "FIREBASE_PROJECT_ID",
-        "FIREBASE_PRIVATE_KEY",
-        "CLOUDINARY_CLOUD_NAME",
-        "CLOUDINARY_API_SECRET"
-      ]
+      "contentsRead": false,
+      "keyNames": null
     },
     {
       "path": "v2/v2/.env.local.example",
       "ignored": true,
-      "keyNames": [
-        "NEXT_PUBLIC_FIREBASE_API_KEY",
-        "NEXT_PUBLIC_FIREBASE_PROJECT_ID",
-        "NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID",
-        "FIREBASE_PROJECT_ID",
-        "FIREBASE_PRIVATE_KEY"
-      ]
+      "contentsRead": false,
+      "keyNames": null
     },
     {
       "path": "v2-backup-before-complete/.env.local",
       "ignored": true,
-      "keyNames": [
-        "NEXT_PUBLIC_FIREBASE_API_KEY",
-        "NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN",
-        "NEXT_PUBLIC_FIREBASE_PROJECT_ID",
-        "NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET",
-        "NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID",
-        "NEXT_PUBLIC_FIREBASE_APP_ID"
-      ]
+      "contentsRead": false,
+      "keyNames": null
     },
     {
       "path": "v2-backup-before-complete/.env.local.example",
       "ignored": true,
-      "keyNames": [
-        "NEXT_PUBLIC_FIREBASE_API_KEY",
-        "NEXT_PUBLIC_FIREBASE_PROJECT_ID",
-        "NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET",
-        "NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID"
-      ]
+      "contentsRead": false,
+      "keyNames": null
     },
     {
       "path": "v2-backup-before-complete/v2/.env.local.example",
       "ignored": true,
-      "keyNames": [
-        "NEXT_PUBLIC_FIREBASE_API_KEY",
-        "NEXT_PUBLIC_FIREBASE_PROJECT_ID",
-        "NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID",
-        "FIREBASE_PROJECT_ID",
-        "FIREBASE_PRIVATE_KEY"
-      ]
+      "contentsRead": false,
+      "keyNames": null
     },
     {
       "path": "v2-backup-v21-20261017-134939/.env.local",
       "ignored": true,
-      "keyNames": [
-        "NEXT_PUBLIC_FIREBASE_API_KEY",
-        "NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN",
-        "NEXT_PUBLIC_FIREBASE_PROJECT_ID",
-        "NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET",
-        "NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID",
-        "NEXT_PUBLIC_FIREBASE_APP_ID",
-        "FIREBASE_PROJECT_ID",
-        "FIREBASE_CLIENT_EMAIL",
-        "FIREBASE_PRIVATE_KEY",
-        "CLOUDINARY_CLOUD_NAME",
-        "CLOUDINARY_API_KEY",
-        "CLOUDINARY_API_SECRET"
-      ]
+      "contentsRead": false,
+      "keyNames": null
     },
     {
       "path": "v2-backup-v22-20261017-154825/.env.local",
       "ignored": true,
-      "keyNames": [
-        "NEXT_PUBLIC_FIREBASE_API_KEY",
-        "NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN",
-        "NEXT_PUBLIC_FIREBASE_PROJECT_ID",
-        "NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET",
-        "NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID",
-        "NEXT_PUBLIC_FIREBASE_APP_ID",
-        "FIREBASE_PROJECT_ID",
-        "FIREBASE_CLIENT_EMAIL",
-        "FIREBASE_PRIVATE_KEY",
-        "CLOUDINARY_CLOUD_NAME",
-        "CLOUDINARY_API_KEY",
-        "CLOUDINARY_API_SECRET"
-      ]
+      "contentsRead": false,
+      "keyNames": null
     }
   ],
   "localConfiguration": {
-    "keys": [
-      {
-        "key": "NEXT_PUBLIC_FIREBASE_API_KEY",
-        "present": true
-      },
-      {
-        "key": "NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN",
-        "present": true
-      },
-      {
-        "key": "NEXT_PUBLIC_FIREBASE_PROJECT_ID",
-        "present": true
-      },
-      {
-        "key": "NEXT_PUBLIC_FIREBASE_APP_ID",
-        "present": true
-      },
-      {
-        "key": "NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET",
-        "present": true
-      },
-      {
-        "key": "NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID",
-        "present": true
-      },
-      {
-        "key": "FIREBASE_PROJECT_ID",
-        "present": true
-      },
-      {
-        "key": "FIREBASE_CLIENT_EMAIL",
-        "present": true
-      },
-      {
-        "key": "FIREBASE_PRIVATE_KEY",
-        "present": true
-      },
-      {
-        "key": "CLOUDINARY_CLOUD_NAME",
-        "present": true
-      },
-      {
-        "key": "CLOUDINARY_API_KEY",
-        "present": true
-      },
-      {
-        "key": "CLOUDINARY_API_SECRET",
-        "present": true
-      }
-    ],
-    "firebaseProjectIdsMatch": true,
-    "privateKeyParses": true
+    "checked": false,
+    "reason": "Credential retrieval prohibited; environment values and private keys were not read"
   },
   "ignoreProbes": [
     {

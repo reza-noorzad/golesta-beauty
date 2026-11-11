@@ -1,4 +1,11 @@
 {
+  "review": {
+    "date": "2026-11-11",
+    "phase": "5B dependency security review",
+    "branch": "development/golesta-v2",
+    "head": "9f81aeb",
+    "note": "Fresh npm registry audits before and after one compatible transitive update; installed source/call-site review and primary maintainer advisories. Package counts include propagated parents, not independent exploits."
+  },
   "all": {
     "command": "npm.cmd audit --json",
     "exitCode": 1,
@@ -6,10 +13,10 @@
       "vulnerabilities": {
         "info": 0,
         "low": 0,
-        "moderate": 26,
+        "moderate": 25,
         "high": 5,
         "critical": 0,
-        "total": 31
+        "total": 30
       },
       "dependencies": {
         "prod": 199,
@@ -208,17 +215,12 @@
         "name": "@typescript-eslint/eslint-plugin",
         "severity": "moderate",
         "direct": false,
-        "range": ">=6.16.0",
-        "fixAvailable": {
-          "name": "eslint-config-next",
-          "version": "15.5.29",
-          "isSemVerMajor": true
-        },
+        "range": "6.16.0 - 8.72.2",
+        "fixAvailable": true,
         "nodes": [
           "node_modules/@typescript-eslint/eslint-plugin"
         ],
         "via": [
-          "@typescript-eslint/parser",
           "@typescript-eslint/type-utils",
           "@typescript-eslint/utils"
         ]
@@ -227,12 +229,8 @@
         "name": "@typescript-eslint/parser",
         "severity": "moderate",
         "direct": false,
-        "range": ">=6.16.0",
-        "fixAvailable": {
-          "name": "eslint-config-next",
-          "version": "15.5.29",
-          "isSemVerMajor": true
-        },
+        "range": "6.16.0 - 8.72.2",
+        "fixAvailable": true,
         "nodes": [
           "node_modules/@typescript-eslint/parser"
         ],
@@ -244,12 +242,8 @@
         "name": "@typescript-eslint/type-utils",
         "severity": "moderate",
         "direct": false,
-        "range": ">=6.16.0",
-        "fixAvailable": {
-          "name": "eslint-config-next",
-          "version": "15.5.29",
-          "isSemVerMajor": true
-        },
+        "range": "6.16.0 - 8.72.2",
+        "fixAvailable": true,
         "nodes": [
           "node_modules/@typescript-eslint/type-utils"
         ],
@@ -262,12 +256,8 @@
         "name": "@typescript-eslint/typescript-estree",
         "severity": "moderate",
         "direct": false,
-        "range": ">=6.16.0",
-        "fixAvailable": {
-          "name": "eslint-config-next",
-          "version": "15.5.29",
-          "isSemVerMajor": true
-        },
+        "range": "6.16.0 - 8.72.2",
+        "fixAvailable": true,
         "nodes": [
           "node_modules/@typescript-eslint/typescript-estree"
         ],
@@ -279,12 +269,8 @@
         "name": "@typescript-eslint/utils",
         "severity": "moderate",
         "direct": false,
-        "range": ">=6.16.0",
-        "fixAvailable": {
-          "name": "eslint-config-next",
-          "version": "15.5.29",
-          "isSemVerMajor": true
-        },
+        "range": "6.16.0 - 8.72.2",
+        "fixAvailable": true,
         "nodes": [
           "node_modules/@typescript-eslint/utils"
         ],
@@ -317,23 +303,6 @@
         ],
         "via": [
           "glob"
-        ]
-      },
-      {
-        "name": "eslint-config-next",
-        "severity": "moderate",
-        "direct": true,
-        "range": ">=15.6.0-canary.0",
-        "fixAvailable": {
-          "name": "eslint-config-next",
-          "version": "15.5.29",
-          "isSemVerMajor": true
-        },
-        "nodes": [
-          "node_modules/eslint-config-next"
-        ],
-        "via": [
-          "typescript-eslint"
         ]
       },
       {
@@ -582,12 +551,8 @@
         "name": "typescript-eslint",
         "severity": "moderate",
         "direct": false,
-        "range": "*",
-        "fixAvailable": {
-          "name": "eslint-config-next",
-          "version": "15.5.29",
-          "isSemVerMajor": true
-        },
+        "range": "<=8.72.2",
+        "fixAvailable": true,
         "nodes": [
           "node_modules/typescript-eslint"
         ],
@@ -920,6 +885,1032 @@
           }
         ]
       }
+    ]
+  },
+  "developmentOnly": {
+    "counts": {
+      "info": 0,
+      "low": 0,
+      "moderate": 17,
+      "high": 1,
+      "critical": 0,
+      "total": 18
+    },
+    "packages": [
+      "@firebase/rules-unit-testing",
+      "@google-cloud/pubsub",
+      "@opentelemetry/core",
+      "@typescript-eslint/eslint-plugin",
+      "@typescript-eslint/parser",
+      "@typescript-eslint/type-utils",
+      "@typescript-eslint/typescript-estree",
+      "@typescript-eslint/utils",
+      "archiver",
+      "archiver-utils",
+      "exegesis",
+      "firebase-tools",
+      "gcp-metadata",
+      "glob",
+      "minimatch",
+      "rimraf",
+      "typescript-eslint",
+      "zip-stream"
+    ]
+  },
+  "beforeFix": {
+    "all": {
+      "command": "npm.cmd audit --json",
+      "exitCode": 1,
+      "metadata": {
+        "vulnerabilities": {
+          "info": 0,
+          "low": 1,
+          "moderate": 25,
+          "high": 5,
+          "critical": 0,
+          "total": 31
+        },
+        "dependencies": {
+          "prod": 199,
+          "dev": 883,
+          "optional": 179,
+          "peer": 0,
+          "peerOptional": 0,
+          "total": 1161
+        }
+      },
+      "packages": [
+        {
+          "name": "@firebase/firestore",
+          "severity": "high",
+          "direct": false,
+          "range": "1.3.1-0 - 1.3.1-canary.df1b588 || 1.3.2-0 - 1.3.3-canary.bc4a844 || 1.13.1-0 - 1.13.1-canary.ce3addba || 1.14.0-0 - 1.15.1 || 3.7.3-20221108184443 - 3.7.3-canary.fde5adf63 || >=3.8.0-20221206221533",
+          "fixAvailable": {
+            "name": "firebase",
+            "version": "9.14.0",
+            "isSemVerMajor": true
+          },
+          "nodes": [
+            "node_modules/@firebase/firestore"
+          ],
+          "via": [
+            "@grpc/grpc-js"
+          ]
+        },
+        {
+          "name": "@firebase/firestore-compat",
+          "severity": "high",
+          "direct": false,
+          "range": "<=0.0.900-exp.520ca39d0 || 0.2.3-20221108184443 - 0.2.3-canary.fde5adf63 || >=0.3.0-20221206221533",
+          "fixAvailable": {
+            "name": "firebase",
+            "version": "9.14.0",
+            "isSemVerMajor": true
+          },
+          "nodes": [
+            "node_modules/@firebase/firestore-compat"
+          ],
+          "via": [
+            "@firebase/firestore"
+          ]
+        },
+        {
+          "name": "@firebase/rules-unit-testing",
+          "severity": "high",
+          "direct": true,
+          "range": "1.1.0-2020103231751 - 1.1.0-canary.f69db37ca || 1.1.4-2020112174150 || 1.2.4-202121002818 - 1.2.4-202121018311 || 2.0.2-202202622812 - 2.0.2-canary.7f959622d || 2.0.5-20221025194556 - 2.0.5-canary.fde5adf63 || 2.0.6-20230131204242 - 2.0.6-canary.d071bd1ac || 2.0.7-20230203174750 - 2.0.7-canary.fe7da7ec3 || >=3.0.0-20230706020734",
+          "fixAvailable": {
+            "name": "@firebase/rules-unit-testing",
+            "version": "2.0.7",
+            "isSemVerMajor": true
+          },
+          "nodes": [
+            "node_modules/@firebase/rules-unit-testing"
+          ],
+          "via": [
+            "firebase"
+          ]
+        },
+        {
+          "name": "@google-cloud/firestore",
+          "severity": "moderate",
+          "direct": false,
+          "range": "7.5.0-pre.0 || 7.6.0 - 7.11.6",
+          "fixAvailable": {
+            "name": "firebase-admin",
+            "version": "14.5.0",
+            "isSemVerMajor": true
+          },
+          "nodes": [
+            "node_modules/@google-cloud/firestore"
+          ],
+          "via": [
+            "google-gax"
+          ]
+        },
+        {
+          "name": "@google-cloud/pubsub",
+          "severity": "moderate",
+          "direct": false,
+          "range": "5.1.0 - 6.0.0",
+          "fixAvailable": {
+            "name": "firebase-tools",
+            "version": "13.11.2",
+            "isSemVerMajor": true
+          },
+          "nodes": [
+            "node_modules/@google-cloud/pubsub"
+          ],
+          "via": [
+            "@opentelemetry/core"
+          ]
+        },
+        {
+          "name": "@google-cloud/storage",
+          "severity": "moderate",
+          "direct": false,
+          "range": "2.2.0 - 2.5.0 || 5.19.0 - 8.0.0",
+          "fixAvailable": {
+            "name": "firebase-admin",
+            "version": "14.5.0",
+            "isSemVerMajor": true
+          },
+          "nodes": [
+            "node_modules/@google-cloud/storage"
+          ],
+          "via": [
+            "retry-request",
+            "teeny-request"
+          ]
+        },
+        {
+          "name": "@grpc/grpc-js",
+          "severity": "high",
+          "direct": false,
+          "range": "<=1.13.5",
+          "fixAvailable": {
+            "name": "firebase",
+            "version": "9.14.0",
+            "isSemVerMajor": true
+          },
+          "nodes": [
+            "node_modules/@grpc/grpc-js"
+          ],
+          "via": [
+            {
+              "source": 1240623,
+              "name": "@grpc/grpc-js",
+              "dependency": "@grpc/grpc-js",
+              "title": "@grpc/grpc-js: In certain configurations, getAuthContext can return unauthorized certificates as though they were authorized",
+              "url": "https://github.com/advisories/GHSA-m9gg-hp2v-232j",
+              "severity": "high",
+              "cwe": [
+                "CWE-295"
+              ],
+              "cvss": {
+                "score": 7.4,
+                "vectorString": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:N"
+              },
+              "range": "<1.13.6"
+            },
+            {
+              "source": 1240625,
+              "name": "@grpc/grpc-js",
+              "dependency": "@grpc/grpc-js",
+              "title": "@grpc/grpc-js: The server transmits some error messages thrown by method handlers to the client in status messages",
+              "url": "https://github.com/advisories/GHSA-f596-whhp-79r4",
+              "severity": "low",
+              "cwe": [
+                "CWE-550"
+              ],
+              "cvss": {
+                "score": 3.7,
+                "vectorString": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:N"
+              },
+              "range": "<1.13.6"
+            }
+          ]
+        },
+        {
+          "name": "@opentelemetry/core",
+          "severity": "moderate",
+          "direct": false,
+          "range": "<2.8.0",
+          "fixAvailable": {
+            "name": "firebase-tools",
+            "version": "13.11.2",
+            "isSemVerMajor": true
+          },
+          "nodes": [
+            "node_modules/@opentelemetry/core"
+          ],
+          "via": [
+            {
+              "source": 1153174,
+              "name": "@opentelemetry/core",
+              "dependency": "@opentelemetry/core",
+              "title": "OpenTelemetry Core: Unbounded memory allocation in W3C Baggage propagation",
+              "url": "https://github.com/advisories/GHSA-8988-4f7v-96qf",
+              "severity": "moderate",
+              "cwe": [
+                "CWE-770"
+              ],
+              "cvss": {
+                "score": 5.3,
+                "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L"
+              },
+              "range": "<2.8.0"
+            }
+          ]
+        },
+        {
+          "name": "@typescript-eslint/eslint-plugin",
+          "severity": "moderate",
+          "direct": false,
+          "range": "6.16.0 - 8.72.2",
+          "fixAvailable": true,
+          "nodes": [
+            "node_modules/@typescript-eslint/eslint-plugin"
+          ],
+          "via": [
+            "@typescript-eslint/type-utils",
+            "@typescript-eslint/utils"
+          ]
+        },
+        {
+          "name": "@typescript-eslint/parser",
+          "severity": "moderate",
+          "direct": false,
+          "range": "6.16.0 - 8.72.2",
+          "fixAvailable": true,
+          "nodes": [
+            "node_modules/@typescript-eslint/parser"
+          ],
+          "via": [
+            "@typescript-eslint/typescript-estree"
+          ]
+        },
+        {
+          "name": "@typescript-eslint/type-utils",
+          "severity": "moderate",
+          "direct": false,
+          "range": "6.16.0 - 8.72.2",
+          "fixAvailable": true,
+          "nodes": [
+            "node_modules/@typescript-eslint/type-utils"
+          ],
+          "via": [
+            "@typescript-eslint/typescript-estree",
+            "@typescript-eslint/utils"
+          ]
+        },
+        {
+          "name": "@typescript-eslint/typescript-estree",
+          "severity": "moderate",
+          "direct": false,
+          "range": "6.16.0 - 8.72.2",
+          "fixAvailable": true,
+          "nodes": [
+            "node_modules/@typescript-eslint/typescript-estree"
+          ],
+          "via": [
+            "minimatch"
+          ]
+        },
+        {
+          "name": "@typescript-eslint/utils",
+          "severity": "moderate",
+          "direct": false,
+          "range": "6.16.0 - 8.72.2",
+          "fixAvailable": true,
+          "nodes": [
+            "node_modules/@typescript-eslint/utils"
+          ],
+          "via": [
+            "@typescript-eslint/typescript-estree"
+          ]
+        },
+        {
+          "name": "archiver",
+          "severity": "moderate",
+          "direct": false,
+          "range": "7.0.0 - 7.0.1",
+          "fixAvailable": true,
+          "nodes": [
+            "node_modules/archiver"
+          ],
+          "via": [
+            "archiver-utils",
+            "zip-stream"
+          ]
+        },
+        {
+          "name": "archiver-utils",
+          "severity": "moderate",
+          "direct": false,
+          "range": ">=5.0.1",
+          "fixAvailable": true,
+          "nodes": [
+            "node_modules/archiver-utils"
+          ],
+          "via": [
+            "glob"
+          ]
+        },
+        {
+          "name": "exegesis",
+          "severity": "moderate",
+          "direct": false,
+          "range": ">=4.1.2",
+          "fixAvailable": true,
+          "nodes": [
+            "node_modules/exegesis"
+          ],
+          "via": [
+            "glob"
+          ]
+        },
+        {
+          "name": "fast-xml-parser",
+          "severity": "low",
+          "direct": false,
+          "range": "<=5.11.2",
+          "fixAvailable": true,
+          "nodes": [
+            "node_modules/fast-xml-parser"
+          ],
+          "via": [
+            {
+              "source": 1246029,
+              "name": "fast-xml-parser",
+              "dependency": "fast-xml-parser",
+              "title": "fast-xml-parser: Quadratic CPU consumption scanning unterminated stop-node tags",
+              "url": "https://github.com/advisories/GHSA-474x-hrwr-fgx4",
+              "severity": "low",
+              "cwe": [
+                "CWE-407"
+              ],
+              "cvss": {
+                "score": 3.7,
+                "vectorString": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:L"
+              },
+              "range": "<=5.11.2"
+            }
+          ]
+        },
+        {
+          "name": "firebase",
+          "severity": "high",
+          "direct": true,
+          "range": "0.900.22 || 6.0.2-0 - 6.0.2-canary.42eae23 || 6.0.3-0 - 6.0.4-canary.bc4a844 || 7.9.1-0 - 7.9.1-canary.0396117e || 7.13.2-0 - 7.13.2-canary.ce3addba || 7.14.0-0 - 7.15.1 || 8.10.0-20217172214 - 8.10.0-canary.f40c0db53 || 9.0.0-20217250818 - 9.0.0-canary.d0d3acb10 || 9.0.1-2021727231341 - 9.0.1-canary.e039e1472 || 9.0.2-2021891633 - 9.0.2-canary.ff9baf70c || 9.0.3-202181503543 - 9.1.0-canary.f7d8324a1 || 9.1.1-2021830195733 - 9.1.1-canary.e70de6201 || 9.1.2-20219523556 - 9.1.2-canary.fc1d36497 || 9.13.1-20221108184443 - 9.14.0-canary.fde5adf63 || >=9.15.0-20221206221533",
+          "fixAvailable": {
+            "name": "firebase",
+            "version": "9.14.0",
+            "isSemVerMajor": true
+          },
+          "nodes": [
+            "node_modules/firebase"
+          ],
+          "via": [
+            "@firebase/firestore",
+            "@firebase/firestore-compat"
+          ]
+        },
+        {
+          "name": "firebase-admin",
+          "severity": "moderate",
+          "direct": true,
+          "range": "7.0.0 - 8.2.0 || 11.0.0 - 14.3.0",
+          "fixAvailable": {
+            "name": "firebase-admin",
+            "version": "14.5.0",
+            "isSemVerMajor": true
+          },
+          "nodes": [
+            "node_modules/firebase-admin"
+          ],
+          "via": [
+            "@google-cloud/firestore",
+            "@google-cloud/storage"
+          ]
+        },
+        {
+          "name": "firebase-tools",
+          "severity": "moderate",
+          "direct": true,
+          "range": ">=13.11.3",
+          "fixAvailable": {
+            "name": "firebase-tools",
+            "version": "13.11.2",
+            "isSemVerMajor": true
+          },
+          "nodes": [
+            "node_modules/firebase-tools"
+          ],
+          "via": [
+            "@google-cloud/pubsub",
+            "archiver",
+            "exegesis",
+            "gaxios",
+            "glob"
+          ]
+        },
+        {
+          "name": "gaxios",
+          "severity": "moderate",
+          "direct": false,
+          "range": "6.4.0 - 6.7.1 || 7.1.3",
+          "fixAvailable": {
+            "name": "firebase-tools",
+            "version": "13.11.2",
+            "isSemVerMajor": true
+          },
+          "nodes": [
+            "node_modules/@google-cloud/sql/node_modules/gaxios",
+            "node_modules/@google-cloud/storage/node_modules/gaxios",
+            "node_modules/firebase-tools/node_modules/gaxios",
+            "node_modules/google-gax/node_modules/gaxios"
+          ],
+          "via": [
+            "rimraf",
+            "uuid"
+          ]
+        },
+        {
+          "name": "gcp-metadata",
+          "severity": "moderate",
+          "direct": false,
+          "range": "8.1.3 - 8.1.4",
+          "fixAvailable": true,
+          "nodes": [
+            "node_modules/@google-cloud/sql/node_modules/gcp-metadata"
+          ],
+          "via": [
+            "gaxios"
+          ]
+        },
+        {
+          "name": "glob",
+          "severity": "moderate",
+          "direct": false,
+          "range": "9.0.0 - 14.0.1",
+          "fixAvailable": {
+            "name": "firebase-tools",
+            "version": "13.11.2",
+            "isSemVerMajor": true
+          },
+          "nodes": [
+            "node_modules/glob"
+          ],
+          "via": [
+            {
+              "source": 1244013,
+              "name": "glob",
+              "dependency": "glob",
+              "title": "Glob: AbortSignal cancellation bypass allows post-timeout filesystem traversal",
+              "url": "https://github.com/advisories/GHSA-3g3m-2fjr-6pw4",
+              "severity": "moderate",
+              "cwe": [
+                "CWE-400"
+              ],
+              "cvss": {
+                "score": 0,
+                "vectorString": null
+              },
+              "range": ">=9.0.0 <=14.0.1"
+            },
+            "minimatch"
+          ]
+        },
+        {
+          "name": "google-gax",
+          "severity": "moderate",
+          "direct": false,
+          "range": "4.0.5-experimental - 4.6.1 || 5.0.5 - 5.0.8",
+          "fixAvailable": {
+            "name": "firebase-admin",
+            "version": "14.5.0",
+            "isSemVerMajor": true
+          },
+          "nodes": [
+            "node_modules/@google-cloud/pubsub/node_modules/google-gax",
+            "node_modules/@google-cloud/sql/node_modules/google-gax",
+            "node_modules/google-gax"
+          ],
+          "via": [
+            "retry-request",
+            "rimraf",
+            "uuid"
+          ]
+        },
+        {
+          "name": "minimatch",
+          "severity": "moderate",
+          "direct": false,
+          "range": "7.0.0 - 11.0.0",
+          "fixAvailable": {
+            "name": "firebase-tools",
+            "version": "13.11.2",
+            "isSemVerMajor": true
+          },
+          "nodes": [
+            "node_modules/@typescript-eslint/typescript-estree/node_modules/minimatch",
+            "node_modules/glob/node_modules/minimatch"
+          ],
+          "via": [
+            {
+              "source": 1244623,
+              "name": "minimatch",
+              "dependency": "minimatch",
+              "title": "minimatch has potential denial of service via globparts amplification",
+              "url": "https://github.com/advisories/GHSA-g3hv-75wg-m249",
+              "severity": "moderate",
+              "cwe": [
+                "CWE-405"
+              ],
+              "cvss": {
+                "score": 0,
+                "vectorString": null
+              },
+              "range": ">=7.0.0 <11.0.1"
+            }
+          ]
+        },
+        {
+          "name": "retry-request",
+          "severity": "moderate",
+          "direct": false,
+          "range": "7.0.0 - 7.0.2",
+          "fixAvailable": {
+            "name": "firebase-admin",
+            "version": "14.5.0",
+            "isSemVerMajor": true
+          },
+          "nodes": [
+            "node_modules/retry-request"
+          ],
+          "via": [
+            "teeny-request"
+          ]
+        },
+        {
+          "name": "rimraf",
+          "severity": "moderate",
+          "direct": false,
+          "range": "4.2.0 - 6.1.3",
+          "fixAvailable": {
+            "name": "firebase-tools",
+            "version": "13.11.2",
+            "isSemVerMajor": true
+          },
+          "nodes": [
+            "node_modules/rimraf"
+          ],
+          "via": [
+            "glob"
+          ]
+        },
+        {
+          "name": "teeny-request",
+          "severity": "moderate",
+          "direct": false,
+          "range": "3.9.1 - 9.0.0",
+          "fixAvailable": {
+            "name": "firebase-admin",
+            "version": "14.5.0",
+            "isSemVerMajor": true
+          },
+          "nodes": [
+            "node_modules/teeny-request"
+          ],
+          "via": [
+            "uuid"
+          ]
+        },
+        {
+          "name": "typescript-eslint",
+          "severity": "moderate",
+          "direct": false,
+          "range": "<=8.72.2",
+          "fixAvailable": true,
+          "nodes": [
+            "node_modules/typescript-eslint"
+          ],
+          "via": [
+            "@typescript-eslint/eslint-plugin",
+            "@typescript-eslint/parser",
+            "@typescript-eslint/typescript-estree",
+            "@typescript-eslint/utils"
+          ]
+        },
+        {
+          "name": "uuid",
+          "severity": "moderate",
+          "direct": false,
+          "range": "<11.1.1",
+          "fixAvailable": {
+            "name": "firebase-tools",
+            "version": "13.11.2",
+            "isSemVerMajor": true
+          },
+          "nodes": [
+            "node_modules/uuid"
+          ],
+          "via": [
+            {
+              "source": 1119441,
+              "name": "uuid",
+              "dependency": "uuid",
+              "title": "uuid: Missing buffer bounds check in v3/v5/v6 when buf is provided",
+              "url": "https://github.com/advisories/GHSA-w5hq-g745-h8pq",
+              "severity": "moderate",
+              "cwe": [
+                "CWE-787",
+                "CWE-1285"
+              ],
+              "cvss": {
+                "score": 7.5,
+                "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:N"
+              },
+              "range": "<11.1.1"
+            }
+          ]
+        },
+        {
+          "name": "zip-stream",
+          "severity": "moderate",
+          "direct": false,
+          "range": "6.0.0 - 6.0.1",
+          "fixAvailable": true,
+          "nodes": [
+            "node_modules/zip-stream"
+          ],
+          "via": [
+            "archiver-utils"
+          ]
+        }
+      ]
+    },
+    "production": {
+      "command": "npm.cmd audit --omit=dev --json",
+      "exitCode": 1,
+      "metadata": {
+        "vulnerabilities": {
+          "info": 0,
+          "low": 1,
+          "moderate": 8,
+          "high": 4,
+          "critical": 0,
+          "total": 13
+        },
+        "dependencies": {
+          "prod": 199,
+          "dev": 883,
+          "optional": 179,
+          "peer": 0,
+          "peerOptional": 0,
+          "total": 1161
+        }
+      },
+      "packages": [
+        {
+          "name": "@firebase/firestore",
+          "severity": "high",
+          "direct": false,
+          "range": "1.3.1-0 - 1.3.1-canary.df1b588 || 1.3.2-0 - 1.3.3-canary.bc4a844 || 1.13.1-0 - 1.13.1-canary.ce3addba || 1.14.0-0 - 1.15.1 || 3.7.3-20221108184443 - 3.7.3-canary.fde5adf63 || >=3.8.0-20221206221533",
+          "fixAvailable": {
+            "name": "firebase",
+            "version": "9.14.0",
+            "isSemVerMajor": true
+          },
+          "nodes": [
+            "node_modules/@firebase/firestore"
+          ],
+          "via": [
+            "@grpc/grpc-js"
+          ]
+        },
+        {
+          "name": "@firebase/firestore-compat",
+          "severity": "high",
+          "direct": false,
+          "range": "<=0.0.900-exp.520ca39d0 || 0.2.3-20221108184443 - 0.2.3-canary.fde5adf63 || >=0.3.0-20221206221533",
+          "fixAvailable": {
+            "name": "firebase",
+            "version": "9.14.0",
+            "isSemVerMajor": true
+          },
+          "nodes": [
+            "node_modules/@firebase/firestore-compat"
+          ],
+          "via": [
+            "@firebase/firestore"
+          ]
+        },
+        {
+          "name": "@google-cloud/firestore",
+          "severity": "moderate",
+          "direct": false,
+          "range": "7.5.0-pre.0 || 7.6.0 - 7.11.6",
+          "fixAvailable": {
+            "name": "firebase-admin",
+            "version": "14.5.0",
+            "isSemVerMajor": true
+          },
+          "nodes": [
+            "node_modules/@google-cloud/firestore"
+          ],
+          "via": [
+            "google-gax"
+          ]
+        },
+        {
+          "name": "@google-cloud/storage",
+          "severity": "moderate",
+          "direct": false,
+          "range": "2.2.0 - 2.5.0 || 5.19.0 - 8.0.0",
+          "fixAvailable": {
+            "name": "firebase-admin",
+            "version": "14.5.0",
+            "isSemVerMajor": true
+          },
+          "nodes": [
+            "node_modules/@google-cloud/storage"
+          ],
+          "via": [
+            "retry-request",
+            "teeny-request"
+          ]
+        },
+        {
+          "name": "@grpc/grpc-js",
+          "severity": "high",
+          "direct": false,
+          "range": "<=1.13.5",
+          "fixAvailable": {
+            "name": "firebase",
+            "version": "9.14.0",
+            "isSemVerMajor": true
+          },
+          "nodes": [
+            "node_modules/@grpc/grpc-js"
+          ],
+          "via": [
+            {
+              "source": 1240623,
+              "name": "@grpc/grpc-js",
+              "dependency": "@grpc/grpc-js",
+              "title": "@grpc/grpc-js: In certain configurations, getAuthContext can return unauthorized certificates as though they were authorized",
+              "url": "https://github.com/advisories/GHSA-m9gg-hp2v-232j",
+              "severity": "high",
+              "cwe": [
+                "CWE-295"
+              ],
+              "cvss": {
+                "score": 7.4,
+                "vectorString": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:N"
+              },
+              "range": "<1.13.6"
+            },
+            {
+              "source": 1240625,
+              "name": "@grpc/grpc-js",
+              "dependency": "@grpc/grpc-js",
+              "title": "@grpc/grpc-js: The server transmits some error messages thrown by method handlers to the client in status messages",
+              "url": "https://github.com/advisories/GHSA-f596-whhp-79r4",
+              "severity": "low",
+              "cwe": [
+                "CWE-550"
+              ],
+              "cvss": {
+                "score": 3.7,
+                "vectorString": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:N"
+              },
+              "range": "<1.13.6"
+            }
+          ]
+        },
+        {
+          "name": "fast-xml-parser",
+          "severity": "low",
+          "direct": false,
+          "range": "<=5.11.2",
+          "fixAvailable": true,
+          "nodes": [
+            "node_modules/fast-xml-parser"
+          ],
+          "via": [
+            {
+              "source": 1246029,
+              "name": "fast-xml-parser",
+              "dependency": "fast-xml-parser",
+              "title": "fast-xml-parser: Quadratic CPU consumption scanning unterminated stop-node tags",
+              "url": "https://github.com/advisories/GHSA-474x-hrwr-fgx4",
+              "severity": "low",
+              "cwe": [
+                "CWE-407"
+              ],
+              "cvss": {
+                "score": 3.7,
+                "vectorString": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:L"
+              },
+              "range": "<=5.11.2"
+            }
+          ]
+        },
+        {
+          "name": "firebase",
+          "severity": "high",
+          "direct": true,
+          "range": "0.900.22 || 6.0.2-0 - 6.0.2-canary.42eae23 || 6.0.3-0 - 6.0.4-canary.bc4a844 || 7.9.1-0 - 7.9.1-canary.0396117e || 7.13.2-0 - 7.13.2-canary.ce3addba || 7.14.0-0 - 7.15.1 || 8.10.0-20217172214 - 8.10.0-canary.f40c0db53 || 9.0.0-20217250818 - 9.0.0-canary.d0d3acb10 || 9.0.1-2021727231341 - 9.0.1-canary.e039e1472 || 9.0.2-2021891633 - 9.0.2-canary.ff9baf70c || 9.0.3-202181503543 - 9.1.0-canary.f7d8324a1 || 9.1.1-2021830195733 - 9.1.1-canary.e70de6201 || 9.1.2-20219523556 - 9.1.2-canary.fc1d36497 || 9.13.1-20221108184443 - 9.14.0-canary.fde5adf63 || >=9.15.0-20221206221533",
+          "fixAvailable": {
+            "name": "firebase",
+            "version": "9.14.0",
+            "isSemVerMajor": true
+          },
+          "nodes": [
+            "node_modules/firebase"
+          ],
+          "via": [
+            "@firebase/firestore",
+            "@firebase/firestore-compat"
+          ]
+        },
+        {
+          "name": "firebase-admin",
+          "severity": "moderate",
+          "direct": true,
+          "range": "7.0.0 - 8.2.0 || 11.0.0 - 14.3.0",
+          "fixAvailable": {
+            "name": "firebase-admin",
+            "version": "14.5.0",
+            "isSemVerMajor": true
+          },
+          "nodes": [
+            "node_modules/firebase-admin"
+          ],
+          "via": [
+            "@google-cloud/firestore",
+            "@google-cloud/storage"
+          ]
+        },
+        {
+          "name": "gaxios",
+          "severity": "moderate",
+          "direct": false,
+          "range": "6.4.0 - 6.7.1",
+          "fixAvailable": true,
+          "nodes": [
+            "node_modules/@google-cloud/storage/node_modules/gaxios",
+            "node_modules/google-gax/node_modules/gaxios"
+          ],
+          "via": [
+            "uuid"
+          ]
+        },
+        {
+          "name": "google-gax",
+          "severity": "moderate",
+          "direct": false,
+          "range": "4.0.5-experimental - 4.6.1",
+          "fixAvailable": {
+            "name": "firebase-admin",
+            "version": "14.5.0",
+            "isSemVerMajor": true
+          },
+          "nodes": [
+            "node_modules/google-gax"
+          ],
+          "via": [
+            "retry-request",
+            "uuid"
+          ]
+        },
+        {
+          "name": "retry-request",
+          "severity": "moderate",
+          "direct": false,
+          "range": "7.0.0 - 7.0.2",
+          "fixAvailable": {
+            "name": "firebase-admin",
+            "version": "14.5.0",
+            "isSemVerMajor": true
+          },
+          "nodes": [
+            "node_modules/retry-request"
+          ],
+          "via": [
+            "teeny-request"
+          ]
+        },
+        {
+          "name": "teeny-request",
+          "severity": "moderate",
+          "direct": false,
+          "range": "3.9.1 - 9.0.0",
+          "fixAvailable": {
+            "name": "firebase-admin",
+            "version": "14.5.0",
+            "isSemVerMajor": true
+          },
+          "nodes": [
+            "node_modules/teeny-request"
+          ],
+          "via": [
+            "uuid"
+          ]
+        },
+        {
+          "name": "uuid",
+          "severity": "moderate",
+          "direct": false,
+          "range": "<11.1.1",
+          "fixAvailable": {
+            "name": "firebase-admin",
+            "version": "14.5.0",
+            "isSemVerMajor": true
+          },
+          "nodes": [
+            "node_modules/uuid"
+          ],
+          "via": [
+            {
+              "source": 1119441,
+              "name": "uuid",
+              "dependency": "uuid",
+              "title": "uuid: Missing buffer bounds check in v3/v5/v6 when buf is provided",
+              "url": "https://github.com/advisories/GHSA-w5hq-g745-h8pq",
+              "severity": "moderate",
+              "cwe": [
+                "CWE-787",
+                "CWE-1285"
+              ],
+              "cvss": {
+                "score": 7.5,
+                "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:N"
+              },
+              "range": "<11.1.1"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "previousRecordedCounts": {
+    "all": {
+      "info": 0,
+      "low": 0,
+      "moderate": 26,
+      "high": 5,
+      "critical": 0,
+      "total": 31
+    },
+    "production": {
+      "info": 0,
+      "low": 0,
+      "moderate": 8,
+      "high": 4,
+      "critical": 0,
+      "total": 12
+    }
+  },
+  "registryDriftNote": "Before this task changed dependencies, the new low XML finding appeared and npm no longer returned the propagated eslint-config-next finding. That registry/metavulnerability change is not credited to this fix.",
+  "changes": [
+    {
+      "package": "fast-xml-parser",
+      "before": "5.11.2",
+      "after": "5.12.0",
+      "scope": "production transitive, Firebase Admin -> @google-cloud/storage",
+      "parent": "@google-cloud/storage@7.22.0",
+      "declaredRange": "^5.3.4",
+      "reason": "First maintainer-patched release for GHSA-474x-hrwr-fgx4; compatible minor within existing parent range.",
+      "advisory": "GHSA-474x-hrwr-fgx4",
+      "source": "https://github.com/NaturalIntelligence/fast-xml-parser/security/advisories/GHSA-474x-hrwr-fgx4"
+    },
+    {
+      "package": "is-unsafe",
+      "before": "2.0.2",
+      "after": "2.0.3",
+      "scope": "production transitive helper of fast-xml-parser",
+      "declaredRange": "^2.0.3",
+      "reason": "Required minimum dependency of the selected XML fix, not a separate advisory fix."
+    }
+  ],
+  "preservation": {
+    "baselineFiles": 201,
+    "protectedFiles": 195,
+    "unchanged": 195,
+    "mismatches": [],
+    "newFiles": [
+      "v2/tests/dependency-security.test.mjs"
+    ],
+    "onlyAllowedExistingChanges": [
+      "PROJECT_STATUS.md",
+      "v2/package-lock.json",
+      "v2/release/DEPENDENCY_AUDIT.json",
+      "v2/release/DEPENDENCY_TRIAGE.json",
+      "v2/release/BLOCKER_REVIEW.md",
+      "v2/release/PREVIEW_READINESS.md"
     ]
   }
 }

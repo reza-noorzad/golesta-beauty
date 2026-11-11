@@ -42,7 +42,7 @@ export default function PublicHeader() {
   return <header ref={header} className="public-header" data-compact={compact}>
     <div className="public-header-row">
       <Link href="/" className="public-brand" onClick={() => setOpenFor(null)}><Image src={settings.logo||"/Logo.PNG"} alt="" width={48} height={48} className="public-logo" /><span>{settings.salonName||"GOLESTA BEAUTY"}</span><span className="sr-only"> – Startseite</span></Link>
-      <nav className="public-desktop-nav" aria-label="Hauptnavigation">{navigation.slice(1).map((item) => <Link key={item.label} href={item.href} aria-current={item.href===pathname?"page":undefined}>{item.label}</Link>)}</nav>
+      <nav className="public-desktop-nav" aria-label="Hauptnavigation">{navigation.map((item) => <Link key={item.label} href={item.href} aria-current={item.href===pathname?"page":undefined}>{item.label}</Link>)}</nav>
       <div className="public-header-actions">
         <a href={links.phone} className="public-phone" aria-label={`Salon anrufen: ${settings.phone}`}><ContactIcon type="phone"/><span>{settings.phone}</span></a>
         <a href={links.whatsapp} className="public-whatsapp" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp kontaktieren"><ContactIcon type="whatsapp"/><span>WhatsApp</span></a>
