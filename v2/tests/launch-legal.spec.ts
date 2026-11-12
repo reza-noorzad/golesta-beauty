@@ -1,5 +1,6 @@
 import { expect, test } from "@playwright/test";
 import { publicFixture } from "./support/public-browser";
+import { publishedLegal } from "./support/legal-fixture";
 
 const baseURL = process.env.GOLESTA_TEST_BASE_URL || "http://127.0.0.1:3119";
 if (new URL(baseURL).protocol !== "http:" || !["127.0.0.1", "localhost", "[::1]"].includes(new URL(baseURL).hostname)) {
@@ -12,11 +13,11 @@ for (const width of [390, 1280]) {
     await page.setViewportSize({ width, height: 850 });
     const fixture = await publicFixture(page, baseURL);
     fixture.update(data => { data.voucher.published = false; });
-    for (const [route, title] of [["/impressum", "Impressum"], ["/datenschutz", "Datenschutz"]]) {
+    for (const [route, title] of [["/impressum", "Impressum"], ["/datenschutz", "Datenschutzerklärung"]]) {
       const response = await page.goto(route);
       expect(response?.status()).toBe(200);
       await expect(page.getByRole("heading", { name: title, exact: true, level: 1 })).toBeVisible();
-      await expect(page.getByRole("complementary", { name: "Freigabestatus" })).toContainText("noch nicht zur Veröffentlichung freigegeben");
+      await expect(page.getByRole("main")).toContainText("Noch keine freigegebene Fassung veröffentlicht.");
       await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", "noindex, nofollow");
       const footer = page.getByRole("contentinfo");
       await footer.scrollIntoViewIfNeeded();
@@ -36,27 +37,33 @@ for (const width of [390, 1280]) {
   });
 }
 
-test("privacy draft discloses the actual providers and unresolved legal decisions", async ({ page }) => {
-  await publicFixture(page, baseURL);
+test("public pages render only the published snapshot as safe plain text", async ({ page }) => {
+  const fixture = await publicFixture(page, baseURL);
+  fixture.update(data => {
+    data.legal = publishedLegal();
+    data.legal.privacy!.draft!.content.sections[0].body = "PRIVATE_UNPUBLISHED_DRAFT";
+    data.legal.privacy!.published!.content.sections[0].body = '<script>window.legalInjected=true</script>\nApproved plain text';
+    data.legal.impressum!.draft!.content.proprietor = "PRIVATE_IMPRINT_DRAFT";
+  });
   await page.goto("/datenschutz");
   const main = page.getByRole("main");
-  for (const heading of [/Vercel/, /Google Firebase/, /Cloudinary und Firebase Storage/, /Browserspeicher/, /Datenschutzrechte/]) {
-    await expect(main.getByRole("heading", { name: heading })).toBeVisible();
-  }
-  await expect(main).toContainText("auch mit öffentlichen Seiten initialisiert");
-  await expect(main).toContainText("IndexedDB");
-  await expect(main).toContainText("Rechtsgrundlagen je Verarbeitung");
-  await expect(main).toContainText("Einwilligungen");
-  await expect(main).not.toContainText("Wir verwenden keine Cookies");
+  await expect(main.getByRole("heading", { name: "Freigegebener Datenschutzhinweis" })).toBeVisible();
+  await expect(main).toContainText("Approved plain text");
+  await expect(main).not.toContainText("PRIVATE_UNPUBLISHED_DRAFT");
+  expect(await page.evaluate(() => "legalInjected" in window)).toBe(false);
+  await page.goto("/impressum");
+  await expect(main).toContainText("Testinhaber des Testsalons");
+  await expect(main).not.toContainText("PRIVATE_IMPRINT_DRAFT");
 });
 
-test("legal text remains readable when public data cannot be loaded", async ({ page }) => {
+test("failed public loads show a safe status without draft or fabricated legal text", async ({ page }) => {
   await publicFixture(page, baseURL);
   await page.route("**/api/content", route => route.fulfill({ status: 503, json: { error: "Unavailable" } }));
   await page.goto("/impressum");
   await expect(page.getByRole("heading", { name: "Impressum", level: 1, exact: true })).toBeVisible();
-  await expect(page.getByRole("main").getByRole("link", { name: "info@golestabeauty.com", exact: true })).toBeVisible();
-  await expect(page.getByRole("main")).toContainText("rechtliche Bezeichnung");
+  await expect(page.getByRole("main")).toContainText("Die rechtlichen Informationen konnten gerade nicht geladen werden.");
+  await expect(page.getByRole("main").getByRole("link", { name: "Kontakt zum Salon", exact: true })).toHaveAttribute("href", "/#kontakt");
+  await expect(page.getByRole("main")).not.toContainText("Entwurf");
 });
 
 test("review redirects use the approved URL and ignore untrusted query data", async ({ request }) => {

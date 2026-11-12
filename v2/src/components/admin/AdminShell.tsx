@@ -16,6 +16,7 @@ const links: { href: string; label: string; icon: IconName; roles?: AdminRole[] 
   { href: "/admin/gutschein", label: "Gutschein", icon: "voucher", roles: ["admin","superadmin"] },
   { href: "/admin/aktionen", label: "Meldungen & Aktionen", icon: "promotions", roles: ["admin","superadmin"] },
   { href: "/admin/einstellungen", label: "Einstellungen", icon: "settings", roles: ["admin","superadmin"] },
+  { href: "/admin/rechtliches", label: "Rechtliches & Datenschutz", icon: "info", roles: ["admin","superadmin"] },
   { href: "/admin/benutzer", label: "Administratoren", icon: "users", roles: ["superadmin"] },
 ];
 const roleNames: Record<AdminRole,string> = {superadmin:"Salonverwaltung",admin:"Administration",editor:"Redaktion"};

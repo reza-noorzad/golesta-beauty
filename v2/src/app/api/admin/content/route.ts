@@ -1,11 +1,14 @@
 import { contentSchema, initialContent, parseStoredContent } from "@/lib/content";
 import { validateAdministrationChanges } from "@/lib/administration";
 import { validateProductChanges } from "@/lib/product-management";
+import { isDeepStrictEqual } from "node:util";
 import { failure, HttpError, readJson, readDeadline, json, requireAdmin } from "@/lib/server/firebase";
 export const runtime = "nodejs";
 export async function GET(request: Request) {
-  try { const { db } = await requireAdmin(request); const snap=await readDeadline(db.doc("golestaV2/content").get());
-    return json({data:snap.exists?parseStoredContent(snap.data()?.data):initialContent,revision:snap.data()?.revision||0});
+  try { const { db, role } = await requireAdmin(request); const snap=await readDeadline(db.doc("golestaV2/content").get());
+    const data={...(snap.exists?parseStoredContent(snap.data()?.data):initialContent)};
+    if(role==="editor")delete data.legal;
+    return json({data,revision:snap.data()?.revision||0});
   }catch(e){return failure(e);}
 }
 export async function PUT(request: Request) {
@@ -20,6 +23,9 @@ export async function PUT(request: Request) {
       const snap=await tx.get(ref);const previous=parseStoredContent(snap.data()?.data);
       const current=snap.data()?.revision||0;
       if(payload.revision!==current)throw new HttpError(409,"Zwischenzeitlich geändert. Bitte neu laden.");
+      // Legal writes must use the dedicated draft/approval workflow. Old clients
+      // that omit this optional field must not delete a newer legal document.
+      if(parsed.data.legal!==undefined&&!isDeepStrictEqual(parsed.data.legal,previous.legal))throw new HttpError(403,"Rechtliche Texte bitte über Rechtliches & Datenschutz bearbeiten.");
       try{validateProductChanges(previous,parsed.data);validateAdministrationChanges(previous,parsed.data);}catch(error){throw new HttpError(400,error instanceof Error?error.message:"Produkte prüfen.");}
       if(role==="editor"){
         for(const key of ["settings","voucher","announcements","promotions"] as const){
@@ -27,7 +33,8 @@ export async function PUT(request: Request) {
             throw new HttpError(403,"Diese Einstellungen dürfen nur Administratoren ändern.");
         }
       }
-      tx.set(ref,{data:parsed.data,revision:current+1,updatedBy:uid,updatedAt:new Date().toISOString()});return current+1;
+      const next={...parsed.data,...(previous.legal?{legal:previous.legal}:{})};
+      tx.set(ref,{...snap.data(),data:next,revision:current+1,updatedBy:uid,updatedAt:new Date().toISOString()});return current+1;
     });return json({revision});
   }catch(e){return failure(e);}
 }

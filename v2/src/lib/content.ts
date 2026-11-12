@@ -1,5 +1,6 @@
 import { z } from "zod";
 import site from "@/data/site-data.json";
+import { legalSchema, publicLegal } from "./legal";
 
 const text = z.string().trim().max(10000);
 const name = z.string().trim().min(1).max(200);
@@ -56,6 +57,7 @@ const promotion = discount.safeExtend({
 });
 const socials = z.object({ id, name: z.string().max(200), url: z.union([httpsUrl, z.literal("")]), published: z.boolean() }).strict();
 export const contentSchema = z.object({
+  legal: legalSchema.optional(),
   products: z.array(productSchema).max(500),
   categories: z.array(z.object({ ...base, name }).strict()).max(100),
   team: z.array(z.object({ ...base, name, role: text, image, bio: optionalText, specialties: z.array(z.string().trim().min(1).max(300)).max(30).optional(), experience: optionalText }).strict()).max(50),
@@ -155,7 +157,7 @@ export function publicContent(data: Content): Content {
     rows.filter(r => r.published).sort((a, b) => a.sortOrder - b.sortOrder);
   const categories = visible(data.categories);
   return {
-    ...data, categories,
+    ...data, ...(data.legal ? { legal: publicLegal(data.legal) } : {}), categories,
     products: visible(data.products).filter(p => categories.some(c => c.id === p.categoryId)),
     team: visible(data.team), gallery: visible(data.gallery), settings: { ...data.settings, socials: (data.settings.socials || []).filter(s => s.published && /^https:\/\//.test(s.url) && s.name.trim()) },
     voucher: data.voucher.published ? data.voucher : { published: false, description: "", values: [] },

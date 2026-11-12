@@ -9,7 +9,7 @@ function token() {
   const encode = (value: unknown) => Buffer.from(JSON.stringify(value)).toString("base64url");
   return `${encode({alg:"RS256",typ:"JWT"})}.${encode({sub:uid,user_id:uid,email,aud:"demo-golesta-tests",iss:"https://securetoken.google.com/demo-golesta-tests",iat:now,exp:now+3600,auth_time:now,firebase:{sign_in_provider:"password",identities:{email:[email]}}})}.test-signature`;
 }
-export type MockOptions = { session?: (route: Route) => Promise<void>; content?: (route: Route) => Promise<void>; reviews?: (route: Route) => Promise<void>; users?: (route: Route) => Promise<void>; services?: (route: Route) => Promise<void>; upload?: (route: Route) => Promise<void> };
+export type MockOptions = { legal?: (route: Route) => Promise<void>; session?: (route: Route) => Promise<void>; content?: (route: Route) => Promise<void>; reviews?: (route: Route) => Promise<void>; users?: (route: Route) => Promise<void>; services?: (route: Route) => Promise<void>; upload?: (route: Route) => Promise<void> };
 export async function isolate(page: Page, baseURL: string, options: MockOptions = {}) {
   const errors: string[] = [];
   page.on("pageerror", (error) => errors.push(error.message));
@@ -23,6 +23,7 @@ export async function isolate(page: Page, baseURL: string, options: MockOptions 
     if (url.hostname === "securetoken.googleapis.com") return route.fulfill({json:{id_token:token(),refresh_token:"isolated-refresh-token",expires_in:"3600",user_id:uid,token_type:"Bearer",project_id:"demo-golesta-tests"}});
     if (url.origin !== new URL(baseURL).origin) return route.abort();
     if (url.pathname === "/_next/image" && /^https?:/.test(url.searchParams.get("url") || "")) return route.fulfill({path:"public/images/gallery-01.jpg",contentType:"image/jpeg"});
+    if (url.pathname === "/api/admin/legal" && options.legal) return options.legal(route);
     if (url.pathname === "/api/admin/session") return options.session ? options.session(route) : route.fulfill({json:{uid,role:"admin"}});
     if (url.pathname === "/api/admin/content") return options.content ? options.content(route) : route.fulfill({json:{data:initialContent,revision:7}});
     if (url.pathname === "/api/admin/reviews") return options.reviews ? options.reviews(route) : route.fulfill({json:{reviews:[]}});

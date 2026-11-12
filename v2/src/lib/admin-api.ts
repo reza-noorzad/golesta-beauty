@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { contentSchema } from "./content";
+import { legalResponseSchema } from "./legal";
 import { ApiError, requestJson, withTimeout } from "./request";
 import type { AdminRole } from "./admin-session";
 
@@ -16,6 +17,8 @@ const review = z.object({ id: z.string(), productId: z.string(), name: z.string(
 const user = z.object({ uid: z.string(), email: z.string(), role, active: z.boolean() });
 const service = z.object({ id: z.string(), title: z.string(), desc: z.string(), sortOrder: z.number(), items: z.array(z.object({ id: z.string(), name: z.string(), price: z.string() })) });
 const schemas: Record<string, z.ZodType> = {
+  "GET /api/admin/legal": legalResponseSchema,
+  "PATCH /api/admin/legal": legalResponseSchema,
   "GET /api/admin/session": z.object({ uid: z.string().min(1), role }),
   "GET /api/admin/content": z.object({ data: contentSchema, revision }),
   "PUT /api/admin/content": z.object({ revision }),
