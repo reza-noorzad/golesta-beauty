@@ -1,10 +1,5 @@
 import { test, expect, type APIRequestContext } from "@playwright/test";
-import { readFileSync } from "node:fs";
-
-// The tracked legacy page is the independent compatibility target.
-// Never follow the external Google destination during this suite.
-const legacyReview = readFileSync("../review/index.html", "utf8").match(/location\.replace\(["']([^"']+)["']/)?.[1];
-if (!legacyReview) throw new Error("Legacy review destination missing");
+const verifiedReview = "https://search.google.com/local/writereview?placeid=ChIJu9YCaU-BcEcRATRKa-dAT4A";
 const baseURL = process.env.GOLESTA_TEST_BASE_URL || "http://127.0.0.1:3119";
 if (new URL(baseURL).protocol !== "http:" || !["127.0.0.1", "localhost", "[::1]"].includes(new URL(baseURL).hostname)) {
   throw new Error("Legacy link checks require a local HTTP server");
@@ -32,16 +27,17 @@ test("legacy scan QR URLs reach the retained links page", async ({ request }) =>
   }
 });
 
-test("legacy review QR URLs keep their destination without forwarding query data", async ({ request }) => {
+test("review QR URLs use the owner-approved destination without forwarding query data", async ({ request }) => {
   for (const path of ["/review", "/review/", "/review/index.html"]) {
     const { response, url } = await followLocal(request, path + "?name=synthetic-privacy-probe");
-    expect([302, 307]).toContain(response.status());
-    expect(url.href).toBe(legacyReview);
+    expect(response.status()).toBe(302);
+    expect(url.href).toBe(verifiedReview);
     expect(url.href).not.toContain("synthetic-privacy-probe");
+    expect(url.href).not.toContain("CQEXAMPLE");
   }
   const head = await request.head("/review", { maxRedirects: 0 });
   expect(head.status()).toBe(302);
-  expect(head.headers().location).toBe(legacyReview);
+  expect(head.headers().location).toBe(verifiedReview);
   expect(await head.text()).toBe("");
 });
 
